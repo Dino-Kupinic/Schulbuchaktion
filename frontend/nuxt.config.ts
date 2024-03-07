@@ -1,4 +1,42 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
+  app: {
+    head: {
+      title: "Schulbuchaktion",
+    },
+  },
+  // css: [
+  //   "~/assets/styles/main.css",
+  // ],
+  devtools: {
+    enabled: true,
+  },
+  ssr: false,
+  spaLoadingTemplate: true,
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    },
+  ],
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy: process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
+    },
+  },
+  modules: [
+    "@pinia/nuxt",
+    "@nuxtjs/i18n",
+    "@formkit/auto-animate",
+    "@vueuse/nuxt",
+    "@nuxt/test-utils",
+    "@pinia-plugin-persistedstate/nuxt",
+    "@nuxt/ui",
+    "nuxt-csurf",
+    "@nuxtjs/storybook",
+    "@vite-pwa/nuxt",
+    "nuxt-typed-router",
+    "nuxt-viewport",
+    "nuxt-security"
+  ]
 })

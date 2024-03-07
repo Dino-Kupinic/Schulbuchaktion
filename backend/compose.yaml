@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    ports:
+      - "${BIND_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SECRET_PASSWORD}
+      MYSQL_DATABASE: schulbuchaktion
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${SECRET_PASSWORD}
+
+volumes:
+  mysql_data:

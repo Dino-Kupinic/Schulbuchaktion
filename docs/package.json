@@ -1,21 +1,16 @@
 {
-  "name": "schulbuchaktion_documentation",
-  "version": "0.0.1",
-  "private": true,
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "",
   "scripts": {
-    "dev-docs": "nuxi dev",
-    "build-docs": "nuxi build",
-    "generate-docs": "nuxi generate",
-    "preview-docs": "nuxi preview",
-    "lint-docs": "eslint ."
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@nuxt-themes/docus": "latest",
-    "@nuxt/devtools": "^1.0.8",
-    "@nuxt/eslint-config": "^0.2.0",
-    "@nuxtjs/plausible": "^0.2.4",
-    "@types/node": "^20.11.24",
-    "eslint": "^8.57.0",
-    "nuxt": "^3.10.3"
+    "vitepress": "1.0.0-rc.45"
   }
 }

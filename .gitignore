@@ -1,2 +1,4 @@
 backend/.env
 frontend/.env
+/docs/.vitepress/cache/
+/docs/.vitepress/dist/

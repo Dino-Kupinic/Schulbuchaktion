@@ -5,21 +5,14 @@ layout: home
 hero:
   name: "Schulbuchaktion Docs"
   text: "Official Schulbuchaktion Documentation"
-  tagline: My great project tagline
   actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Get to know the project
+    details: This site helps both users and developers better understand our project "Schulbuchaktion"
+  - title: From a user's point of view
+    details: The page "For Users" is designed to explain users how to use our project for their purposes
+  - title: From a developer's point of view
+    details: The page "For Developers" is dedicated to all developers who want to work with our product
 ---
 

@@ -5,7 +5,6 @@ layout: home
 hero:
   name: "Schulbuchaktion Docs"
   text: "Official Schulbuchaktion Documentation"
-  actions:
 
 features:
   - title: Get to know the project

@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/ui",
     "nuxt-csurf",
-    "@nuxtjs/storybook",
+    // "@nuxtjs/storybook",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",

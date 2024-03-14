@@ -8,12 +8,19 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'For Users', link: '/userSection/' },
-      { text: 'For Developers', link: '/developerSection/' }
+      { text: 'Users', link: '/userSection/' },
+      { text: 'Developers', link: '/developerSection/' },
+      {
+        text: "Language",
+        items: [
+          {text: 'German', link: '/de/'},
+          {text: 'English', link: '/'}
+        ]
+      }
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: "github", link: 'https://github.com/Dino-Kupinic/Schulbuchaktion.git' },
     ]
   }
 })

@@ -3,8 +3,8 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   rewrites: {
-    'packages/de/index.md': 'de/indexGerman.md',
-    'packages/en/index.md': 'en/indexGerman.md',
+    'packages/:pkg/(.*)': ':pkg/index.md',
+    '/': '/en/'
   },
   title: "Schulbuchaktion Docs",
   description: "Official Schulbuchaktion Documentation",

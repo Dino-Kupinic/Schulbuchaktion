@@ -6,11 +6,11 @@ const props = defineProps<{
 </script>
 
 <template>
-  <UContainer class="flex p-0">
-    <p class="mb-3 "> {{ label }} </p>
+  <UContainer class="flex p-0 sm:pl-0">
+    <p class="mb-3" > {{ label }} </p>
     <slot/>
   </UContainer>
-  <UInput :class="margin" :placeholder="label"></UInput>
+  <UInput :class="margin"></UInput>
 </template>
 
 <style scoped>

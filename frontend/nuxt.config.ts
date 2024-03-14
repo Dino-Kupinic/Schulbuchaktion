@@ -31,12 +31,13 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/test-utils",
     "@pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/color-mode",
     "@nuxt/ui",
     "nuxt-csurf",
     // "@nuxtjs/storybook",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",
-    "nuxt-security"
-  ]
+    "nuxt-security",
+  ],
 })

@@ -1,35 +1,12 @@
 import {defineConfig} from "vitepress"
+import {shared} from "./shared"
+import {en} from "./en"
+import {de} from "./de"
 
 export default defineConfig({
-  title: "Schulbuchaktion",
-  description: "Official Schulbuchaktion Documentation",
-  themeConfig: {
-    nav: [
-      {text: "Home", link: "/"},
-      {text: "Users", link: "userSection/"},
-      {text: "Developers", link: "developerSection/"},
-    ],
-    logo: {src: "/assets/htl-logo.svg"},
-    socialLinks: [
-      {icon: "github", link: "https://github.com/Dino-Kupinic/Schulbuchaktion.git"},
-    ],
-    search: {
-      provider: "local",
-    },
-    footer: {
-      message: "Released under the MIT License.",
-      copyright: "Copyright © 2024-present Nixx Labs",
-    },
-  },
+  ...shared,
   locales: {
-    root: {
-      label: "English",
-      lang: "en",
-    },
-    de: {
-      label: "Deutsch",
-      lang: "de",
-      link: "/de/",
-    },
+    root: {label: "English", ...en},
+    de: {label: "Deutsch", ...de},
   },
 })

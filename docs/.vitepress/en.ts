@@ -29,10 +29,6 @@ function nav(): DefaultTheme.NavItem[] {
       link: "/",
     },
     {
-      text: "Guide",
-      link: "/guide",
-    },
-    {
       text: "Users",
       link: "/users/getting-started",
     },

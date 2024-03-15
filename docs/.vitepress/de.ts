@@ -34,10 +34,6 @@ function nav(): DefaultTheme.NavItem[] {
       link: "/de/",
     },
     {
-      text: "Leitfaden",
-      link: "/de/guide",
-    },
-    {
       text: "Nutzer",
       link: "/de/users/getting-started",
     },

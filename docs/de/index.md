@@ -2,46 +2,45 @@
 layout: home
 
 title: Schulbuchaktion
-titleTemplate: The easiest way of managing school books
+titleTemplate: Der einfachste Weg zur Verwaltung von Schulbüchern
 
 hero:
   name: "Schulbuchaktion"
-  text: "Documentation"
-  tagline: 📚 Easily manage school books
+  text: "Dokumentation"
+  tagline: 📚 Schulbücher einfach verwalten
   actions:
     - theme: brand
-      text: Quickstart for Users
+      text: Schnellstart für Benutzer
       link: /guide/getting-started
     - theme: alt
-      text: Developer Reference
+      text: Entwicklerreferenz
       link: https://github.com/vuejs/vitepress
   image:
-    src: assets/htl-logo.svg
+    src: ../assets/htl-logo.svg
     alt: VitePress
-
 
 features:
   - icon: 📑
-    title: Order List
-    details: Simple book ordering, manage classes efficiently.
+    title: Bestellliste
+    details: Einfache Buchbestellung, effiziente Klassenverwaltung.
   - icon: 👩‍👧‍👦
-    title: Class Management
-    details: Streamlined student and class administration.
+    title: Klassenverwaltung
+    details: Effiziente Schüler- und Klassenverwaltung.
   - icon: 💵
-    title: Budget Overview
-    details: Analyze budget effectively for informed decisions.
+    title: Budgetübersicht
+    details: Analyse des Budgets für fundierte Entscheidungen.
   - icon: 💡
-    title: Import
-    details: Import XLSX files effortlessly for accurate data.
+    title: Importieren
+    details: XLSX-Dateien mühelos importieren
   - icon: 🎨
-    title: Customizable
-    details: Personalize colors, themes, and language settings.
+    title: Anpassbar
+    details: Personalisierte Farben, Designs und Spracheinstellungen.
   - icon: 🔐
-    title: Secure
-    details: We ensure data security with robust measures.
+    title: Sicherheit
+    details: Datensicherheit durch robuste Maßnahmen.
   - icon: 🚀
-    title: Performant
-    details: Experience fast, responsive performance for seamless operations.
+    title: Leistungsstark
+    details: Erleben Sie schnelle, reaktionsschnelle Leistung für nahtlose Operationen.
 ---
 
 <style>
@@ -51,6 +50,7 @@ features:
 
   --vp-home-hero-image-background-image: linear-gradient(-45deg, #242a3b 50%, #428faf 50%);
   --vp-home-hero-image-filter: blur(44px);
+
 }
 
 .dark {

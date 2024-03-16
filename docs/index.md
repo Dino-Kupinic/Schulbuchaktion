@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: Quickstart for Users
-      link: /guide/getting-started
+      link: /users/getting-started
     - theme: alt
       text: Developer Reference
-      link: https://github.com/vuejs/vitepress
+      link: /developers/setup
   image:
     src: assets/htl-logo.svg
     alt: VitePress

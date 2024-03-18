@@ -45,9 +45,18 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       text: "Introduction",
       collapsed: false,
       items: [
-        {text: "Getting Started", link: "getting-started"},
-        {text: "Authentication", link: "auth"},
-        {text: "Getting help", link: "help"},
+        {
+          text: "Getting Started",
+          link: "getting-started",
+        },
+        {
+          text: "Authentication",
+          link: "auth",
+        },
+        {
+          text: "Getting help",
+          link: "help",
+        },
       ],
     },
     {
@@ -73,6 +82,42 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 
 function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
   return [
+    {
+      text: "Introduction",
+      collapsed: false,
+      items: [
+        {
+          text: "Setup",
+          link: "setup",
+        },
+        {
+          text: "Extending",
+          link: "extending",
+        },
+        {
+          text: "Deployment",
+          link: "deployment",
+        }
+      ],
+    },
+    {
+      text: "Conventions",
+      collapsed: false,
+      items: [
+        {
+          text: "Code Style",
+          link: "code-style",
+        },
+        {
+          text: "Commits",
+          link: "commits",
+        },
+        {
+          text: "Pull Requests",
+          link: "pull-requests",
+        },
+      ],
+    },
     {
       text: "Authentication",
       collapsed: false,

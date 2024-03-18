@@ -50,9 +50,18 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       text: "Einführung",
       collapsed: false,
       items: [
-        {text: "Erste Schritte", link: "getting-started"},
-        {text: "Authentifizierung", link: "auth"},
-        {text: "Hilfe", link: "help"},
+        {
+          text: "Erste Schritte",
+          link: "getting-started",
+        },
+        {
+          text: "Authentifizierung",
+          link: "auth",
+        },
+        {
+          text: "Hilfe",
+          link: "help",
+        },
       ],
     },
     {
@@ -78,6 +87,24 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 
 function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
   return [
+    {
+      text: "Einführung",
+      collapsed: false,
+      items: [
+        {
+          text: "Einrichten",
+          link: "setup",
+        },
+        {
+          text: "Erweitern",
+          link: "extending",
+        },
+        {
+          text: "Deployment",
+          link: "deployment",
+        },
+      ],
+    },
     {
       text: "Authentifizierung",
       collapsed: false,

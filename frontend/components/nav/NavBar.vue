@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import PlaceHolder from "~/components/nav/PlaceHolder.vue";
 </script>
 
 <template>
@@ -9,6 +10,10 @@
     <ULink to="/">
       <Logo class="h-12"></Logo>
     </ULink>
+    <PlaceHolder><span>Placeholder 1</span></PlaceHolder>
+    <PlaceHolder><span>Placeholder 2</span></PlaceHolder>
+    <PlaceHolder><span>Placeholder 3</span></PlaceHolder>
+    <PlaceHolder><span>Placeholder 4</span></PlaceHolder>
   </UContainer>
 </template>
 

@@ -5,36 +5,4 @@ frontend/.env
 /docs/node_modules
 
 # User-specific stuff
-.idea/**/tasks.xml
-.idea/**/dictionaries
-.idea/**/shelf
-
-# AWS User-specific
-.idea/**/aws.xml
-
-# Generated files
-.idea/**/contentModel.xml
-
-# Sensitive or high-churn files
-.idea/dataSources.xml
-.idea/discord.xml
-.idea/modules.xml
-.idea/php.xml
-.idea/phpunit.xml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/vcs.xml
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
-
-# Mongo Explorer plugin
-.idea/**/mongoSettings.xml
-
-# File-based project format
-*.iws
-
-# Editor-based Rest Client
-.idea/httpRequests
+.idea

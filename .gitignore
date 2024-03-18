@@ -5,9 +5,7 @@ frontend/.env
 /docs/node_modules
 
 # User-specific stuff
-.idea/**/workspace.xml
 .idea/**/tasks.xml
-.idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
 
@@ -18,7 +16,13 @@ frontend/.env
 .idea/**/contentModel.xml
 
 # Sensitive or high-churn files
-.idea/**/dataSources/
+.idea/dataSources.xml
+.idea/discord.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/phpunit.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/vcs.xml
 .idea/**/dataSources.ids
 .idea/**/dataSources.local.xml
 .idea/**/sqlDataSources.xml

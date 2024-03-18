@@ -77,7 +77,18 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 }
 
 function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
-  return []
+  return [
+    {
+      text: "Authentifizierung",
+      collapsed: false,
+      items: [
+        {
+          text: "LDAP",
+          link: "ldap",
+        },
+      ],
+    },
+  ]
 }
 
 export const search: DefaultTheme.LocalSearchOptions["locales"] = {

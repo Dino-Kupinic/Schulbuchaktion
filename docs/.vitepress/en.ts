@@ -72,5 +72,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 }
 
 function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
-  return []
+  return [
+    {
+      text: "Authentication",
+      collapsed: false,
+      items: [
+        {
+          text: "LDAP",
+          link: "ldap",
+        },
+      ],
+    },
+  ]
 }

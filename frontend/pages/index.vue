@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <LoginCard />
+
 </template>
 
 <style scoped>

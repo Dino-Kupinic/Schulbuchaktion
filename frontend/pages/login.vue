@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage/>
-  </NuxtLayout>
+  <LoginCard />
 </template>
+
+<style scoped>
+
+</style>

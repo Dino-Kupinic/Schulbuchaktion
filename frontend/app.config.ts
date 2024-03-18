@@ -4,7 +4,7 @@ export default defineAppConfig({
     gray: 'neutral',
     container: {
       constrained: '',
-      padding: 'p-2',
+      padding: '',
       base: '',
     },
     button: {

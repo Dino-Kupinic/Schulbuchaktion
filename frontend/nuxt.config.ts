@@ -5,9 +5,9 @@ export default defineNuxtConfig({
       title: "Schulbuchaktion",
     },
   },
-  // css: [
-  //   "~/assets/styles/main.css",
-  // ],
+  css: [
+    "~/assets/styles/main.css",
+  ],
   devtools: {
     enabled: true,
   },
@@ -24,6 +24,11 @@ export default defineNuxtConfig({
       crossOriginEmbedderPolicy: process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
     },
   },
+  colorMode: {
+    classSuffix: "",
+    preference: "system",
+    fallback: "light",
+  },
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",
@@ -31,12 +36,13 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/test-utils",
     "@pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/color-mode",
     "@nuxt/ui",
     "nuxt-csurf",
     // "@nuxtjs/storybook",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",
-    "nuxt-security"
-  ]
+    "nuxt-security",
+  ],
 })

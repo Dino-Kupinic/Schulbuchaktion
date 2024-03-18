@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\JsonReturn;
 use Exception;
 use Psr\Log\LogLevel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\Logger;
-use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Json;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 class LoginController extends AbstractController
@@ -21,15 +23,13 @@ class LoginController extends AbstractController
         $pwd = $request->get("pwd");
         try {
             $success = $this->authenticateUser($user, $pwd);
-        } catch (LdapException | Exception $e) {
+        } catch (LdapException|Exception $e) {
             $success = false;
         }
-        $success = ($success) ? "true" : "false";
+        $return = new JsonReturn($success);
 
 
-        return $this->render('ldap/index.html.twig', [
-            "info"=> [$success]
-        ]);
+        return new JsonResponse(json_encode($return), 200, [], true);
     }
 
     private function authenticateUser($user, $password): bool

@@ -42,7 +42,7 @@ pnpm run dev
 cd ../backend
 ```
 
-2. define enviroment variables
+2. define environment variables
 
 Create a `.env` file and checkout the `.env.example`. Copy the content into your `.env` and replace
 the `SECRET_PASSWORD`, `USERNAME`, `BIND_PORT`, `APP_SECRET`  fields with your own.

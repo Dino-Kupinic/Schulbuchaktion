@@ -97,7 +97,11 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         {
           text: "Deployment",
           link: "deployment",
-        }
+        },
+        {
+          text: "Editing Documentation",
+          link: "documentation",
+        },
       ],
     },
     {
@@ -113,8 +117,20 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "commits",
         },
         {
+          text: "Git Flow",
+          link: "git-flow",
+        },
+        {
+          text: "Issues",
+          link: "issues",
+        },
+        {
           text: "Pull Requests",
           link: "pull-requests",
+        },
+        {
+          text: "Milestones",
+          link: "milestones",
         },
       ],
     },

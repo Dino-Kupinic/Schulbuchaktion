@@ -1,24 +1,24 @@
 # Extending
 
-Schulbuchaktion is designed to be modular and easily extendible. Not only that, we also have a standardised way of
+Schulbuchaktion is designed to be modular and easily extendable.
+Not only that, we also have a standardized way of
 working (Git-Flow, GitHub Projects, Issues, Pull Requests, ...).
 
 It is **strongly** recommended to follow these guidelines.
 
 ## Learning
 
-Before working on Schulbuchaktion, you should have a solid grasp of following things:
+Before working on Schulbuchaktion, you should have a solid grasp of the following things:
 
 ::: info
 While you should know the basics, you don't need to know everything by heart.
-Very important topics are marked in bold.
+Crucial topics are marked in bold.
 :::
 
 #### Languages
 
 - TypeScript (**JavaScript**)
 - **PHP**
-
 
 #### Frameworks & Libraries
 
@@ -41,9 +41,10 @@ Extending the Documentation requires only markdown knowledge.
 
 ## Architecture
 
-Schulbuchaktion makes use of the monolithic architecture. The repository contains following main
-directories, `/frontend`, `/backend` and `/docs`. As you can see, we also have a monorepo instead of splitting the
-services into seperate git repositories, e.g. `Schulbuchkation-client`, `Schulbuchkation-backend`, ... .
+Schulbuchaktion makes use of the monolithic architecture.
+The repository contains the following main directories, `/frontend`, `/backend` and `/docs`.
+As you can see, we also have a monorepo instead of splitting the
+services into separate git repositories, e.g. `Schulbuchaktion-client`, `Schulbuchaktion-backend`, …
 
 ### REST-API
 
@@ -56,17 +57,17 @@ directory and only use Nuxt's frontend features.
 
 ## Containerization
 
-The whole project is setup inside a single `docker-compose.yml`. The MySQL database has a volume (`mysql_data`) that is
-mounted in `/backend`.
+The whole project is set up inside a single `docker-compose.yml`.
+The MySQL database has a volume (`mysql_data`) that is mounted in `/backend`.
 
 ## Recommended IDE and Tools
 
-Schulbuchaktion was made in **PHPStorm**, it is advised to use it aswell, since it provides everything out of the box.
+Schulbuchaktion was made in **PHPStorm;** it is advised to use it as well, since it provides everything out of the box.
 If you want to use VSCode, you will need to provide your own `.vscode` config.
 <br>
-NeoVim and Vim users should know how to configure their enviroment themselves.
+NeoVim and Vim users should know how to configure their environment themselves.
 
-For manual API Testing we use **Postman**.
+For manual API Testing, we use **Postman**.
 
 ## Dependabot
 

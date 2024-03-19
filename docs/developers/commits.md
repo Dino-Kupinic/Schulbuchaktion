@@ -4,19 +4,22 @@ Commits should follow the [Conventional Commits](https://www.conventionalcommits
 
 ## Excerpt
 
-The Conventional Commits specification is a lightweight convention on top of commit messages. It provides an easy set of rules for creating an explicit commit history; which makes it easier to write automated tools on top of. This convention dovetails with SemVer, by describing the features, fixes, and breaking changes made in commit messages.
+The Conventional Commits specification is a lightweight convention on top of commit messages.
+It provides an easy set of rules for creating an explicit commit history,
+which makes it easier to write automated tools on top of.
+This convention dovetails with SemVer by describing the features, fixes, and breaking changes made in commit messages.
 
 The commit message should be structured as follows:
 
 `<type>[optional scope]: <description>`
 
-The commit contains the following structural elements, to communicate intent to the consumers of your library:
+The commit contains the following structural elements to communicate intent to the consumers of your library:
 
-`fix: a commit of the type fix patches a bug in your codebase` 
+`fix: a commit of the type fix patches a bug in your codebase`
 
 (this correlates with PATCH in Semantic Versioning).
 
-`feat: a commit of the type feat introduces a new feature to the codebase` 
+`feat: a commit of the type feat introduces a new feature to the codebase`
 
 (this correlates with MINOR in Semantic Versioning).
 
@@ -32,3 +35,6 @@ Commit message with scope
 
 `feat(lang): add Polish language`
 
+## CommitCheck Bot
+
+RegEx Filter: `^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)(\([^\)]+\))?(\!)?\: .+`

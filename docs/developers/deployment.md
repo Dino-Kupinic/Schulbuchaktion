@@ -40,7 +40,7 @@ here: https://symfony.com/doc/current/deployment.html#symfony-deployment-basics
 
 ::: tip
 The documentation uses the same principle as the frontend. More
-infos: https://vitepress.dev/guide/what-is-vitepress#performance
+info: https://vitepress.dev/guide/what-is-vitepress#performance
 :::
 
 1. run build

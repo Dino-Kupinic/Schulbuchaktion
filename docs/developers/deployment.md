@@ -24,7 +24,7 @@ pnpm run build
 pnpm run preview
 ```
 
-3. Head to http://localhost:3000/
+3. Head to `http://localhost:3000/`
 4. All generated assets can be found in `./output`
 
 ::: tip
@@ -55,7 +55,7 @@ pnpm run docs:build
 pnpm run docs:preview
 ```
 
-3. Head to http://localhost:4173/
+3. Head to `http://localhost:4173/`
 4. All generated assets can be found in `./vitepress/dist`
 
 ::: tip

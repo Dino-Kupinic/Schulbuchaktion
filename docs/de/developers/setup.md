@@ -32,7 +32,7 @@ Wenn Sie pnpm nicht installiert haben, schauen Sie unter https://pnpm.io/install
 pnpm run dev
 ```
 
-4. Gehe zu http://localhost:3000/
+4. Gehe zu `http://localhost:3000/`
 
 ## Backend
 
@@ -84,7 +84,7 @@ Wenn Sie symfony cli nicht installiert haben, schauen Sie unter https://symfony.
 für Ihr Betriebssystem zu installieren.
 :::
 
-6. Rufen Sie http://127.0.0.1:8000 auf.
+6. Rufen Sie `http://127.0.0.1:8000` auf.
 
 ## Docs
 
@@ -114,5 +114,5 @@ Wenn Sie pnpm nicht installiert haben, schauen Sie unter https://pnpm.io/install
 pnpm run docs:dev
 ```
 
-4. Gehen Sie zu http://localhost:5173/
+4. Gehen Sie zu `http://localhost:5173/`
 

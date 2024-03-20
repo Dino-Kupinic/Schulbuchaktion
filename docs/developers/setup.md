@@ -32,7 +32,7 @@ If you don't have pnpm installed, checkout https://pnpm.io/installation to insta
 pnpm run dev
 ```
 
-4. Head to http://localhost:3000/
+4. Head to `http://localhost:3000/`
 
 ## Backend
 
@@ -84,7 +84,7 @@ If you don't have symfony cli installed, checkout https://symfony.com/download#s
 for your operating system.
 :::
 
-6. head to http://127.0.0.1:8000
+6. head to `http://127.0.0.1:8000`
 
 ## Docs
 
@@ -114,4 +114,4 @@ If you don't have pnpm installed, checkout https://pnpm.io/installation to insta
 pnpm run docs:dev
 ```
 
-4. Head to http://localhost:5173/
+4. Head to `http://localhost:5173/`

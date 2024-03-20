@@ -2,9 +2,9 @@
 
 Unten finden Sie eine einfache Anleitung zur Erweiterung der Dokumentation.
 
-## Adding a group to the sidebar
+## Eine Gruppe zur Seitenleiste hinzufügen
 
-Das Hinzufügen einer Seitenleiste erfolgt in der Funktion `sidebarUsers()` oder `sidebarDevelopers()`
+Das Hinzufügen einer Gruppe in der Seitenleiste erfolgt in der Funktion `sidebarUsers()` oder `sidebarDevelopers()`
 in `docs/.vitepress/en.ts` (Englisch)
 und `docs/.vitepress/de.ts` (Deutsch) entsprechend.
 
@@ -38,9 +38,8 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 
 Führen Sie dasselbe in `de.ts` aus und übersetzen Sie nur den **text**, ändern Sie nicht den `link`.
 
-## Adding a markdown file
+## Eine Markdown-Datei hinzufügen
 
-Hinzufügen einer Markdown-Datei
 Nachdem Sie die Seitenleistenlinks erstellt haben, müssen Sie jetzt die Markdown-Dateien erstellen. Die englischen
 Versionen werden im Root-verzeichnis unter `/users` und `/developers` hinzugefügt, und die deutschen Versionen werden unter
 `/de` hinzugefügt.

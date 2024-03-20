@@ -19,7 +19,7 @@ for example, "resolves #123"
 
 ### 📚 Description
 
-Describe your changes in detail 
+Describe your changes in detail. 
 Why is this change required?
 What problem does it solve?
 

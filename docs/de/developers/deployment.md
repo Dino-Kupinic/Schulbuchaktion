@@ -6,7 +6,7 @@ Application" [SPA](https://nuxt.com/docs/guide/concepts/rendering#client-side-re
 alle Rendering-Aufgaben übernimmt. Es ist wichtig zu beachten, dass aufgrund dieser Architektur möglicherweise
 Einschränkungen in Bezug auf die SEO-Optimierung bestehen.
 
-Es ist jedoch erwähnenswert, dass das Hauptanwendungsfall der Anwendung nicht stark von der Sichtbarkeit in
+Es ist jedoch erwähnenswert, dass der Hauptanwendungsfall der Anwendung nicht stark von der Sichtbarkeit in
 Suchmaschinen abhängt, da sie als internes Tool konzipiert ist.
 :::
 
@@ -25,7 +25,7 @@ pnpm run preview
 ```
 
 3. Gehe zu http://localhost:3000/
-4. Alle generierten Assets befinden sich in ./output
+4. Alle generierten Assets befinden sich in `./output`
 
 ::: tip TIPP
 Weitere Informationen zur Bereitstellung finden Sie unter https://nuxt.com/deploy

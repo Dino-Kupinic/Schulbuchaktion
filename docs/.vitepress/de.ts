@@ -59,6 +59,10 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           link: "auth",
         },
         {
+          text: "Fragen & Antworten",
+          link: "q&a",
+        },
+        {
           text: "Hilfe",
           link: "help",
         },
@@ -102,6 +106,40 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         {
           text: "Deployment",
           link: "deployment",
+        },
+        {
+          text: "Dokumentation ändern",
+          link: "documentation",
+        },
+      ],
+    },
+    {
+      text: "Konventionen",
+      collapsed: false,
+      items: [
+        {
+          text: "Code Stil",
+          link: "code-style",
+        },
+        {
+          text: "Commits",
+          link: "commits",
+        },
+        {
+          text: "Git Flow",
+          link: "git-flow",
+        },
+        {
+          text: "Issues",
+          link: "issues",
+        },
+        {
+          text: "Pull Requests",
+          link: "pull-requests",
+        },
+        {
+          text: "Meilensteine",
+          link: "milestones",
         },
       ],
     },

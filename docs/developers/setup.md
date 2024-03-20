@@ -41,6 +41,10 @@ pnpm run dev
 ```bash
 cd ../backend
 ```
+or
+```bash
+cd backend
+```
 
 2. define environment variables
 
@@ -88,6 +92,10 @@ for your operating system.
 
 ```bash
 cd ../docs
+```
+or
+```bash
+cd docs
 ```
 
 2. install packages

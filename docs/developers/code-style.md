@@ -18,6 +18,6 @@ You should also configure these settings:
 | Indentation    | 2                     |
 | Double Quotes  | Always                |
 | Trailing Comma | Always when multiline |
-| Semicolon      | Never                 |
+| Semicolon      | Never (TypeScript)    |
 
 In TypeScript, prefer arrow functions and `async/await` syntax.

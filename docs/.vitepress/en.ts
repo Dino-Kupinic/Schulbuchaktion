@@ -54,6 +54,10 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           link: "auth",
         },
         {
+          text: "Questions & Answers",
+          link: "q&a",
+        },
+        {
           text: "Getting help",
           link: "help",
         },

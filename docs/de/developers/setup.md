@@ -41,10 +41,14 @@ pnpm run dev
 ```bash
 cd ../backend
 ```
+oder
+```bash
+cd backend
+```
 
 2. Umgebungsvariablen definieren
 
-Erstelle eine `.env` Datei und schauen Sie sich die `.env.example` an. Kopieren Sie den Inhalt in Ihre `.env` und ersetzen 
+Erstellen Sie eine `.env` Datei und schauen Sie sich die `.env.example` an. Kopieren Sie den Inhalt in Ihre `.env` und ersetzen 
 Sie die Felder `SECRET_PASSWORD`, `USERNAME`, `BIND_PORT`, `APP_SECRET` mit Ihren eigenen.
 
 ::: danger GEFAHR
@@ -88,6 +92,10 @@ für Ihr Betriebssystem zu installieren.
 
 ```bash
 cd ../docs
+```
+oder
+```bash
+cd docs
 ```
 
 2. Pakete installieren

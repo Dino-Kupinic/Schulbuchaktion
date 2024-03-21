@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\JsonReturn;
+use App\Entity\AuthToken;
 use Exception;
 use Psr\Log\LogLevel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class LoginController extends AbstractController
         } catch (LdapException|Exception $e) {
             $success = false;
         }
-        $return = new JsonReturn($success);
+        $return = new AuthToken($success);
 
 
         return new JsonResponse(json_encode($return), 200, [], true);
@@ -38,11 +38,21 @@ class LoginController extends AbstractController
         if ($ds) {
             $r = ldap_bind($ds) or die ("Error trying to bind: " . ldap_error($ds));
 
-            // Search the users dn as anonymous
-            $sr = ldap_search($ds, $_ENV["LDAP_BASE"], "cn=" . $user, array("dn")) or throw new LdapException ("Error in search query: " . ldap_error($ds));
-            $res = ldap_get_entries($ds, $sr);
-            $userDN = $res[0]['dn'];
+            /**
+             * LDAP-Request for school
+             *
+             * $sr = ldap_search($ds, $_ENV["SCHULE_BASE"], "cn=$user", array("dn")) or throw new LdapException ("Error in search query: " . ldap_error($ds));
+             * $res = ldap_get_entries($ds, $sr);
+             * $userDN = $res[0]['dn'];
+             */
+
+            /**
+             * LDAP-Request for Test-Environment
+             */
+            $userDN="cn=$user,ou=TestUsers," . $_ENV["LDAP_BASE"];
+
             $r = ldap_bind($ds, $userDN, $password) or throw new LdapException("Error trying to bind: " . ldap_error($ds));
+            ldap_close($ds);
         }
         return true;
     }

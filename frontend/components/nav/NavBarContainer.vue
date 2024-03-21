@@ -3,7 +3,12 @@
 </script>
 
 <template>
-  <UContainer class="box-border flex w-full justify-center h-20"><NavBar/></UContainer>
+  <UContainer
+      class="mt-2 flex underline-offset-1 w-[97%] h-11/12 border border-neutral-300 dark:bg-gray-900
+      dark:border-gray-700 items-center box-border rounded-lg shadow-lg justify-between"
+  >
+    <slot></slot>
+  </UContainer>
 </template>
 
 <style scoped>

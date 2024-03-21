@@ -1,4 +1,10 @@
 <script setup lang="ts">
+const revealMenu = ref<boolean>(false)
+let screenWidth = screen.width
+onMounted(() => {
+  console.log(screenWidth)
+})
+
 const items = [
   [{
     label: 'Profile',
@@ -32,9 +38,10 @@ const items = [
 </script>
 
 <template>
-  <UDropdown :items="items" :popper="{ placement: 'bottom-start' }" class="mx-2" size="xl">
-    <UButton color="blue" trailing-icon="i-heroicons-bars-3-solid" variant: soft/>
-  </UDropdown>
+  <!-- This section is for the small size BurgerMenu -->
+  <UButton color="blue" class="mx-2 md:hidden" trailing-icon="i-heroicons-bars-3-solid" variant="soft"
+           @click="revealMenu = !revealMenu"/>
+  <UContainer v-if="revealMenu" class="h-screen w-screen bg-dark"></UContainer>
 </template>
 
 <style scoped>

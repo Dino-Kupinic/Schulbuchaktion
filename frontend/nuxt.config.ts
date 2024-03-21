@@ -29,6 +29,10 @@ export default defineNuxtConfig({
     preference: "system",
     fallback: "light",
   },
+  typescript: {
+    typeCheck: true,
+    strict: true,
+  },
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",

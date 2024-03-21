@@ -1,10 +1,6 @@
 <script setup lang="ts">
 const revealMenu = ref<boolean>(false)
-let screenWidth = screen.width
-onMounted(() => {
-  console.log(screenWidth)
-})
-
+const navBarHeight = ref<number>()
 const items = [
   [{
     label: 'Profile',
@@ -39,9 +35,11 @@ const items = [
 
 <template>
   <!-- This section is for the small size BurgerMenu -->
-  <UButton color="blue" class="mx-2 md:hidden" trailing-icon="i-heroicons-bars-3-solid" variant="soft"
+  <UButton color="blue" class="mx-2" trailing-icon="i-heroicons-bars-3-solid" variant="soft"
            @click="revealMenu = !revealMenu"/>
-  <UContainer v-if="revealMenu" class="h-screen w-screen bg-dark"></UContainer>
+  <UContainer v-if="revealMenu" class="bg-white absolute top-80 left-0 flex flex-row gap-5
+  justify-center items-center h-[90vh] w-screen  z-10 overflow-x-hidden">
+  </UContainer>
 </template>
 
 <style scoped>

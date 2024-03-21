@@ -11,7 +11,7 @@ watch(viewport.breakpoint, (newBreakpoint, oldBreakpoint) => {
 </script>
 
 <template>
-    <NavBarDesktop v-if="viewport.isGreaterThan('mobile')"/>
+    <NavBarDesktop v-if="viewport.isGreaterThan('tablet')"/>
     <NavBarMobile v-else/>
 </template>
 

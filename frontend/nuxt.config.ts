@@ -43,7 +43,6 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxt/ui",
     "nuxt-csurf",
-    // "@nuxtjs/storybook",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",

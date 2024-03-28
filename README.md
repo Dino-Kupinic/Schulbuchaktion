@@ -40,6 +40,17 @@ pnpm run dev
 
 4. Head to http://localhost:3000/
 
+If it works, great!
+
+> [!IMPORTANT]
+> Following instruction is optional and may be skipped. If you have slow internet, it may take a while to 
+> install Chrome, Safari and Firefox (~150 MB)
+
+5. Install playwright browsers
+```
+npx playwright install     
+```
+
 ### Backend
 
 1. go into the backend directory

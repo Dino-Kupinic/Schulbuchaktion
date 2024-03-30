@@ -29,6 +29,10 @@ export default defineNuxtConfig({
     preference: "system",
     fallback: "light",
   },
+  typescript: {
+    typeCheck: true,
+    strict: true,
+  },
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",
@@ -39,7 +43,6 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxt/ui",
     "nuxt-csurf",
-    // "@nuxtjs/storybook",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   label: string
   margin: string
 }>()
@@ -7,12 +7,10 @@ const props = defineProps<{
 
 <template>
   <UContainer class="flex p-0 sm:pl-0">
-    <p class="mb-3"> {{ label }} </p>
-    <slot/>
+    <p class="mb-3">{{ label }}</p>
+    <slot />
   </UContainer>
   <UInput :class="margin"></UInput>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

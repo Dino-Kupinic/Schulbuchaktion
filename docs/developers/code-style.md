@@ -1,5 +1,17 @@
 # Code Style
 
+## Eslint & Prettier
+
+Eslint and Prettier is configured in the `/frontend` directory.
+In PHPStorm, Prettier can be configured to format on save.
+
+Prettier for PHP is currently not fully functional, so it is recommended to follow the legacy guidelines.
+Since the `/docs` directory is mostly markdown we don't really need Prettier.
+
+## Legacy
+
+Following section applies to before our switch to ESLint/Prettier.
+
 Code committed to Schulbuchaktion should follow these guidelines:
 
 - empty line should be EOF

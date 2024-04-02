@@ -1,20 +1,18 @@
-<script setup lang="ts">
-import LoginInputContainer from "~/components/login/LoginInputContainer.vue"
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <NavBarThemeToggle/>
-  <div class="flex flex-wrap justify-center h-screen">
-    <div class="w-full flex justify-center items-center sm:mb-0">
-      <Logo/>
+  <NavBarThemeToggle />
+  <div class="flex h-screen flex-wrap justify-center">
+    <div class="flex w-full items-center justify-center sm:mb-0">
+      <TheLogo />
     </div>
-    <UContainer class="w-full h-auto mr-6 ml-6">
-      <h1 class="flex justify-center font-medium text-[20px] mb-16  sm:mb-4">Sign in to your account</h1>
-      <LoginInputContainer/>
+    <UContainer class="ml-6 mr-6 h-auto w-full">
+      <h1 class="mb-16 flex justify-center text-[20px] font-medium sm:mb-4">
+        Sign in to your account
+      </h1>
+      <LoginInputContainer />
     </UContainer>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

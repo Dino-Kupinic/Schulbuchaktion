@@ -41,11 +41,13 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
+  eslint: {},
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",
     "@formkit/auto-animate",
     "@vueuse/nuxt",
+    "@nuxt/eslint",
     "@nuxt/test-utils",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/color-mode",

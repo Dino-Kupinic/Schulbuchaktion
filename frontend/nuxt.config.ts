@@ -29,6 +29,14 @@ export default defineNuxtConfig({
     preference: "system",
     fallback: "light",
   },
+  postcss: {
+    plugins: {
+      "postcss-import": {},
+      "tailwindcss/nesting": {},
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   typescript: {
     typeCheck: true,
     strict: true,

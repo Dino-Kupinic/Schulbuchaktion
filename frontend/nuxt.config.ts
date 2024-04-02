@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { currentLocales } from "./config/i18n"
+
 export default defineNuxtConfig({
   app: {
     head: {
@@ -41,6 +43,13 @@ export default defineNuxtConfig({
     strict: true,
   },
   eslint: {},
+  i18n: {
+    locales: currentLocales,
+    detectBrowserLanguage: false,
+    langDir: "locales",
+    defaultLocale: "en-US",
+    vueI18n: "~/config/i18n.config.ts",
+  },
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",

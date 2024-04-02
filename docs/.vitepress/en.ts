@@ -148,5 +148,15 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Internationalization",
+      collapsed: false,
+      items: [
+        {
+          text: "i18n",
+          link: "internationalization",
+        },
+      ],
+    }
   ]
 }

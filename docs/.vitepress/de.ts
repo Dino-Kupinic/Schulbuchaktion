@@ -153,6 +153,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Internationalisierung",
+      collapsed: false,
+      items: [
+        {
+          text: "i18n",
+          link: "internationalization",
+        },
+      ],
+    }
   ]
 }
 

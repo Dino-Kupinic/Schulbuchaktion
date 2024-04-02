@@ -15,11 +15,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "npx prettier . --check",
-    "format:write": "npx prettier . --write",
-    "prepare": "husky"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "format:write": "npx prettier . --write"
   },
   "dependencies": {
     "vue": "^3.4.19",

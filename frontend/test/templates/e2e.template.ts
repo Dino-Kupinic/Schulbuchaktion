@@ -1,15 +1,10 @@
-import {test} from "@playwright/test"
+import { test } from "@playwright/test"
 
 test.describe("TEXT", () => {
-  test.beforeAll(async () => {
+  test.beforeAll(async () => {})
 
-  })
+  test.beforeEach(async () => {})
 
-  test.beforeEach(async () => {
-
-  })
-
-  test("TEXT", async ({page}) => {
-
-  })
+  // eslint-disable-next-line
+  test("TEXT", async ({ page }) => {})
 })

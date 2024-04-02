@@ -1,27 +1,23 @@
-import {describe, test, it, beforeEach, afterEach, afterAll, beforeAll} from "vitest"
+import {
+  describe,
+  test,
+  it,
+  beforeEach,
+  afterEach,
+  afterAll,
+  beforeAll,
+} from "vitest"
 
 describe("TEXT", () => {
-  beforeEach(() => {
+  beforeEach(() => {})
 
-  })
+  afterEach(() => {})
 
-  afterEach(() => {
+  beforeAll(() => {})
 
-  })
+  afterAll(() => {})
 
-  beforeAll(() => {
+  it("TEXT", async () => {})
 
-  })
-
-  afterAll(() => {
-
-  })
-
-  it("TEXT", async () => {
-
-  })
-
-  test("TEXT", async () => {
-
-  })
+  test("TEXT", async () => {})
 })

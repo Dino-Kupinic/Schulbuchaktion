@@ -1,14 +1,8 @@
-<script setup lang="ts">
-
-import NavUserAvatar from "~/components/nav/NavUserAvatar.vue"
-import NavUser from "~/components/nav/NavUser.vue"
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    <h1>Settings-Page</h1>
+  <h1>Settings-Page</h1>
   <NavUser/>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

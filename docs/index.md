@@ -16,7 +16,7 @@ hero:
       text: Developer Reference
       link: /developers/setup
   image:
-    src: assets/htl-logo.svg
+    src: /htl-logo.svg
     alt: VitePress
 
 

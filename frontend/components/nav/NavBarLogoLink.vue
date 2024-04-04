@@ -1,13 +1,9 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <ULink to="/">
-    <Logo class="h-12"></Logo>
+    <TheLogo class="h-12"></TheLogo>
   </ULink>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

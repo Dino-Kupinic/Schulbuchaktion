@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const revealMenu = ref<boolean>(false)
+
+defineEmits(["roundCorners"])
 </script>
 
 <template>
@@ -9,7 +11,12 @@ const revealMenu = ref<boolean>(false)
     class="mx-2"
     trailing-icon="i-heroicons-bars-3-solid"
     variant="soft"
-    @click="revealMenu = !revealMenu"
+    @click="
+      () => {
+        revealMenu = !revealMenu
+        $emit('roundCorners', revealMenu)
+      }
+    "
   />
   <UContainer
     v-if="revealMenu"

@@ -1,6 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
+  <NavBarDiv />
   <p>Hallo</p>
 </template>
 

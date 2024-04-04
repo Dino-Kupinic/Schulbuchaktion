@@ -162,6 +162,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "internationalization",
         },
       ],
+    },
+    {
+      text: "Datenpersistenz",
+      collapsed: false,
+      items: [
+        {
+          text: "Datenbank",
+          link: "database",
+        },
+      ],
     }
   ]
 }

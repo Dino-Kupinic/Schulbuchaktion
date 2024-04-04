@@ -7,7 +7,7 @@ import NavBarLogoLink from "~/components/nav/NavBarLogoLink.vue";
 <template>
   <NavBarContainer>
     <NavBarLogoLink/>
-    <NavBarBurgerMenuLarge/>
+    <NavBarBurgerMenuLarge class="justify-content-center"/>
   </NavBarContainer>
 </template>
 

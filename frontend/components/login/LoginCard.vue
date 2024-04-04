@@ -1,6 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
+  <NavBar />
   <NavBarThemeToggle />
   <div class="flex h-screen flex-wrap justify-center">
     <div class="flex w-full items-center justify-center sm:mb-0">

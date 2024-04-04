@@ -19,12 +19,6 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  security: {
-    headers: {
-      crossOriginEmbedderPolicy:
-        process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
-    },
-  },
   colorMode: {
     classSuffix: "",
     preference: "system",
@@ -64,6 +58,5 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",
-    "nuxt-security",
   ],
 })

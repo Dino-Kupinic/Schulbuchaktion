@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { currentLocales } from "./config/i18n"
+import pkg from "./package.json"
+import { execaSync } from "execa"
 
 export default defineNuxtConfig({
   app: {
@@ -19,6 +21,13 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  runtimeConfig: {
+    public: {
+      buildTime: Date.now(),
+      gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
+      clientVersion: pkg.version,
+    },
+  },
   colorMode: {
     classSuffix: "",
     preference: "system",
@@ -58,5 +67,6 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",
+    "floating-vue/nuxt",
   ],
 })

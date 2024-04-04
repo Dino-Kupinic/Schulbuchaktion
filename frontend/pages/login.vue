@@ -1,12 +1,7 @@
-<script setup lang="ts">
-
-import LoginCard from "~/components/login/LoginCard.vue"
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <LoginCard></LoginCard>
+  <LoginCard />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

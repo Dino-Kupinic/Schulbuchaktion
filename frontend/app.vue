@@ -1,8 +1,21 @@
-<template>
-    <NuxtLayout>
-      <NuxtPage class="w-screen h-screen"/>
-    </NuxtLayout>
-</template>
 <script setup lang="ts">
-import Login from "~/pages/login.vue"
+const { locale } = useI18n()
+const localeCookie = useCookie("locale")
+
+const setLocale = () => {
+  if (!localeCookie.value) {
+    localeCookie.value = "en-US"
+  }
+  locale.value = localeCookie.value
+}
+
+onMounted(() => {
+  setLocale()
+})
 </script>
+
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+</template>

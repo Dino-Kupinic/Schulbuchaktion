@@ -1,16 +1,17 @@
 {
   "name": "docs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Schulbuchaktion Docs",
+  "type": "module",
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Nixx Labs",
+  "license": "MIT",
   "devDependencies": {
-    "vitepress": "1.0.0-rc.45"
+    "vitepress": "1.0.1"
   }
 }

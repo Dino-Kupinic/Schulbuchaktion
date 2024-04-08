@@ -5,7 +5,6 @@ defineEmits(["roundCorners"])
 </script>
 
 <template>
-  <!-- This section is for the small size BurgerMenu -->
   <UButton
     color="blue"
     class="mx-2"
@@ -20,8 +19,12 @@ defineEmits(["roundCorners"])
   />
   <UContainer
     v-if="revealMenu"
-    class="absolute top-20 z-10 flex h-[97%] w-[97%] flex-row items-center justify-center gap-5 overflow-x-hidden rounded-b bg-black"
+    class="absolute top-20 z-10 box-border flex h-[97%] w-[97%] flex-row items-center justify-center gap-5 overflow-x-hidden rounded-b border border-neutral-300 dark:border-gray-700 dark:bg-gray-900"
   >
+    <PlaceHolder />
+    <PlaceHolder />
+    <PlaceHolder />
+    <PlaceHolder />
   </UContainer>
 </template>
 

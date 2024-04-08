@@ -1,20 +1,11 @@
 <script setup lang="ts">
-import PlaceHolder from "~/components/nav/PlaceHolder.vue";
-import NavBarDesktop from "~/components/nav/NavBarDesktop.vue";
-
-const viewport = useViewport()
-
-watch(viewport.breakpoint, (newBreakpoint, oldBreakpoint) => {
-  console.log('Breakpoint updated:', oldBreakpoint, '->', newBreakpoint)
-})
-
+import NavBarBox from "~/components/nav/NavBarBox.vue"
 </script>
 
 <template>
-    <NavBarDesktop v-if="viewport.isGreaterThan('tablet')"/>
-    <NavBarMobile v-else/>
+  <UContainer class="box-border flex h-20 w-full justify-center"
+    ><NavBarBox
+  /></UContainer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

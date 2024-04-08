@@ -1,13 +1,9 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <UContainer class="flex items-center w-3/5 h-full max-md:hidden">
+  <UContainer class="flex h-full w-2/5 items-center max-md:hidden">
     <slot></slot>
   </UContainer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -10,8 +10,8 @@ watch(rounded, async () => {})
 <template>
   <NavBarContainer class="rounded-t">
     <NavBarLogoLink />
-    <NavBarBurgerMenuLarge
-      @round-corners="(condition) => (rounded = condition)"
+    <NavBarBurgerMenu
+      @round-corners="(condition: boolean) => (rounded = condition)"
       class="justify-content-center"
     />
   </NavBarContainer>

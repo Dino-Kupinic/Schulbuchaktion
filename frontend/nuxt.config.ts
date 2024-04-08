@@ -13,6 +13,11 @@ export default defineNuxtConfig({
   },
   ssr: false,
   spaLoadingTemplate: true,
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BACKEND_API,
+    },
+  },
   components: [
     {
       path: "~/components",
@@ -20,6 +25,7 @@ export default defineNuxtConfig({
     },
   ],
   security: {
+    corsHandler: false,
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",

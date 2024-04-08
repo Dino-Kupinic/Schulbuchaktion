@@ -157,6 +157,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "internationalization",
         },
       ],
+    },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigating Bar",
+          link: "navigation"
+        }
+      ]
     }
   ]
 }

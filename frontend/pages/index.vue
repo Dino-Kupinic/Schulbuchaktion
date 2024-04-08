@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <NavBarDiv />
+  <NavBar />
   <p>Hallo</p>
 </template>
 

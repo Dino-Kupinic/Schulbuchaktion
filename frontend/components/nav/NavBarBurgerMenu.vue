@@ -19,7 +19,7 @@ defineEmits(["roundCorners"])
   />
   <UContainer
     v-if="revealMenu"
-    class="absolute top-20 z-10 box-border flex h-[97%] w-[97%] flex-row items-center justify-center gap-5 overflow-x-hidden rounded-b border border-neutral-300 dark:border-gray-700 dark:bg-gray-900"
+    class="absolute top-20 z-10 box-border flex h-[97%] w-[97%] flex-col items-start justify-start gap-y-5 overflow-x-hidden rounded-b border border-neutral-300 p-5 dark:border-gray-700 dark:bg-gray-900"
   >
     <PlaceHolder />
     <PlaceHolder />

@@ -1,1 +1,6 @@
-{}
+{
+  "info": {
+    "couldNotFetch": "Konnte nicht geladen werden",
+    "infoBugReport": "Fehler melden"
+  }
+}

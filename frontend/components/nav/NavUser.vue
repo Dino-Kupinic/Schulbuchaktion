@@ -1,10 +1,8 @@
-<script setup lang="ts">
-import NavUserDropdown from "~/components/nav/NavUserDropdown.vue"
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <NavUserDropdown>
-    <NavUserAvatar />
+    <NavUserAvatar username="DK" />
   </NavUserDropdown>
 </template>
 

@@ -15,9 +15,9 @@ const nuxtVersion = versionNuxt
 </script>
 
 <template>
-  <VDropdown :distance="10" :triggers="['click']">
+  <VDropdown :distance="10" :triggers="['click']" class="w-min">
     <UButton
-      class="dark:bg-primary-800 text-primary-500 bg-primary-100/75 max-w-xs transition duration-300 ease-in-out hover:scale-110 hover:text-white dark:text-white"
+      class="dark:bg-primary-800 text-primary-500 bg-primary-100/75 transition hover:text-white dark:text-white"
       >Info
     </UButton>
     <template #popper>
@@ -40,24 +40,24 @@ const nuxtVersion = versionNuxt
             ><code>{{ appVersion }}</code></span
           >
         </p>
-        <div v-else>{{ $t("NavCouldntFetchVersion") }}</div>
+        <div v-else>{{ $t("info.couldNotFetch") }}</div>
 
         <UIcon class="h-5 w-5" name="i-heroicons-calendar-days-solid" />
         <code v-if="vueVersion">Vue {{ vueVersion }}</code>
-        <div v-else>{{ $t("NavCouldntFetchVersion") }}</div>
+        <div v-else>{{ $t("info.couldNotFetch") }}</div>
 
         <UIcon class="h-5 w-5" name="i-heroicons-calendar-days-solid" />
         <code v-if="nuxtVersion">Nuxt {{ nuxtVersion }}</code>
-        <div v-else>{{ $t("NavCouldntFetchVersion") }}</div>
+        <div v-else>{{ $t("info.couldNotFetch") }}</div>
       </div>
       <div class="w-full p-2 text-center">
         <NuxtLink
-          class="text-primary hover:text-green-300"
+          class="text-primary hover:text-primary-800"
           to="https://github.com/Dino-Kupinic/UntisPlanner/issues"
           target="_blank"
           title="Head to Issues"
         >
-          {{ $t("NavInfoBugReport") }}
+          {{ $t("info.infoBugReport") }}
         </NuxtLink>
       </div>
     </template>

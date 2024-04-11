@@ -66,6 +66,10 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           text: "Hilfe",
           link: "help",
         },
+        {
+          text: "Fehler melden",
+          link: "report-bug",
+        },
       ],
     },
     {
@@ -170,6 +174,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         {
           text: "Datenbank",
           link: "database",
+        },
+      ],
+    },
+    {
+      text: "Komponenten",
+      collapsed: false,
+      items: [
+        {
+          text: "Info Button",
+          link: "info-button",
         },
       ],
     }

@@ -1,11 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <h1>Settings-Page</h1>
-    <NavUser />
-    <NavInfoButton />
-  </div>
+  <NavUserDropdown>
+    <NavUserAvatar username="DK" />
+  </NavUserDropdown>
 </template>
 
 <style scoped></style>

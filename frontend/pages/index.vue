@@ -2,7 +2,9 @@
 
 <template>
   <NavBar />
-  <p>Hallo</p>
+  <UContainer class="p-5">
+    <p>Hallo</p>
+  </UContainer>
 </template>
 
 <style scoped></style>

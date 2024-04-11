@@ -25,7 +25,7 @@ watch(revealMenu, () => {
   />
   <UContainer
     v-if="revealMenu"
-    class="absolute top-20 z-10 box-border flex h-[97%] w-[97%] flex-col items-start justify-start gap-y-5 overflow-x-hidden rounded-b border border-t-0 border-neutral-300 p-5 opacity-100 dark:border-gray-700"
+    class="bg-primary absolute top-20 z-10 mb-5 box-border flex h-[95%] w-[97%] flex-col items-start justify-start gap-y-5 overflow-x-hidden rounded-b border border-t-0 border-neutral-300 p-5 opacity-100 dark:border-gray-700"
   >
     <PlaceHolder />
     <PlaceHolder />

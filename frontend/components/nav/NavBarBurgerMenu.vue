@@ -2,23 +2,30 @@
 const emit = defineEmits(["burgerMenuVisible"])
 const colorMode = useColorMode()
 
-const backgroundColor: object = reactive({
-  "bg-white": colorMode.value.toLowerCase() === "light",
-  "bg-[#171717]": colorMode.value.toLowerCase() === "dark",
-})
+const backgroundColor = ref<string>("")
+backgroundColor.value = isLightMode() ? "bg-white" : "bg-[#171717]"
 
 const icon = ref<string>("i-heroicons-bars-3-solid")
 const revealMenu = ref<boolean>(false)
-
-watch(revealMenu, () => {
-  if (revealMenu.value) icon.value = "i-heroicons-x-mark"
-  else icon.value = "i-heroicons-bars-3-solid"
-})
 
 function openMenu() {
   revealMenu.value = !revealMenu.value
   emit("burgerMenuVisible", revealMenu.value)
 }
+
+function isLightMode() {
+  return colorMode.value.toLowerCase() === "light"
+}
+
+watch(colorMode, () => {
+  if (isLightMode()) backgroundColor.value = "bg-white"
+  else backgroundColor.value = "bg-[#171717]"
+})
+
+watch(revealMenu, () => {
+  if (revealMenu.value) icon.value = "i-heroicons-x-mark"
+  else icon.value = "i-heroicons-bars-3-solid"
+})
 </script>
 
 <template>

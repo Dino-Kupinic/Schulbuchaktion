@@ -11,10 +11,7 @@ const burgerMenuVisible = ref<boolean>(false)
   >
     <NavBarLogoLink />
     <NavBarBurgerMenu
-      @burger-menu-visible="
-        (condition: boolean) => (burgerMenuVisible = condition)
-      "
-      class="justify-content-center"
+      @burger-menu-visible="(visible: boolean) => (burgerMenuVisible = visible)"
     />
   </NavBarContainer>
 </template>

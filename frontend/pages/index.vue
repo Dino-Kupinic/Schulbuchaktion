@@ -1,7 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <p>Hallo</p>
+  <div>
+    <p>Hallo</p>
+    <NavBarLanguageToggle />
+  </div>
 </template>
 
 <style scoped></style>

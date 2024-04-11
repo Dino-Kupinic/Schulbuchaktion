@@ -163,6 +163,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       ],
     },
     {
+      text: "Data Persistence",
+      collapsed: false,
+      items: [
+        {
+          text: "Database",
+          link: "database",
+        },
+      ],
+    },
+    {
       text: "Authentication",
       collapsed: false,
       items: [

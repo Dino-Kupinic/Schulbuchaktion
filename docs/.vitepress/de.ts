@@ -168,6 +168,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       ],
     },
     {
+      text: "Datenpersistenz",
+      collapsed: false,
+      items: [
+        {
+          text: "Datenbank",
+          link: "database",
+        },
+      ],
+    },
+    {
       text: "Komponenten",
       collapsed: false,
       items: [

@@ -1,6 +1,7 @@
 {
   "info": {
     "couldNotFetch": "Couldn't fetch",
-    "infoBugReport": "Report bug"
+    "infoBugReport": "Report bug",
+    "infoName": "info"
   }
 }

@@ -18,7 +18,7 @@ const nuxtVersion = versionNuxt
   <VDropdown :distance="10" :triggers="['click']" class="w-min">
     <UButton
       class="dark:bg-primary-800 text-primary-500 bg-primary-100/75 transition hover:text-white dark:text-white"
-      >Info
+      >{{ $t("info.infoName") }}
     </UButton>
     <template #popper>
       <div

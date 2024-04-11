@@ -80,8 +80,8 @@ devDependencies:
     specifier: ^0.6.9
     version: 0.6.10(nuxt@3.11.1)(rollup@4.13.0)(vite@5.2.2)(vue@3.4.21)
   nuxt-security:
-    specifier: ^1.2.2
-    version: 1.2.2(rollup@4.13.0)
+    specifier: ^1.3.1
+    version: 1.3.1(rollup@4.13.0)
   nuxt-typed-router:
     specifier: ^3.6.1
     version: 3.6.1(prettier@3.2.5)(rollup@4.13.0)
@@ -7675,8 +7675,8 @@ packages:
       - vue
     dev: true
 
-  /nuxt-security@1.2.2(rollup@4.13.0):
-    resolution: {integrity: sha512-/g2gjl4ReruHe2RDv+LkWvkNFXl2GMKLvDQgdEuMPTrL+9fYARkdCKC2iDvPaBp0EymlFDVGIjtlzLAxAWkgbg==}
+  /nuxt-security@1.3.1(rollup@4.13.0):
+    resolution: {integrity: sha512-IzomR5lj1wgk4eALQK7z1GoBZoNYkCmLs3dGeVRmAkFIGrLftZqRxwWDia1HYgqiF4nGInHu/JxGEEvuZaq0yg==}
     dependencies:
       '@nuxt/kit': 3.11.1(rollup@4.13.0)
       basic-auth: 2.0.1
@@ -7684,7 +7684,7 @@ packages:
       defu: 6.1.4
       nuxt-csurf: 1.5.1(rollup@4.13.0)
       pathe: 1.1.2
-      unplugin-remove: 0.1.7(rollup@4.13.0)
+      unplugin-remove: 1.0.1(rollup@4.13.0)
       xss: 1.0.15
     transitivePeerDependencies:
       - rollup
@@ -9937,8 +9937,8 @@ packages:
       - rollup
       - supports-color
 
-  /unplugin-remove@0.1.7(rollup@4.13.0):
-    resolution: {integrity: sha512-7BaEfgR/hMQRgaN++RAILeq9/wBrJPqCLRsQH+ow8979s2TE3TAFE4rQRmMUPcJ/w4ccsVSLepwGbimLMkQjyA==}
+  /unplugin-remove@1.0.1(rollup@4.13.0):
+    resolution: {integrity: sha512-gH0TlpRNRakOaXa/TmI9MwZltWcQPceqnG1q+w0/Y49XSX9Bvg6tnwGYJaMer436YqBZfHmcEpxbDJq6rNy8bA==}
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.13.0)
       magic-string: 0.30.8

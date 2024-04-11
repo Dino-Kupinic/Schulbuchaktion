@@ -21,6 +21,12 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy:
+        process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
+    },
+  },
   runtimeConfig: {
     public: {
       buildTime: Date.now(),
@@ -68,5 +74,6 @@ export default defineNuxtConfig({
     "nuxt-typed-router",
     "nuxt-viewport",
     "floating-vue/nuxt",
+    "nuxt-security",
   ],
 })

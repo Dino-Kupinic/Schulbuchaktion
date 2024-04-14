@@ -4,6 +4,8 @@
   <div>
     <p>Hallo</p>
     <NavBarLanguageToggle />
+
+    <UTable :columns="" />
   </div>
 </template>
 

@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 class AuthToken
 {
-    private $key;
+    private String $key;
     public String $jwtString;
     public bool $success;
 

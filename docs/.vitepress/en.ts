@@ -45,9 +45,26 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       text: "Introduction",
       collapsed: false,
       items: [
-        {text: "Getting Started", link: "getting-started"},
-        {text: "Authentication", link: "auth"},
-        {text: "Getting help", link: "help"},
+        {
+          text: "Getting Started",
+          link: "getting-started",
+        },
+        {
+          text: "Authentication",
+          link: "auth",
+        },
+        {
+          text: "Questions & Answers",
+          link: "q&a",
+        },
+        {
+          text: "Getting help",
+          link: "help",
+        },
+        {
+          text: "Report a bug",
+          link: "report-bug",
+        },
       ],
     },
     {
@@ -74,6 +91,58 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
   return [
     {
+      text: "Introduction",
+      collapsed: false,
+      items: [
+        {
+          text: "Setup",
+          link: "setup",
+        },
+        {
+          text: "Extending",
+          link: "extending",
+        },
+        {
+          text: "Deployment",
+          link: "deployment",
+        },
+        {
+          text: "Editing Documentation",
+          link: "documentation",
+        },
+      ],
+    },
+    {
+      text: "Conventions",
+      collapsed: false,
+      items: [
+        {
+          text: "Code Style",
+          link: "code-style",
+        },
+        {
+          text: "Commits",
+          link: "commits",
+        },
+        {
+          text: "Git Flow",
+          link: "git-flow",
+        },
+        {
+          text: "Issues",
+          link: "issues",
+        },
+        {
+          text: "Pull Requests",
+          link: "pull-requests",
+        },
+        {
+          text: "Milestones",
+          link: "milestones",
+        },
+      ],
+    },
+    {
       text: "Authentication",
       collapsed: false,
       items: [
@@ -83,5 +152,45 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Internationalization",
+      collapsed: false,
+      items: [
+        {
+          text: "i18n",
+          link: "internationalization",
+        },
+      ],
+    },
+    {
+      text: "Data Persistence",
+      collapsed: false,
+      items: [
+        {
+          text: "Database",
+          link: "database",
+        },
+      ],
+    },
+    {
+      text: "Authentication",
+      collapsed: false,
+      items: [
+        {
+          text: "LDAP",
+          link: "ldap",
+        },
+      ],
+    },
+    {
+      text: "Components",
+      collapsed: false,
+      items: [
+        {
+          text: "Info Button",
+          link: "info-button",
+        },
+      ],
+    }
   ]
 }

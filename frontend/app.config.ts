@@ -1,32 +1,32 @@
 export default defineAppConfig({
   ui: {
-    primary: 'blue',
-    gray: 'neutral',
+    primary: "blue",
+    gray: "neutral",
     container: {
-      constrained: '',
-      padding: 'p-2',
-      base: '',
+      constrained: "",
+      padding: "",
+      base: "",
     },
     button: {
       size: {
         "2xs": "text-xs",
-        "xs": "text-xs",
-        "sm": "text-sm",
-        "md": "text-sm",
-        "lg": "text-sm",
-        "xl": "text-base",
-        "3xl": "text-3xl"
-      }
+        xs: "text-xs",
+        sm: "text-sm",
+        md: "text-sm",
+        lg: "text-sm",
+        xl: "text-base",
+        "3xl": "text-3xl",
+      },
     },
     icons: {
-      dynamic: true
-    }
+      dynamic: true,
+    },
   },
   nuxtIcon: {
-    size: '24px', // default <Icon> size applied
-    class: 'icon', // default <Icon> class applied
+    size: "24px", // default <Icon> size applied
+    class: "icon", // default <Icon> class applied
     aliases: {
-      'nuxt': 'logos:nuxt-icon',
-    }
-  }
+      nuxt: "logos:nuxt-icon",
+    },
+  },
 })

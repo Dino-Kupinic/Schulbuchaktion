@@ -7,6 +7,8 @@ export const shared = defineConfig({
     hostname: "https://schulbuchaktion-docs.vercel.app",
   },
   head: [
+    ["link", {rel: "icon", type: "image/png", href: "/favicon.png"}],
+    ["link", {rel: "icon", type: "image/svg+xml", href: "/htl-steyr.svg"}],
     ["meta", {property: "og:type", content: "website"}],
     ["meta", {property: "og:locale", content: "en"}],
     ["meta", {property: "og:title", content: "Schulbuchaktion | Official Schulbuchaktion Documentation"}],
@@ -15,7 +17,7 @@ export const shared = defineConfig({
   ],
   themeConfig: {
     logo: {
-      src: "/assets/htl-logo.svg",
+      src: "/htl-logo.svg",
     },
     socialLinks: [
       {

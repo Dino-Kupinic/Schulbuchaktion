@@ -50,9 +50,26 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       text: "Einführung",
       collapsed: false,
       items: [
-        {text: "Erste Schritte", link: "getting-started"},
-        {text: "Authentifizierung", link: "auth"},
-        {text: "Hilfe", link: "help"},
+        {
+          text: "Erste Schritte",
+          link: "getting-started",
+        },
+        {
+          text: "Authentifizierung",
+          link: "auth",
+        },
+        {
+          text: "Fragen & Antworten",
+          link: "q&a",
+        },
+        {
+          text: "Hilfe",
+          link: "help",
+        },
+        {
+          text: "Fehler melden",
+          link: "report-bug",
+        },
       ],
     },
     {
@@ -79,6 +96,58 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
 function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
   return [
     {
+      text: "Einführung",
+      collapsed: false,
+      items: [
+        {
+          text: "Einrichten",
+          link: "setup",
+        },
+        {
+          text: "Erweitern",
+          link: "extending",
+        },
+        {
+          text: "Deployment",
+          link: "deployment",
+        },
+        {
+          text: "Dokumentation ändern",
+          link: "documentation",
+        },
+      ],
+    },
+    {
+      text: "Konventionen",
+      collapsed: false,
+      items: [
+        {
+          text: "Code Stil",
+          link: "code-style",
+        },
+        {
+          text: "Commits",
+          link: "commits",
+        },
+        {
+          text: "Git Flow",
+          link: "git-flow",
+        },
+        {
+          text: "Issues",
+          link: "issues",
+        },
+        {
+          text: "Pull Requests",
+          link: "pull-requests",
+        },
+        {
+          text: "Meilensteine",
+          link: "milestones",
+        },
+      ],
+    },
+    {
       text: "Authentifizierung",
       collapsed: false,
       items: [
@@ -88,6 +157,36 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Internationalisierung",
+      collapsed: false,
+      items: [
+        {
+          text: "i18n",
+          link: "internationalization",
+        },
+      ],
+    },
+    {
+      text: "Datenpersistenz",
+      collapsed: false,
+      items: [
+        {
+          text: "Datenbank",
+          link: "database",
+        },
+      ],
+    },
+    {
+      text: "Komponenten",
+      collapsed: false,
+      items: [
+        {
+          text: "Info Button",
+          link: "info-button",
+        },
+      ],
+    }
   ]
 }
 

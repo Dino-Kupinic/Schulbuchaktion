@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AuthTokenRepository;
 use DateTime;
 use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,25 +36,31 @@ class AuthToken
   private ?bool $authenticated = null;
 
 
-  public function __construct(String $username, bool $authenticated, EntityManagerInterface $em)
+  public function __construct(String $username = null, bool $authenticated, EntityManagerInterface $em = null)
   {
     if (empty(AuthToken::$key)) self::$key = file_get_contents( "$_SERVER[PWD]/config/jwt/private.pem");
+
+    $this->timeStamp = new DateTime();
+    $this->timeStamp->setTimezone(new DateTimeZone("Europe/Vienna"));
+
     if (!is_null($username) && $authenticated) {
       $this->username = $username;
       $this->authenticated = $authenticated;
-      $this->timeStamp = new DateTime();
-      $timestamp = (int)$this->timeStamp->format('U');
+      $timeStamp = (int)$this->timeStamp->format('U');
       $em->persist($this);
       $em->flush();
 
       $id = $this->id;
-      $this->jwtString = $this->encode(compact('id','username', 'authenticated', 'timestamp'));
+      $this->jwtString = $this->encode(compact('id','username', 'authenticated', 'timeStamp'));
       $em->persist($this);
       $em->flush();
     } else $this->jwtString = $this->encode(compact('authenticated'));
   }
 
-
+  public function setId(?int $id): void
+  {
+    $this->id = $id;
+  }
 
   public function getId(): ?int
   {
@@ -68,6 +75,13 @@ class AuthToken
   public function setJwtString(string $jwtString): static
   {
     $this->jwtString = $jwtString;
+
+    foreach ($this->decode($jwtString) as $key => $value) {
+      $function = 'set' . ucfirst($key);
+
+      if (strcmp($key, 'timeStamp') == 0) $this->timeStamp->setTimestamp($value);
+      else $this->$function($value);
+    }
 
     return $this;
   }

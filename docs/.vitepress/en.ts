@@ -85,6 +85,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigation Bar",
+          link: "navigation"
+        }
+      ]
+    },
   ]
 }
 
@@ -197,7 +207,7 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
-          text: "Navigating Bar",
+          text: "Navigation Bar",
           link: "navigation"
         }
       ]

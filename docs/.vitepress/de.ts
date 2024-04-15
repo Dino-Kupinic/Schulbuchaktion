@@ -90,6 +90,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigationsleiste",
+          link: "navigation"
+        }
+      ]
+    },
   ]
 }
 
@@ -186,7 +196,17 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "info-button",
         },
       ],
-    }
+    },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigationsleiste",
+          link: "navigation"
+        }
+      ]
+    },
   ]
 }
 

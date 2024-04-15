@@ -1,16 +1,11 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <UContainer
-      class="mt-2 flex underline-offset-1 w-[97%] h-11/12 border border-neutral-300 dark:bg-gray-900
-      dark:border-gray-700 items-center box-border rounded-lg shadow-lg justify-between"
+    class="h-11/12 mt-2 box-border flex w-[97%] items-center justify-between rounded-lg border border-neutral-300 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900"
   >
     <slot></slot>
   </UContainer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

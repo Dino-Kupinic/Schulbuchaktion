@@ -25,4 +25,7 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'eslint-config-prettier' => [
+        'version' => '9.1.0',
+    ],
 ];

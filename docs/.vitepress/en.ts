@@ -61,6 +61,10 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           text: "Getting help",
           link: "help",
         },
+        {
+          text: "Report a bug",
+          link: "report-bug",
+        },
       ],
     },
     {
@@ -155,6 +159,36 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         {
           text: "i18n",
           link: "internationalization",
+        },
+      ],
+    },
+    {
+      text: "Data Persistence",
+      collapsed: false,
+      items: [
+        {
+          text: "Database",
+          link: "database",
+        },
+      ],
+    },
+    {
+      text: "Authentication",
+      collapsed: false,
+      items: [
+        {
+          text: "LDAP",
+          link: "ldap",
+        },
+      ],
+    },
+    {
+      text: "Components",
+      collapsed: false,
+      items: [
+        {
+          text: "Info Button",
+          link: "info-button",
         },
       ],
     },

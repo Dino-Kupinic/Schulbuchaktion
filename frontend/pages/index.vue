@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <NavBar />
-  <UContainer class="p-5">
+  <div>
     <p>Hallo</p>
-  </UContainer>
+    <NavBarLanguageToggle />
+  </div>
 </template>
 
 <style scoped></style>

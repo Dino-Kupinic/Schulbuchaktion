@@ -1,7 +1,10 @@
 <?php
 namespace App\Service;
 
+use App\Entity\AuthToken;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Util\Exception;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class AuthService
 {
@@ -33,6 +36,13 @@ class AuthService
             $success = false;
         }
         return $success;
+    }
+
+    public function createToke(String $user, String $password, EntityManagerInterface $em): String
+    {
+      $status = $this->authenticateUser($user, $password);
+      $token = new AuthToken($user, $status, $em);
+      return $token;
     }
 }
 

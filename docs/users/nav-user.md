@@ -8,5 +8,4 @@ Button to sign out of your account.
 To get your account settings you can click on your name in
 the dropdown.
 
-::: danger
-If you have any problems using it go to [help](help)
+::: danger If you have any problems using it go to [help](help)

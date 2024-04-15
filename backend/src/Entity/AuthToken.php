@@ -3,11 +3,9 @@
 namespace App\Entity;
 
 use Exception;
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use JWT\Authentication\JWT;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 class AuthToken
 {

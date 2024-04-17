@@ -34,7 +34,7 @@
     "@nuxtjs/i18n": "^8.3.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
-    "@playwright/test": "^1.43.0",
+    "@playwright/test": "^1.43.1",
     "@types/node": "^20.12.2",
     "@vite-pwa/nuxt": "^0.6.0",
     "autoprefixer": "^10.4.19",

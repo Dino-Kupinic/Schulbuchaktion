@@ -1,21 +1,24 @@
 <script setup lang="ts">
-const fileInputRef = ref<HTMLInputElement | null>(null)
+const file = ref(null)
+const config = useRuntimeConfig()
 
-const uploadFile = async () => {
-  const file = fileInputRef.value?.files?.[0]
-  console.log(file)
+async function submitFile() {
+  if (!file.value) return
 
   const formData = new FormData()
-  formData.append("file", file)
-  console.log(formData)
+  // @ts-expect-error
+  formData.append("file", file.value.files[0])
+  // @ts-expect-error
+  formData.append("name", file.value.files[0].name)
 
   try {
-    const { data } = useBackendFetch(`/importXLSX`, {
+    const data = await $fetch(`/importXLSX`, {
       method: "POST",
       body: formData,
+      baseURL: config.public.baseURL,
     })
-    console.log(data.value)
     console.log("File uploaded successfully!")
+    console.log(data)
   } catch (error) {
     console.error("Error uploading file:", error)
   }
@@ -24,7 +27,7 @@ const uploadFile = async () => {
 
 <template>
   <div>
-    <UInput ref="fileInput" type="file" size="md" accept=".xlsx" />
-    <UButton label="Submit" @click="uploadFile()" />
+    <input ref="file" type="file" accept=".xlsx" />
+    <UButton label="Submit" @click="submitFile()" />
   </div>
 </template>

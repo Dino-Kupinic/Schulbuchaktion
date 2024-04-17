@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -10,11 +11,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class ImportController extends AbstractController
 {
   #[Route('/importXLSX', name: 'app_import')]
-  public function index(): Response
+  public function index(Request $request): Response
   {
+    $uploadedFile = $request->files->get('file');
 
-    return $this->render('import/index.html.twig', [
-      'controller_name' => 'ImportController',
-    ]);
+    if (!$uploadedFile) {
+      return new Response('No file uploaded', Response::HTTP_BAD_REQUEST);
+    }
+    return $this->json(["success" => true, "data" => $uploadedFile]);
   }
 }

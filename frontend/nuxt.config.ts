@@ -25,7 +25,6 @@ export default defineNuxtConfig({
     },
   ],
   security: {
-    corsHandler: false,
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
@@ -48,6 +47,7 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
+  routeRules: { "/api/**": { cors: true } },
   eslint: {},
   i18n: {
     locales: currentLocales,

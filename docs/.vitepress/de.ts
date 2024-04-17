@@ -66,6 +66,10 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           text: "Hilfe",
           link: "help",
         },
+        {
+          text: "Fehler melden",
+          link: "report-bug",
+        },
       ],
     },
     {
@@ -86,6 +90,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Benutzer",
+      collapsed: false,
+      items: [
+        {
+          text: "Verwenden von Benutzer-Einstellungen",
+          link: "nav-user",
+        }
+      ]
+    }
   ]
 }
 
@@ -153,6 +167,40 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Internationalisierung",
+      collapsed: false,
+      items: [
+        {
+          text: "i18n",
+          link: "internationalization",
+        },
+      ],
+    },
+    {
+      text: "Datenpersistenz",
+      collapsed: false,
+      items: [
+        {
+          text: "Datenbank",
+          link: "database",
+        },
+      ],
+    },
+    {
+      text: "Komponenten",
+      collapsed: false,
+      items: [
+        {
+          text: "Info Button",
+          link: "info-button",
+        },
+        {
+          text: "Navbar User",
+          link: "nav-user",
+        }
+      ],
+    }
   ]
 }
 

@@ -3,5 +3,10 @@
     "couldNotFetch": "Couldn't fetch",
     "infoBugReport": "Report bug",
     "infoName": "info"
+  },
+  "avatar": {
+    "logout": "Logout",
+    "myBooks": "My Books",
+    "allTeachers": "All Teachers"
   }
 }

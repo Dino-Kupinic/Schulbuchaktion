@@ -85,6 +85,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "User",
+      collapsed: false,
+      items: [
+        {
+          text: "Accessing User related Settings",
+          link: "nav-user",
+        }
+      ]
+    }
   ]
 }
 
@@ -190,6 +200,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Info Button",
           link: "info-button",
         },
+        {
+          text: "Navbar User",
+          link: "nav-user",
+        }
       ],
     }
   ]

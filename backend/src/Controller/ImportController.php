@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,21 @@ class ImportController extends AbstractController
     if (!$uploadedFile) {
       return new Response('No file uploaded', Response::HTTP_BAD_REQUEST);
     }
-    return $this->json(["success" => true, "data" => $uploadedFile]);
+    $filePath = $uploadedFile->getPathname();
+
+    $spreadsheet = IOFactory::load($filePath);
+
+    $worksheet = $spreadsheet->getActiveSheet();
+
+    $data = [];
+    foreach ($worksheet->getRowIterator() as $row) {
+      $rowData = [];
+      foreach ($row->getCellIterator() as $cell) {
+        $rowData[] = $cell->getValue();
+      }
+      $data[] = $rowData;
+    }
+
+    return $this->json(["success" => true, "data" => $data]);
   }
 }

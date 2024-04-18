@@ -76,11 +76,13 @@ class AuthToken
   {
     $this->jwtString = $jwtString;
 
-    foreach ($this->decode($jwtString) as $key => $value) {
-      $function = 'set' . ucfirst($key);
+    if (!$jwtString == '') {
+      foreach ($this->decode($jwtString) as $key => $value) {
+        $function = 'set' . ucfirst($key);
 
-      if (strcmp($key, 'timeStamp') == 0) $this->timeStamp->setTimestamp($value);
-      else $this->$function($value);
+        if (strcmp($key, 'timeStamp') == 0) $this->timeStamp->setTimestamp($value);
+        else $this->$function($value);
+      }
     }
 
     return $this;

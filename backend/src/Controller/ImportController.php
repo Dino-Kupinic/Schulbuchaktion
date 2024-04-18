@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Service\ImportService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,29 +11,28 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route("api/v1")]
 class ImportController extends AbstractController
 {
-  #[Route('/importXLSX', name: 'app_import')]
-  public function index(Request $request): Response
+  #[Route("/importXLSX", name: "app_import", methods: "POST")]
+  public function index(ImportService $importService, Request $request): Response
   {
-    $uploadedFile = $request->files->get('file');
+    $uploadedFile = $request->files->get("file");
 
     if (!$uploadedFile) {
-      return new Response('No file uploaded', Response::HTTP_BAD_REQUEST);
+      return new Response("No file provided", Response::HTTP_BAD_REQUEST);
     }
+
     $filePath = $uploadedFile->getPathname();
+    $data = $importService->parseFile($filePath);
 
-    $spreadsheet = IOFactory::load($filePath);
-
-    $worksheet = $spreadsheet->getActiveSheet();
-
-    $data = [];
-    foreach ($worksheet->getRowIterator() as $row) {
-      $rowData = [];
-      foreach ($row->getCellIterator() as $cell) {
-        $rowData[] = $cell->getValue();
-      }
-      $data[] = $rowData;
+    $header = $data[0];
+    if ($importService->isHeaderValid($header)) {
+      unset($data[0]);
+      $importService->persist($data);
+      return new Response("Success", Response::HTTP_OK);
     }
 
-    return $this->json(["success" => true, "data" => $data]);
+    return new Response(
+      "XLSX Header is invalid, did you provide the correct file?",
+      Response::HTTP_BAD_REQUEST
+    );
   }
 }

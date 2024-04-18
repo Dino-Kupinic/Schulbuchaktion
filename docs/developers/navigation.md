@@ -4,7 +4,7 @@ The **NavBar** is designed to be integrated as a **single component**. Its conte
 menu items) are inserted into the sub-components provided for this purpose.
 
 All components that are relevant for the navigation of this page are stored in the
-folder `Schoolbook action/frontend/components/nav`.
+folder `Schulbuchaktion/frontend/components/nav`.
 
 ## Hierarchy of the components
 

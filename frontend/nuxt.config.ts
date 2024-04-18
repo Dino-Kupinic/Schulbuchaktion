@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { currentLocales } from "./config/i18n"
+import pkg from "./package.json"
+import { execaSync } from "execa"
 
 export default defineNuxtConfig({
   app: {
@@ -28,6 +30,13 @@ export default defineNuxtConfig({
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
+    },
+  },
+  runtimeConfig: {
+    public: {
+      buildTime: Date.now(),
+      gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
+      clientVersion: pkg.version,
     },
   },
   colorMode: {
@@ -70,6 +79,7 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",
+    "floating-vue/nuxt",
     "nuxt-security",
   ],
 })

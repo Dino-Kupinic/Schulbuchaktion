@@ -61,6 +61,10 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           text: "Getting help",
           link: "help",
         },
+        {
+          text: "Report a bug",
+          link: "report-bug",
+        },
       ],
     },
     {
@@ -81,6 +85,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "User",
+      collapsed: false,
+      items: [
+        {
+          text: "Accessing User related Settings",
+          link: "nav-user",
+        }
+      ]
+    }
   ]
 }
 
@@ -166,6 +180,30 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Database",
           link: "database",
         },
+      ],
+    },
+    {
+      text: "Authentication",
+      collapsed: false,
+      items: [
+        {
+          text: "LDAP",
+          link: "ldap",
+        },
+      ],
+    },
+    {
+      text: "Components",
+      collapsed: false,
+      items: [
+        {
+          text: "Info Button",
+          link: "info-button",
+        },
+        {
+          text: "Navbar User",
+          link: "nav-user",
+        }
       ],
     }
   ]

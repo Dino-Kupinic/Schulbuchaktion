@@ -91,6 +91,16 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       ],
     },
     {
+      text: "Benutzer",
+      collapsed: false,
+      items: [
+        {
+          text: "Verwenden von Benutzer-Einstellungen",
+          link: "nav-user",
+        }
+      ]
+    },
+    {
       text: "Navigation",
       collapsed: false,
       items: [
@@ -195,6 +205,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Info Button",
           link: "info-button",
         },
+        {
+          text: "Navbar User",
+          link: "nav-user",
+        }
       ],
     },
     {

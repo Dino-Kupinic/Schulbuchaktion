@@ -12,6 +12,6 @@
   "author": "Nixx Labs",
   "license": "MIT",
   "devDependencies": {
-    "vitepress": "1.0.2"
+    "vitepress": "1.1.0"
   }
 }

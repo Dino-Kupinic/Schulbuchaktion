@@ -150,6 +150,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Milestones",
           link: "milestones",
         },
+        {
+          text: "API",
+          link: "api",
+        },
       ],
     },
     {
@@ -180,15 +184,9 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Database",
           link: "database",
         },
-      ],
-    },
-    {
-      text: "Authentication",
-      collapsed: false,
-      items: [
         {
-          text: "LDAP",
-          link: "ldap",
+          text: "XLSX Import",
+          link: "import",
         },
       ],
     },

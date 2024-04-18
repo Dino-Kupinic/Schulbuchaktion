@@ -13,6 +13,7 @@ class AuthService
         $success = null;
         try {
             $ds = ldap_connect($_ENV["LDAP_URL"]) or throw new Exception("Could not connect to LDAP server.");
+            ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
             if ($ds) {
                 /**
                  * LDAP-Request for school
@@ -26,7 +27,7 @@ class AuthService
                 /**
                  * LDAP-Request for Test-Environment
                  */
-                $userDN = "cn=$user,ou=TestUsers," . $_ENV["LDAP_BASE"];
+                $userDN = "cn=$user," . $_ENV["LDAP_BASE"];
 
                 $success =  @ldap_bind($ds, $userDN, $password) or throw new Exception("Error trying to bind: " . ldap_error($ds));
 

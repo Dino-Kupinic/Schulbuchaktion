@@ -1,10 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <p>Hallo</p>
-    <NavBarLanguageToggle />
-  </div>
+  <NavUserDropdown>
+    <NavUserAvatar username="DK" />
+  </NavUserDropdown>
 </template>
 
 <style scoped></style>

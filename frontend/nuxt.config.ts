@@ -15,11 +15,6 @@ export default defineNuxtConfig({
   },
   ssr: false,
   spaLoadingTemplate: true,
-  runtimeConfig: {
-    public: {
-      baseURL: process.env.BACKEND_API,
-    },
-  },
   components: [
     {
       path: "~/components",
@@ -34,6 +29,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      baseURL: process.env.BACKEND_API,
       buildTime: Date.now(),
       gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
       clientVersion: pkg.version,

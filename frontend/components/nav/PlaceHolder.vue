@@ -1,9 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <h1>Settings-Page</h1>
-  </div>
+  <UContainer class="h-12 w-48"><span>Placeholder</span></UContainer>
 </template>
 
 <style scoped></style>

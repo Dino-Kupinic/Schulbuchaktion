@@ -1,9 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <h1>Settings-Page</h1>
-  </div>
+  <div class="h-8 w-px border-r border-inherit"></div>
 </template>
 
 <style scoped></style>

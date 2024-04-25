@@ -4,7 +4,8 @@
   <div>
     <p>Hallo</p>
     <NavBarLanguageToggle />
+    <NavBarThemeToggle />
+    <BookOverviewTable />
   </div>
 </template>
-
 <style scoped></style>

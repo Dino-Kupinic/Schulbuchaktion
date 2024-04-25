@@ -47,8 +47,9 @@ class Book
     #[ORM\JoinColumn(nullable: false)]
     private ?Publisher $publisher = null;
 
-    #[ORM\ManyToOne(targetEntity: Years::class, inversedBy: 'books')]
-    private Collection $year;
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Years $year = null;
 
     #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'bookId')]
     private Collection $bookOrders;
@@ -58,7 +59,6 @@ class Book
 
     public function __construct()
     {
-        $this->year = new ArrayCollection();
         $this->bookOrders = new ArrayCollection();
     }
 
@@ -187,29 +187,34 @@ class Book
         return $this;
     }
 
-    /**
-     * @return Collection<int, Years>
-     */
-    public function getYear(): Collection
+    public function getYear(): ?Years
     {
         return $this->year;
     }
 
-    public function addYear(Years $year): static
+    public function setYear(?Years $year): static
     {
-        if (!$this->year->contains($year)) {
-            $this->year->add($year);
-        }
+        $this->year = $year;
 
         return $this;
     }
 
-    public function removeYear(Years $year): static
-    {
-        $this->year->removeElement($year);
+  public function getEbook(): ?bool
+  {
+    return $this->ebook;
+  }
 
-        return $this;
-    }
+  public function getEbookPlus(): ?bool
+  {
+    return $this->ebookPlus;
+  }
+
+  public function setBookOrders(Collection $bookOrders): void
+  {
+    $this->bookOrders = $bookOrders;
+  }
+
+
 
     /**
      * @return Collection<int, BookOrder>

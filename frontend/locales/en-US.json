@@ -2,11 +2,20 @@
   "info": {
     "couldNotFetch": "Couldn't fetch",
     "infoBugReport": "Report bug",
-    "infoName": "info"
+    "infoName": "Info"
   },
   "avatar": {
     "logout": "Logout",
     "myBooks": "My Books",
     "allTeachers": "All Teachers"
+  },
+  "settings": {
+    "settingName": "Settings"
+  },
+  "navLinks": {
+    "orderList": "Order List",
+    "classManagement": "Class Management",
+    "budgetOverview": "Budget Overview",
+    "import": "Import"
   }
 }

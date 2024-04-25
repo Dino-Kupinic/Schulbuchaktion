@@ -31,7 +31,7 @@ class ImportService
    * @param array $header first entry returned from `ImportService->parseFile()`
    * @return bool
    */
-  public function isHeaderValid(array $header)
+  public function isHeaderValid(array $header): bool
   {
     // this header is partial because some fields are "dynamic", though this check should be deterministic enough.
     $correctHeader = ["BNR", "Kurztitel", "Titel", "Listtyp", "Schulform", "Gegenstand", "Jahrgang", "Lehrerexemplar", "Anmerkung", "VNR", "Verlag", "Hauptbuch"];

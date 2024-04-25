@@ -13,6 +13,7 @@ use Exception;
 use JWT\Authentication\JWT;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
+use Symfony\Component\Validator\Constraints\Timezone;
 
 #[ORM\Entity(repositoryClass: AuthTokenRepository::class)]
 class AuthToken
@@ -35,13 +36,18 @@ class AuthToken
   #[ORM\Column]
   private ?bool $authenticated = null;
 
+  private static DateTimeZone $timezone;
 
-  public function __construct(String $username = null, bool $authenticated, EntityManagerInterface $em = null)
+
+  public function __construct(string $username = null, bool $authenticated, EntityManagerInterface $em = null)
   {
-    if (empty(AuthToken::$key)) self::$key = file_get_contents( "$_SERVER[PWD]/config/jwt/private.pem");
+    if (empty(AuthToken::$key)) {
+      self::$key = file_get_contents("$_SERVER[PWD]/config/jwt/private.pem");
+      self::$timezone = new DateTimeZone("Europe/Vienna");
+    }
 
     $this->timeStamp = new DateTime();
-    $this->timeStamp->setTimezone(new DateTimeZone("Europe/Vienna"));
+    $this->timeStamp->setTimezone(self::$timezone);
 
     if (!is_null($username) && $authenticated) {
       $this->username = $username;
@@ -51,10 +57,11 @@ class AuthToken
       $em->flush();
 
       $id = $this->id;
-      $this->jwtString = $this->encode(compact('id','username', 'authenticated', 'timeStamp'));
+      $this->jwtString = $this->encode(compact('id', 'username', 'authenticated', 'timeStamp'));
       $em->persist($this);
       $em->flush();
-    } else $this->jwtString = $this->encode(compact('authenticated'));
+    } else
+    $this->jwtString = $this->encode(compact('authenticated'));
   }
 
   public function setId(?int $id): void
@@ -105,23 +112,25 @@ class AuthToken
     return $this->timeStamp;
   }
 
-  public function setTimeStamp(DateTimeInterface $timeStamp): static
+  public function setTimeStamp(int $timeStamp): static
   {
-    $this->timeStamp = $timeStamp;
+    $this->timeStamp = new DateTime();
+    $this->timeStamp->setTimezone(self::$timezone);
+    $this->timeStamp->setTimestamp($timeStamp);
 
     return $this;
   }
 
   public function isAuthenticated(): ?bool
   {
-      return $this->authenticated;
+    return $this->authenticated;
   }
 
   public function setAuthenticated(bool $authenticated): static
   {
-      $this->authenticated = $authenticated;
+    $this->authenticated = $authenticated;
 
-      return $this;
+    return $this;
   }
 
   private function encode(array $data): string
@@ -133,7 +142,7 @@ class AuthToken
     }
   }
 
-  private function decode($token=null): array
+  private function decode($token = null): array
   {
     if (is_null($token)) $token = $this->jwtString;
     try {
@@ -143,14 +152,17 @@ class AuthToken
     }
   }
 
-  public function isValid(AuthToken $otherToken): bool
+  public function isValid(AuthToken $otherToken = null): bool
   {
-     if (empty(array_diff($this->decode(), $this->decode($otherToken->jwtString)))){
-       $sig1 = explode('.', $this->jwtString)[2];
-       $sig2 = explode('.', $otherToken->jwtString)[2];
-       return strcmp($sig1, $sig2) == 0;
-     }
-     return false;
+    try {
+      if (empty(array_diff($this->decode(), $this->decode($otherToken->jwtString)))) {
+        $sig1 = explode('.', $this->jwtString)[2];
+        $sig2 = explode('.', $otherToken->jwtString)[2];
+        return strcmp($sig1, $sig2) == 0;
+      } else return false;
+    } catch (JWTDecodeFailureException $e) {
+      return false;
+    }
   }
 
   public function __toString(): string

@@ -91,7 +91,17 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Accessing User related Settings",
-          link: "nav-user",
+          link: "nav-user"
+        }
+      ]
+    },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigation Bar",
+          link: "navigation"
         }
       ]
     }
@@ -150,6 +160,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Milestones",
           link: "milestones",
         },
+        {
+          text: "API",
+          link: "api",
+        },
       ],
     },
     {
@@ -178,12 +192,16 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Database",
-          link: "database",
+          link: "database"
+        },
+        {
+          text: "XLSX Import",
+          link: "import",
         },
         {
           text: "Services",
           link: "services",
-        }
+        },
       ],
     },
     {
@@ -192,14 +210,18 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "LDAP",
-          link: "ldap",
-        },
-      ],
+          link: "ldap"
+        }
+      ]
     },
     {
       text: "Components",
       collapsed: false,
       items: [
+        {
+          text: "Navigation Bar",
+          link: "navigation"
+        },
         {
           text: "Info Button",
           link: "info-button",

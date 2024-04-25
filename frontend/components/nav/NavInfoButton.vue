@@ -33,7 +33,7 @@ const nuxtVersion = versionNuxt
           >)
         </time>
 
-        <UIcon class="h-5 w-5" name="i-heroicons-calendar-days-solid" />
+        <UIcon class="h-5 w-5" name="i-material-symbols-book-2" />
         <p v-if="appVersion">
           Schulbuchaktion
           <span
@@ -42,18 +42,18 @@ const nuxtVersion = versionNuxt
         </p>
         <div v-else>{{ $t("info.couldNotFetch") }}</div>
 
-        <UIcon class="h-5 w-5" name="i-heroicons-calendar-days-solid" />
+        <UIcon class="h-5 w-5" name="i-devicon-vuejs" />
         <code v-if="vueVersion">Vue {{ vueVersion }}</code>
         <div v-else>{{ $t("info.couldNotFetch") }}</div>
 
-        <UIcon class="h-5 w-5" name="i-heroicons-calendar-days-solid" />
+        <UIcon class="h-5 w-5" name="i-logos-nuxt-icon" />
         <code v-if="nuxtVersion">Nuxt {{ nuxtVersion }}</code>
         <div v-else>{{ $t("info.couldNotFetch") }}</div>
       </div>
       <div class="w-full p-2 text-center">
         <NuxtLink
           class="text-primary hover:text-primary-800"
-          to="https://github.com/Dino-Kupinic/UntisPlanner/issues"
+          to="https://github.com/Dino-Kupinic/Schulbuchaktion/issues"
           target="_blank"
           title="Head to Issues"
         >

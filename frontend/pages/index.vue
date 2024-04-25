@@ -4,9 +4,8 @@
   <div>
     <p>Hallo</p>
     <NavBarLanguageToggle />
-
-    <UTable :columns="" />
+    <NavBarThemeToggle />
+    <BookOverviewTable />
   </div>
 </template>
-
 <style scoped></style>

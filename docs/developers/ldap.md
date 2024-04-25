@@ -5,7 +5,12 @@ to authenticate the given user in combination with the given password. The authe
 return a [JWT](https://jwt.io).
 :::
 
-## LoginController Documentation
+::: warning
+You have to configure `config/packages/lexik_jwt_authentication.yaml` first, to run<br> `php bin/console lexik:jwt:generate-keypair`!
+:::
+
+
+## LoginController
 
 ### Overview
 The `LoginController` is a Symfony controller responsible for handling authentication requests. It contains an action
@@ -51,7 +56,7 @@ class LoginController extends AbstractController
 + **Route**: The action method is mapped to the /ldaps route.
 
 
-## AuthService Documentation
+## AuthService
 
 ### Overview
 The `AuthService` class provides functionality for authenticating users against an LDAP server.
@@ -93,7 +98,7 @@ class AuthService
 + **Authentication**: It attempts to bind to the LDAP server using the provided user credentials ($user and $password) within the specified LDAP base.
 + **Error Handling**: It catches any exceptions that occur during the authentication process and returns false in case of failure.
 
-## AuthToken Documentation
+## AuthToken
 
 ### Overview
 The `AuthToken` class is responsible for encoding and decoding JSON Web Tokens (JWTs) using a provided key.

@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <UContainer class="h-12 w-48"><span>Placeholder</span></UContainer>
+  <div class="h-px w-full border-b border-inherit"></div>
 </template>
 
 <style scoped></style>

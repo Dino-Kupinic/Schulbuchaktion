@@ -8,10 +8,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TestingController extends AbstractController
 {
-    #[Route('/test/example', name: 'app_testing')]
-    public function index(): Response
-    {
-        return $this->json(['name' => 'John']);
-    }
-
+  #[Route('/test/example', name: 'app_testing')]
+  public function index(): Response
+  {
+    return $this->json(['name' => 'John']);
+  }
 }

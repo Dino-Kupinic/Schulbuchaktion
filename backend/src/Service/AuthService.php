@@ -3,11 +3,8 @@ namespace App\Service;
 
 use App\Entity\AuthToken;
 use App\Repository\AuthTokenRepository;
-use DateTime;
-use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Util\Exception;
-use function Symfony\Component\Clock\now;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class AuthService

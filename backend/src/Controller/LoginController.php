@@ -2,9 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\AuthTokenOld;
-use App\Entity\AuthToken;
-use App\Kernel;
 use App\Repository\AuthTokenRepository;
 use App\Service\AuthService;
 use Doctrine\ORM\EntityManagerInterface;

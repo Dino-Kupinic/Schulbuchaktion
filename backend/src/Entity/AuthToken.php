@@ -13,7 +13,6 @@ use Exception;
 use JWT\Authentication\JWT;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
-use Symfony\Component\Validator\Constraints\Timezone;
 
 #[ORM\Entity(repositoryClass: AuthTokenRepository::class)]
 class AuthToken

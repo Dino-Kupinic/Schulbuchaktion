@@ -1,15 +1,14 @@
 type Book = {
-  id: number
   orderNumber: number
-  shortTitle: string
   title: string
+  shortTitle?: string
   schoolForm: number
-  description: string
+  description?: string
   bookPrice: number
   ebook: boolean
   ebookPlus: boolean
-  subject: Subject
-  publisher: Publisher
+  subject?: Partial<Subject>
+  publisher?: Partial<Publisher>
   year: Years[]
   grade: number
 }

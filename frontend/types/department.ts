@@ -4,6 +4,6 @@ type Department = {
   budget: number
   usedBudget: number
   schoolClasses: SchoolClass[]
-  validFrom: Date
-  validTo: Date
+  validFrom?: Date
+  validTo?: Date
 }

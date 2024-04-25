@@ -11,7 +11,7 @@ class SubjectService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createSubject($subject, EntityManagerInterface $em)
+  public function createSubject($subject, EntityManagerInterface $em): void
   {
     $subjectAdd = new Subject();
     $subjectAdd->setName($subject->getName());
@@ -19,24 +19,24 @@ class SubjectService
     $em->flush();
   }
 
-  public function dropSubject($id, EntityManagerInterface $em)
+  public function dropSubject($id, EntityManagerInterface $em): void
   {
     $subject = $em->getRepository(Subject::class)->find($id);
     $em->remove($subject);
     $em->flush();
   }
 
-  public function getSubjects(SubjectRepository $subjectRepository)
+  public function getSubjects(SubjectRepository $subjectRepository): array
   {
     return $subjectRepository->findAll();
   }
 
-  public function getSubjectById($id, SubjectRepository $subjectRepository)
+  public function getSubjectById($id, SubjectRepository $subjectRepository): Subject
   {
     return $subjectRepository->find($id);
   }
 
-  public function updateSubjectName($subject, EntityManagerInterface $em)
+  public function updateSubjectName($subject, EntityManagerInterface $em): void
   {
     $subjectName = $em->getRepository(Subject::class)->find($subject->getId());
     $subjectName->setName($subject->getName());

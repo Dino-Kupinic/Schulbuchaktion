@@ -11,7 +11,7 @@ class DepartmentService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createDepartment($department, EntityManagerInterface $em)
+  public function createDepartment($department, EntityManagerInterface $em): void
   {
     $departmentAdd = new Department();
     $departmentAdd->setName($department->getName());
@@ -23,7 +23,7 @@ class DepartmentService
     $em->flush();
   }
 
-  public function updateDepartment($department, EntityManagerInterface $em)
+  public function updateDepartment($department, EntityManagerInterface $em): void
   {
     $departmentUpdate = $em->getRepository(Department::class)->find($department->getId());
     $departmentUpdate->setName($department->getName());
@@ -34,52 +34,52 @@ class DepartmentService
     $em->flush();
   }
 
-  public function dropDepartment($id, EntityManagerInterface $em)
+  public function dropDepartment($id, EntityManagerInterface $em): void
   {
     $department = $em->getRepository(Department::class)->find($id);
     $em->remove($department);
     $em->flush();
   }
 
-  public function getDepartments(DepartmentRepository $departmentRepository)
+  public function getDepartments(DepartmentRepository $departmentRepository): array
   {
     return $departmentRepository->findAll();
   }
 
-  public function getDepartmentById($id, DepartmentRepository $departmentRepository)
+  public function getDepartmentById($id, DepartmentRepository $departmentRepository): Department
   {
     return $departmentRepository->find($id);
   }
 
-  public function updateDepartmentName($department, EntityManagerInterface $em)
+  public function updateDepartmentName($department, EntityManagerInterface $em): void
   {
     $departmentName = $em->getRepository(Department::class)->find($department->getId());
     $departmentName->setName($department->getName());
     $em->flush();
   }
 
-  public function updateDepartmentBudget($department, EntityManagerInterface $em)
+  public function updateDepartmentBudget($department, EntityManagerInterface $em): void
   {
     $departmentBudget = $em->getRepository(Department::class)->find($department->getId());
     $departmentBudget->setBudget($department->getBudget());
     $em->flush();
   }
 
-  public function updateDepartmentUsedBudget($department, EntityManagerInterface $em)
+  public function updateDepartmentUsedBudget($department, EntityManagerInterface $em): void
   {
     $departmentUsedBudget = $em->getRepository(Department::class)->find($department->getId());
     $departmentUsedBudget->setUsedBudget($department->getUsedBudget());
     $em->flush();
   }
 
-  public function updateDepartmentValidFrom($department, EntityManagerInterface $em)
+  public function updateDepartmentValidFrom($department, EntityManagerInterface $em): void
   {
     $departmentValidFrom = $em->getRepository(Department::class)->find($department->getId());
     $departmentValidFrom->setValidFrom($department->getValidFrom());
     $em->flush();
   }
 
-  public function updateDepartmentValidTo($department, EntityManagerInterface $em)
+  public function updateDepartmentValidTo($department, EntityManagerInterface $em): void
   {
     $departmentValidTo = $em->getRepository(Department::class)->find($department->getId());
     $departmentValidTo->setValidTo($department->getValidTo());

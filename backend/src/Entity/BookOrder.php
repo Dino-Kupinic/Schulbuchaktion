@@ -65,6 +65,11 @@ class BookOrder
         return $this;
     }
 
+    public function getTeacherCopy(): ?bool
+    {
+      return $this->teacherCopy;
+    }
+
     public function getSchoolClass(): ?SchoolClass
     {
         return $this->schoolClass;
@@ -124,4 +129,6 @@ class BookOrder
 
         return $this;
     }
+
+
 }

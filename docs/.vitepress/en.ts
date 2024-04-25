@@ -1,4 +1,4 @@
-import {DefaultTheme, defineConfig} from "vitepress"
+import { DefaultTheme, defineConfig } from "vitepress"
 
 export const en = defineConfig({
   lang: "en-US",
@@ -8,34 +8,34 @@ export const en = defineConfig({
     sidebar: {
       "/users/": {
         base: "/users/",
-        items: sidebarUsers(),
+        items: sidebarUsers()
       },
       "/developers/": {
         base: "/developers/",
-        items: sidebarDevelopers(),
-      },
+        items: sidebarDevelopers()
+      }
     },
     footer: {
       message: "Released under the MIT License.",
-      copyright: "Copyright © 2024-present Nixx Labs",
-    },
-  },
+      copyright: "Copyright © 2024-present Nixx Labs"
+    }
+  }
 })
 
 function nav(): DefaultTheme.NavItem[] {
   return [
     {
       text: "Home",
-      link: "/",
+      link: "/"
     },
     {
       text: "Users",
-      link: "/users/getting-started",
+      link: "/users/getting-started"
     },
     {
       text: "Developers",
-      link: "/developers/setup",
-    },
+      link: "/developers/setup"
+    }
   ]
 }
 
@@ -47,25 +47,25 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Getting Started",
-          link: "getting-started",
+          link: "getting-started"
         },
         {
           text: "Authentication",
-          link: "auth",
+          link: "auth"
         },
         {
           text: "Questions & Answers",
-          link: "q&a",
+          link: "q&a"
         },
         {
           text: "Getting help",
-          link: "help",
+          link: "help"
         },
         {
           text: "Report a bug",
-          link: "report-bug",
-        },
-      ],
+          link: "report-bug"
+        }
+      ]
     },
     {
       text: "Customization",
@@ -73,17 +73,17 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Changing the theme colors",
-          link: "theme-colors",
+          link: "theme-colors"
         },
         {
           text: "Altering between light and dark mode",
-          link: "light-dark-mode",
+          link: "light-dark-mode"
         },
         {
           text: "Language",
-          link: "language-settings",
-        },
-      ],
+          link: "language-settings"
+        }
+      ]
     },
     {
       text: "User",
@@ -91,7 +91,7 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Accessing User related Settings",
-          link: "nav-user",
+          link: "nav-user"
         }
       ]
     },
@@ -104,7 +104,7 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           link: "navigation"
         }
       ]
-    },
+    }
   ]
 }
 
@@ -116,21 +116,21 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Setup",
-          link: "setup",
+          link: "setup"
         },
         {
           text: "Extending",
-          link: "extending",
+          link: "extending"
         },
         {
           text: "Deployment",
-          link: "deployment",
+          link: "deployment"
         },
         {
           text: "Editing Documentation",
-          link: "documentation",
-        },
-      ],
+          link: "documentation"
+        }
+      ]
     },
     {
       text: "Conventions",
@@ -138,29 +138,29 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Code Style",
-          link: "code-style",
+          link: "code-style"
         },
         {
           text: "Commits",
-          link: "commits",
+          link: "commits"
         },
         {
           text: "Git Flow",
-          link: "git-flow",
+          link: "git-flow"
         },
         {
           text: "Issues",
-          link: "issues",
+          link: "issues"
         },
         {
           text: "Pull Requests",
-          link: "pull-requests",
+          link: "pull-requests"
         },
         {
           text: "Milestones",
-          link: "milestones",
-        },
-      ],
+          link: "milestones"
+        }
+      ]
     },
     {
       text: "Authentication",
@@ -168,9 +168,9 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "LDAP",
-          link: "ldap",
-        },
-      ],
+          link: "ldap"
+        }
+      ]
     },
     {
       text: "Internationalization",
@@ -178,9 +178,9 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "i18n",
-          link: "internationalization",
-        },
-      ],
+          link: "internationalization"
+        }
+      ]
     },
     {
       text: "Data Persistence",
@@ -188,9 +188,9 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "Database",
-          link: "database",
-        },
-      ],
+          link: "database"
+        }
+      ]
     },
     {
       text: "Authentication",
@@ -198,31 +198,25 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       items: [
         {
           text: "LDAP",
-          link: "ldap",
-        },
-      ],
+          link: "ldap"
+        }
+      ]
     },
     {
       text: "Components",
       collapsed: false,
       items: [
         {
+          text: "Navigation Bar",
+          link: "navigation"
+        },
+        {
           text: "Info Button",
-          link: "info-button",
+          link: "info-button"
         },
         {
           text: "Navbar User",
-          link: "nav-user",
-        }
-      ],
-    },
-    {
-      text: "Navigation",
-      collapsed: false,
-      items: [
-        {
-          text: "Navigation Bar",
-          link: "navigation"
+          link: "nav-user"
         }
       ]
     }

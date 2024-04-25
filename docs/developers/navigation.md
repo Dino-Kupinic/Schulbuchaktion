@@ -1,24 +1,14 @@
-# Navigation on this website
+# Navigation
 
-The **NavBar** is designed to be integrated as a **single component**. Its contents (the individual
-menu items) are inserted into the sub-components provided for this purpose.
+All components that are relevant can be found in `/frontend/components/nav`.
 
-All components that are relevant for the navigation of this page are stored in the
-folder `Schulbuchaktion/frontend/components/nav`.
+## Hierarchy
 
-## Hierarchy of the components
-
-The hierarchy described here is to be read from top to bottom (1. is the topmost component)
-
-1. **NavBar**: the main container in which all other components are located
-2. **NavBarBox**: here are the two components responsible for desktop and mobile view
-3.
-
-- NavBarDesktop**: the desktop view of the navigation.
-- NavBarMobile**: the mobile view of the navigation.
-
-4. **NavBarContainer**: the actual container that the user sees
-5. for **NavBarDesktop:**
+1. **NavBar**: main container in which all other components are located
+2. **NavBarBox**: the two components responsible for desktop and mobile view
+3. **NavBarDesktop** and **NavBarMobile**
+4. **NavBarContainer**
+5. **NavBarDesktop:**
 
   - **NavBarLeftSection**: this component contains all menu item components that are to be displayed on the left-hand side of the
     navigation bar, e.g:
@@ -32,7 +22,7 @@ The hierarchy described here is to be read from top to bottom (1. is the topmost
   - **NavBarRightSection**: this component contains all menu item components that are to be displayed on the right side of the
     navigation bar should be displayed
 
-6. for **NavBarMobile:**
+6. **NavBarMobile:**
    Here is the **NavBarBurgerMenu**, this is the menu that is displayed when the button is clicked.
    Components that are to be displayed in this menu are inserted here.
   - **NavBarBurgerMenu**: this is how these components are inserted into the burger menu:
@@ -44,4 +34,4 @@ The hierarchy described here is to be read from top to bottom (1. is the topmost
       <NavUserAvatar />
       <NavUserDropdown />
     </UContainer>
-    ```
+   ```

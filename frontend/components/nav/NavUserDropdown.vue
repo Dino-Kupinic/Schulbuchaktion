@@ -3,23 +3,26 @@ const items = [
   [
     {
       label: "Dino Kupinic",
+      link: "#",
       slot: "account",
-      disabled: true,
     },
   ],
   [
     {
-      label: "My Books",
+      label: "myBooks",
+      link: "#",
       icon: "i-heroicons-book-open",
     },
     {
-      label: "My Teachers",
+      label: "allTeachers",
+      link: "#",
       icon: "i-heroicons-user-group-solid",
     },
   ],
   [
     {
-      label: "Sign out",
+      label: "logout",
+      link: "#",
     },
   ],
 ]
@@ -43,14 +46,16 @@ const items = [
 
     <template #item="{ item }">
       <UIcon
-        v-if="item.label != 'Sign out'"
+        v-if="item.label != 'logout'"
         :name="item.icon"
         class="h-4 w-4 text-gray-400 dark:text-gray-500"
       />
-      <ULink v-if="item.label != 'Sign out'" class="truncate">{{
-        item.label
+      <ULink v-if="item.label != 'logout'" class="truncate" :to="item.link">{{
+        $t("avatar." + item.label)
       }}</ULink>
-      <UButton v-else variant="outline" color="red">{{ item.label }}</UButton>
+      <UButton v-else variant="outline" color="red">{{
+        $t("avatar." + item.label)
+      }}</UButton>
     </template>
   </UDropdown>
 </template>

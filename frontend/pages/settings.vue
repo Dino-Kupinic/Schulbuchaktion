@@ -5,6 +5,7 @@
     <h1>Settings-Page</h1>
     <NavUser />
     <NavInfoButton />
+    <NavBarLanguageToggle />
   </div>
 </template>
 

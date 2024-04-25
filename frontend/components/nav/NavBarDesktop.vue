@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import NavBarContainer from "~/components/nav/NavBarContainer.vue"
-import NavBarLogoLink from "~/components/nav/NavBarLogoLink.vue"
 const links = [
   { title: "orderList", link: "/settings" },
-  { title: "classManagement", link: "/settings" },
-  { title: "budgetOverview", link: "/settings" },
-  { title: "import", link: "/settings" },
+  { title: "classManagement", link: "/classes" },
+  { title: "budgetOverview", link: "/budget" },
+  { title: "import", link: "/import" },
 ]
 </script>
 
@@ -13,7 +11,12 @@ const links = [
   <NavBarContainer>
     <NavBarLeftSection>
       <NavBarLogoLink />
-      <NavLink v-for="link in links" :title="link.title" :link="link.link" />
+      <NavLink
+        v-for="link in links"
+        :key="link.link"
+        :title="link.title"
+        :link="link.link"
+      />
     </NavBarLeftSection>
 
     <NavBarRightSection>

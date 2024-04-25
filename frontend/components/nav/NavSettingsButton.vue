@@ -1,5 +1,12 @@
 <script setup lang="ts">
-const props = defineProps({ styling: { type: Boolean, default: true } })
+const props = withDefaults(
+  defineProps<{
+    styling: boolean
+  }>(),
+  {
+    styling: true,
+  },
+)
 </script>
 
 <template>

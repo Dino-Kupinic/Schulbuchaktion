@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import NavBarContainer from "~/components/nav/NavBarContainer.vue"
-import NavBarLogoLink from "~/components/nav/NavBarLogoLink.vue"
-
 const burgerMenuVisible = ref<boolean>(false)
 </script>
 

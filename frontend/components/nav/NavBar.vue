@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import NavBarBox from "~/components/nav/NavBarBox.vue"
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <UContainer class="box-border flex h-20 w-full justify-center"

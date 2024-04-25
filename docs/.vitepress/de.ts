@@ -185,6 +185,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Datenbank",
           link: "database",
         },
+        {
+          text: "Services",
+          link: "services",
+        }
       ],
     },
     {

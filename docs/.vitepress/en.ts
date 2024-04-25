@@ -180,6 +180,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Database",
           link: "database",
         },
+        {
+          text: "Services",
+          link: "services",
+        }
       ],
     },
     {

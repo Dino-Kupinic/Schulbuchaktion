@@ -1,9 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <h1>Settings-Page</h1>
-  </div>
+  <ULink to="/">
+    <TheLogo class="h-12"></TheLogo>
+  </ULink>
 </template>
 
 <style scoped></style>

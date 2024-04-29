@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route("api/v1")]
 class LoginController extends AbstractController
 {
-  #[Route(name: 'index')]
+  #[Route("/login", name: 'index')]
   public function index(AuthService $authService, Request $request): Response
   {
     $user = $request->get("usr");

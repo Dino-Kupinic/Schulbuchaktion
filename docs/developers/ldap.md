@@ -14,7 +14,7 @@ You have to configure `config/packages/lexik_jwt_authentication.yaml` first, to 
 
 ### Overview
 The `LoginController` is a Symfony controller responsible for handling authentication requests. It contains an action
-method `index()` mapped to the route `/api/v1`, which authenticates users and generates authentication tokens.
+method `index()` mapped to the route `/api/v1/login`, which authenticates users and generates authentication tokens.
 
 ### Code Breakdown
 ```php
@@ -54,7 +54,7 @@ class LoginController extends AbstractController
   using an instance of AuthService.
 + **Token Generation**: Upon successful authentication, it generates an authentication token using the AuthToken class and
   returns it as a JSON response.
-+ **Route**: The action method is mapped to the /api/v1 route.
++ **Route**: The action method is mapped to the `/api/v1/login` route.
 
 
 ## AuthService

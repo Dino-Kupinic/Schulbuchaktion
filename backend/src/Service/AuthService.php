@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Entity\AuthToken;
@@ -67,7 +68,7 @@ class AuthService
       $token = new AuthToken();
       $token->setJwtString($JWTString);
       $dbToken = $this->em->getRepository(AuthToken::class)->find($token->getId());
-      if ($token->isValid($dbToken)){
+      if ($token->isValid($dbToken)) {
         $this->updateTime($dbToken);
         return true;
       } else return false;

@@ -1,7 +1,18 @@
 <script setup lang="ts">
+const userInput = ref<string>("")
+
+watch(userInput, async () => {
+  console.log(userInput.value)
+})
+
 defineProps<{
   label: string
   margin: string
+  type?: string
+}>()
+
+defineEmits<{
+  passUserInput: [value: string]
 }>()
 </script>
 
@@ -10,7 +21,12 @@ defineProps<{
     <p class="mb-3">{{ label }}</p>
     <slot />
   </UContainer>
-  <UInput :class="margin"></UInput>
+  <UInput
+    :type="type"
+    :class="margin"
+    :model-value="userInput"
+    @input="$emit('passUserInput', userInput)"
+  ></UInput>
 </template>
 
 <style scoped></style>

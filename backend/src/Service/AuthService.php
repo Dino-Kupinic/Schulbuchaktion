@@ -25,7 +25,7 @@ class AuthService
 
   public function authenticateUser($user, $password): bool
   {
-    $success = null;
+    $success = false;
     try {
       $ds = ldap_connect($_ENV["LDAP_URL"]) or throw new Exception("Could not connect to LDAP server.");
       ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -48,7 +48,7 @@ class AuthService
 
         ldap_close($ds);
       }
-    } catch (Exception $e) {
+    } catch (Exception) {
       $success = false;
     }
     return $success;
@@ -85,7 +85,7 @@ class AuthService
 
   }
 
-  public function optimizeTable(): void
+  private function optimizeTable(): void
   {
     $now = time() + 3600 * (int)$_ENV['HOURS_AHEAD'];
     $timeOuteDate = date('c', $now - $_ENV['TOKEN_TIMEOUT']);
@@ -98,4 +98,4 @@ class AuthService
   }
 }
 
-?>
+

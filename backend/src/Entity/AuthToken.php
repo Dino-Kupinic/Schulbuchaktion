@@ -59,8 +59,7 @@ class AuthToken
       $this->jwtString = $this->encode(compact('id', 'username', 'authenticated', 'timeStamp'));
       $em->persist($this);
       $em->flush();
-    } else
-    $this->jwtString = $this->encode(compact('authenticated'));
+    } else $this->jwtString = $this->encode(compact('authenticated'));
   }
 
   public function setId(?int $id): void

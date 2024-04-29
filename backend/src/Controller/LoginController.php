@@ -11,30 +11,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+#[Route('/login', name: 'login.')]
 class LoginController extends AbstractController
 {
-  #[Route('/ldaps', name: 'app_ldap')]
-  public function index(AuthService $authService, Request $request, EntityManagerInterface $em, AuthTokenRepository $repo): Response
+  #[Route('/', name: 'index')]
+  public function index(AuthService $authService, Request $request): Response
   {
     $user = $request->get("usr");
     $pwd = $request->get("pwd");
-    $test = $request->get("tk", '');
 
-    //$token = $authService->createToken($user, $pwd);
-    try {
-      $token = $authService->checkToken($test);
-      if (!$token) {
-        return new JsonResponse(["isValid" => false]);
-      }
-    } catch (Exception) {
-      return new JsonResponse(["isValid" => false]);
-    }
+    $token = $authService->createToken($user, $pwd);
 
     #$token->setValue(['user'=>$user, 'authorized'=>$status]);
     //$authService->optimizeTable();
 
 
-    return new JsonResponse(['isValid' => $token]);
+    return new JsonResponse(['token' => $token]);
   }
 }

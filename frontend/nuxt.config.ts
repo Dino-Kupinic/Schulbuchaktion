@@ -29,6 +29,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      baseURL: process.env.BACKEND_API,
       buildTime: Date.now(),
       gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
       clientVersion: pkg.version,
@@ -51,6 +52,7 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
+  routeRules: { "/api/**": { cors: true } },
   eslint: {},
   i18n: {
     locales: currentLocales,

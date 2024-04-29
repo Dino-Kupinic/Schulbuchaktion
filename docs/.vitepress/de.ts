@@ -90,6 +90,26 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
+    {
+      text: "Benutzer",
+      collapsed: false,
+      items: [
+        {
+          text: "Verwenden von Benutzer-Einstellungen",
+          link: "nav-user",
+        }
+      ]
+    },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigationsleiste",
+          link: "navigation"
+        }
+      ]
+    },
   ]
 }
 
@@ -175,6 +195,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Datenbank",
           link: "database",
         },
+        {
+          text: "Services",
+          link: "services",
+        }
       ],
     },
     {
@@ -182,11 +206,19 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
+          text: "Navigationsleiste",
+          link: "navigation"
+        },
+        {
           text: "Info Button",
           link: "info-button",
         },
+        {
+          text: "Navbar User",
+          link: "nav-user",
+        }
       ],
-    }
+    },
   ]
 }
 

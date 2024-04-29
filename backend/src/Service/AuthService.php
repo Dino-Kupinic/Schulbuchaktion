@@ -64,7 +64,7 @@ class AuthService
   {
     $this->optimizeTable();
     try {
-      $token = new AuthToken(null, (bool)null, null);
+      $token = new AuthToken();
       $token->setJwtString($JWTString);
       $dbToken = $this->em->getRepository(AuthToken::class)->find($token->getId());
       if ($token->isValid($dbToken)){

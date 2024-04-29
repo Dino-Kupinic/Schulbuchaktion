@@ -38,7 +38,7 @@ class AuthToken
   private static DateTimeZone $timezone;
 
 
-  public function __construct(string $username = null, bool $authenticated, EntityManagerInterface $em = null)
+  public function __construct(string $username = null, bool $authenticated = null, EntityManagerInterface $em = null)
   {
     if (empty(AuthToken::$key)) {
       self::$key = file_get_contents("$_SERVER[PWD]/config/jwt/private.pem");

@@ -1,9 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <h1>Settings-Page</h1>
+  <div class="p-3">
+    <NavBar />
+    <slot />
   </div>
 </template>
-
-<style scoped></style>

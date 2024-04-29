@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\AuthToken;
 use App\Repository\AuthTokenRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Util\Exception;
+use Exception;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class AuthService

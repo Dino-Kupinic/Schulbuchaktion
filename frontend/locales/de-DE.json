@@ -2,11 +2,20 @@
   "info": {
     "couldNotFetch": "Konnte nicht geladen werden",
     "infoBugReport": "Fehler melden",
-    "infoName": "Informationen"
+    "infoName": "Info"
   },
   "avatar": {
     "logout": "Abmelden",
     "myBooks": "Meine Bücher",
     "allTeachers": "Alle Lehrer"
+  },
+  "settings": {
+    "settingName": "Einstellungen"
+  },
+  "navLinks": {
+    "orderList": "Bestellliste",
+    "classManagement": "Klassenverwaltung",
+    "budgetOverview": "Budget Übersicht",
+    "import": "Import"
   }
 }

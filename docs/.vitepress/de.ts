@@ -99,7 +99,17 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           link: "nav-user",
         }
       ]
-    }
+    },
+    {
+      text: "Navigation",
+      collapsed: false,
+      items: [
+        {
+          text: "Navigationsleiste",
+          link: "navigation"
+        }
+      ]
+    },
   ]
 }
 
@@ -185,12 +195,20 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Datenbank",
           link: "database",
         },
+        {
+          text: "Services",
+          link: "services",
+        }
       ],
     },
     {
       text: "Komponenten",
       collapsed: false,
       items: [
+        {
+          text: "Navigationsleiste",
+          link: "navigation"
+        },
         {
           text: "Info Button",
           link: "info-button",
@@ -200,7 +218,7 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "nav-user",
         }
       ],
-    }
+    },
   ]
 }
 

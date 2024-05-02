@@ -214,7 +214,8 @@ function select(row: Book) {
 
 <template>
   <UCard
-    class="m-auto flex h-auto w-full flex-col border border-neutral-300 p-1 dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28 sm:w-[520px] sm:rounded-lg md:w-[775px] lg:w-[1034px]"
+    class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
+    :ui="{ shadow: 'shadow-none', ring: '' }"
   >
     <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
       <UInput v-model="query" placeholder="Search for books..." />

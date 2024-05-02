@@ -21,12 +21,6 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  security: {
-    headers: {
-      crossOriginEmbedderPolicy:
-        process.env.NODE_ENV === "development" ? "unsafe-none" : "require-corp",
-    },
-  },
   runtimeConfig: {
     public: {
       baseURL: process.env.BACKEND_API,
@@ -52,7 +46,7 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
-  routeRules: { "/api/**": { cors: true } },
+  // routeRules: { "/api/**": { cors: true } },
   eslint: {},
   i18n: {
     locales: currentLocales,
@@ -71,11 +65,9 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/color-mode",
     "@nuxt/ui",
-    "nuxt-csurf",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",
     "floating-vue/nuxt",
-    "nuxt-security",
   ],
 })

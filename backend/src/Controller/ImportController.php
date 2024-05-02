@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\ImportService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,7 +28,8 @@ class ImportController extends AbstractController
     if ($importService->isHeaderValid($header)) {
       unset($data[0]);
       $importService->persist($data);
-      return new Response("Success", Response::HTTP_OK);
+//      return new Response("Success", Response::HTTP_OK);
+      return new JsonResponse($data, Response::HTTP_OK);
     }
 
     return new Response(

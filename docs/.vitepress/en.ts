@@ -198,7 +198,11 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "XLSX Import",
           link: "import",
         },
-      ]
+        {
+          text: "Services",
+          link: "services",
+        },
+      ],
     },
     {
       text: "Authentication",

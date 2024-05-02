@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const links = [
-  { title: "orderList", link: "/settings" },
+  { title: "orderList", link: "/orderlist" },
   { title: "classManagement", link: "/classes" },
   { title: "budgetOverview", link: "/budget" },
   { title: "import", link: "/import" },

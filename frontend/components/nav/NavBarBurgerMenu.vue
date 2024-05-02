@@ -4,7 +4,7 @@ const emit = defineEmits(["burgerMenuVisible"])
 const icon = ref<string>("i-heroicons-bars-3-solid")
 const revealMenu = ref<boolean>(false)
 const links = [
-  { title: "orderList", link: "/settings" },
+  { title: "orderList", link: "/orderlist" },
   { title: "classManagement", link: "/classes" },
   { title: "budgetOverview", link: "/budget" },
   { title: "import", link: "/import" },

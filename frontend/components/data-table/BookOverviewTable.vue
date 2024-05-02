@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const columns = [
+const columns = ref([
   {
     key: "orderNumber",
     label: "Order Number",
@@ -13,12 +13,10 @@ const columns = [
   {
     key: "publisher",
     label: "Publisher",
-    sortable: true,
   },
   {
     key: "subject",
     label: "Subject",
-    sortable: true,
   },
   {
     key: "bookPrice",
@@ -28,7 +26,7 @@ const columns = [
   {
     key: "actions",
   },
-]
+])
 
 // @TODO fetch content from DB
 const id = ref(0)
@@ -55,7 +53,7 @@ const subject2: Partial<Subject> = {
   name: "Englisch",
 }
 
-const books: Partial<Book>[] = [
+const books: Ref<Partial<Book>[]> = ref([
   {
     orderNumber: id.value++,
     title: "Lord of the Rings",
@@ -146,29 +144,24 @@ const books: Partial<Book>[] = [
     publisher: publisher,
     subject: subject,
   },
-]
+])
 
-const items = (row: BookOrder) => [
+const items = (row: Book) => [
   [
     {
       label: "Edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      click: () => console.log("Edit", row.id),
-    },
-    {
-      label: "Duplicate",
-      icon: "i-heroicons-document-duplicate-20-solid",
+      click: () => console.log("Edit", row.orderNumber),
     },
   ],
   [
     {
       label: "Delete",
       icon: "i-heroicons-trash-20-solid",
+      click: () => console.log("Edit", row.orderNumber),
     },
   ],
 ]
-
-const selected = ref([books[1]])
 
 const page = ref(1)
 const pageCount = ref(5)
@@ -180,16 +173,37 @@ const pageTo = computed(() =>
 
 const selectedColumns = ref(columns)
 const columnsTable = computed(() =>
-  columns.filter((column) => selectedColumns.value.includes(column)),
+  columns.value.filter((column) => selectedColumns.value.includes(column)),
 )
 
 const sort = ref({ column: "id", direction: "asc" as const })
 
-// Selected Rows
-const selectedRows = ref([])
+const selectedRows = ref<Book[]>([])
 
-function select(row) {
-  const index = selectedRows.value.findIndex((item) => item.id === row.id)
+const query = ref("")
+
+const filteredRows = computed(() => {
+  if (!query.value) {
+    return books.value
+  }
+
+  return books.value.filter((book) => {
+    return Object.values(book).some((value) => {
+      return (
+        String(value).toLowerCase().includes(query.value.toLowerCase()) ||
+        book.publisher?.name
+          ?.toLowerCase()
+          .includes(query.value.toLowerCase()) ||
+        book.subject?.name?.toLowerCase().includes(query.value.toLowerCase())
+      )
+    })
+  })
+})
+
+function select(row: Book) {
+  const index = selectedRows.value.findIndex(
+    (item) => item.orderNumber === row.orderNumber,
+  )
   if (index === -1) {
     selectedRows.value.push(row)
   } else {
@@ -202,18 +216,20 @@ function select(row) {
   <UCard
     class="m-auto flex h-auto w-full flex-col border border-neutral-300 p-1 dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28 sm:w-[520px] sm:rounded-lg md:w-[775px] lg:w-[1034px]"
   >
+    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
+      <UInput v-model="query" placeholder="Search for books..." />
+    </div>
     <UTable
-      v-model="selected"
+      v-model="selectedRows"
       v-model:sort="sort"
-      class=""
-      :rows="books"
+      :rows="filteredRows"
       :columns="columnsTable"
       @select="select"
     >
       <template #name-data="{ row }">
         <span
           :class="[
-            selected.find((book) => book.orderNumber === row.id) &&
+            selectedRows.find((book) => book.orderNumber === row.id) &&
               'text-primary-500 dark:text-primary-400',
           ]"
           >{{ row.name }}</span
@@ -226,7 +242,7 @@ function select(row) {
         <span> {{ row.publisher.name }}</span>
       </template>
       <template #bookPrice-data="{ row }">
-        <span> {{ row.bookPrice / 100 }}$</span>
+        <span> {{ row.bookPrice / 100 }} €</span>
       </template>
       <template #actions-data="{ row }">
         <UDropdown :items="items(row)">

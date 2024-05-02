@@ -11,12 +11,15 @@ class SubjectService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createSubject($subject, EntityManagerInterface $em): void
+  public function createSubject($subject, EntityManagerInterface $em): bool
   {
-    $subjectAdd = new Subject();
-    $subjectAdd->setName($subject->getName());
-    $em->persist($subjectAdd);
-    $em->flush();
+    try {
+      $em->persist($subject);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function dropSubject($id, EntityManagerInterface $em): void

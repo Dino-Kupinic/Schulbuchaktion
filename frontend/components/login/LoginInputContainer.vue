@@ -4,24 +4,28 @@ const config = useRuntimeConfig()
 const username = ref<string>("")
 const password = ref<string>("")
 
-function createCookie() {
+function createCookie(tokenValue: string) {
   const token = useCookie("AuthToken")
-  token.value = "HalloAuthToken"
+  token.value = tokenValue
 }
 
-createCookie()
-async function submitFile() {
-  console.log(username.value)
-  console.log(password.value)
-  // try {
-  //   const data = await $fetch(`http://localhost:8000/login`, {
-  //     method: "POST",
-  //     mode: "no-cors",
-  //     baseURL: config.public.baseURL,
-  //   })
-  // } catch (error) {
-  //   console.error("Error uploading file:", error)
-  // }
+async function submitData() {
+  try {
+    const token = await $fetch("/login", {
+      method: "POST",
+      body: {
+        usr: username.value,
+        pwd: password.value,
+      },
+      baseURL: config.public.baseURL,
+    })
+    console.log(token)
+
+    // @ts-ignore
+    // createCookie(token)
+  } catch (error) {
+    console.error("Error submitting data:", error)
+  }
 }
 </script>
 
@@ -42,7 +46,7 @@ async function submitFile() {
         </template>
       </LoginInput>
       <UButton
-        @click="submitFile()"
+        @click="submitData()"
         class="flex w-full justify-center dark:bg-blue-500 dark:text-white"
       >
         Sign in

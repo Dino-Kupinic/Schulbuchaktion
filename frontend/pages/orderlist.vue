@@ -2,7 +2,8 @@
 
 <template>
   <div>
-    <BookOverviewTable class="mt-4" />
+    <BookOrderTable class="mt-4" />
   </div>
 </template>
+
 <style scoped></style>

@@ -11,12 +11,15 @@ class YearsService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createYear(Years $years, EntityManagerInterface $em): void
+  public function createYear(Years $years, EntityManagerInterface $em): bool
   {
-    $yearsAdd = new Years();
-    $yearsAdd->setYear($years->getYear());
-    $em->persist($yearsAdd);
-    $em->flush();
+    try {
+      $em->persist($years);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function dropYears($id, EntityManagerInterface $em): void

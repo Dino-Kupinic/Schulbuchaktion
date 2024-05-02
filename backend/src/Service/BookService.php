@@ -11,23 +11,15 @@ class BookService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createBook($book, EntityManagerInterface $em): void
+  public function createBook(Book $book, EntityManagerInterface $em): bool
   {
-    $bookAdd = new Book();
-    $bookAdd->setOrderNumber($book->getOrderNumber());
-    $bookAdd->setYear($book->getYear());
-    $bookAdd->setSubject($book->getSubject());
-    $bookAdd->setPublisher($book->getPublisher());
-    $bookAdd->setShortTitle($book->getShortTitle());
-    $bookAdd->setTitle($book->getTitle());
-    $bookAdd->setSchoolForm($book->getSchoolForm());
-    $bookAdd->setDescription($book->getDescription());
-    $bookAdd->setBookPrice($book->getBookPrice());
-    $bookAdd->setEbook($book->getEbook());
-    $bookAdd->setEbookPlus($book->getEbookPlus());
-    $bookAdd->setGrade($book->getGrade());
-    $em->persist($bookAdd);
-    $em->flush();
+    try {
+      $em->persist($book);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function updateBook($book, EntityManagerInterface $em): void

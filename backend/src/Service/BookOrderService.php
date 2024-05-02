@@ -11,18 +11,15 @@ class BookOrderService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createBookOrder(BookOrder $bookOrder, EntityManagerInterface $em): void
+  public function createBookOrder(BookOrder $bookOrder, EntityManagerInterface $em): bool
   {
-    $bookOrderAdd = new BookOrder();
-    $bookOrderAdd->setSchoolClass($bookOrder->getSchoolClass());
-    $bookOrderAdd->setBookId($bookOrder->getBookId());
-    $bookOrderAdd->setYear($bookOrder->getYear());
-    $bookOrderAdd->setCount($bookOrder->getCount());
-    $bookOrderAdd->setTeacherCopy($bookOrder->getTeacherCopy());
-    $bookOrderAdd->setLastUser($bookOrder->getLastUser());
-    $bookOrderAdd->setCreationUser($bookOrder->getCreationUser());
-    $em->persist($bookOrderAdd);
-    $em->flush();
+    try {
+      $em->persist($bookOrder);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function updateBookOrder(BookOrder $bookOrder, EntityManagerInterface $em): void

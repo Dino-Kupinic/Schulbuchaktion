@@ -11,16 +11,15 @@ class DepartmentService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createDepartment($department, EntityManagerInterface $em): void
+  public function createDepartment(Department $department, EntityManagerInterface $em): bool
   {
-    $departmentAdd = new Department();
-    $departmentAdd->setName($department->getName());
-    $departmentAdd->setBudget($department->getBudget());
-    $departmentAdd->setUsedBudget($department->getUsedBudget());
-    $departmentAdd->setValidFrom($department->getValidFrom());
-    $departmentAdd->setValidTo($department->getValidTo());
-    $em->persist($departmentAdd);
-    $em->flush();
+    try {
+      $em->persist($department);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function updateDepartment($department, EntityManagerInterface $em): void

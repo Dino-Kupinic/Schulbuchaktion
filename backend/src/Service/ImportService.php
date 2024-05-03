@@ -6,6 +6,12 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ImportService
 {
+  private $bookService;
+
+  public function __construct(BookService $bookService)
+  {
+    $this->bookService = $bookService;
+  }
   /**
    * @param string $filePath
    * @return array array containing the xlsx data (2D array for the rows and columns)
@@ -39,8 +45,30 @@ class ImportService
     return count($intersect) === count($correctHeader);
   }
 
+  private function getBookData(array $row): array
+  {
+    return [
+      'orderNumber' => $row[0],
+      'shortTitle' => $row[1],
+      'title' => $row[2],
+      'listType' => $row[3],
+      'schoolForm' => $row[4],
+      'subject' => $row[5],
+      'grade' => $row[6],
+      'teacherCopy' => $row[7],
+      'note' => $row[8],
+      'vnr' => $row[9],
+      'publisher' => $row[10],
+      'mainBook' => $row[11]
+    ];
+  }
+
   public function persist(array $data)
   {
+    foreach ($data as $row) {
+      $bookData = $this->getBookData($row);
+      $this->bookService->createBook($bookData);
+    }
   }
 }
 

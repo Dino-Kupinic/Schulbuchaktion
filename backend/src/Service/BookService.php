@@ -5,29 +5,41 @@ namespace App\Service;
 use App\Entity\Book;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
+/**
+ * Service class for handling book data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Book
+ * @see BookRepository
+ */
 class BookService
 {
+  private EntityManagerInterface $em;
 
-  // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
-
-  public function createBook($book, EntityManagerInterface $em): void
+  public function __construct(EntityManagerInterface $em)
   {
-    $bookAdd = new Book();
-    $bookAdd->setOrderNumber($book->getOrderNumber());
-    $bookAdd->setYear($book->getYear());
-    $bookAdd->setSubject($book->getSubject());
-    $bookAdd->setPublisher($book->getPublisher());
-    $bookAdd->setShortTitle($book->getShortTitle());
-    $bookAdd->setTitle($book->getTitle());
-    $bookAdd->setSchoolForm($book->getSchoolForm());
-    $bookAdd->setDescription($book->getDescription());
-    $bookAdd->setBookPrice($book->getBookPrice());
-    $bookAdd->setEbook($book->getEbook());
-    $bookAdd->setEbookPlus($book->getEbookPlus());
-    $bookAdd->setGrade($book->getGrade());
-    $em->persist($bookAdd);
-    $em->flush();
+    $this->em = $em;
+  }
+
+  /**
+   * Create a new book.
+   *
+   * @param Book $book
+   * @return bool True if successful, false otherwise
+   * @throws Exception If an error occurs during transaction
+   */
+  public function createBook(Book $book): bool
+  {
+    try {
+      $this->em->persist($book);
+      $this->em->flush();
+    } catch (Exception $e) {
+      $this->em->rollback();
+      throw $e;
+    }
+    return true;
   }
 
   public function updateBook($book, EntityManagerInterface $em): void

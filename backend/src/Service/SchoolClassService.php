@@ -11,19 +11,15 @@ class SchoolClassService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createSchoolClass($schoolClass, EntityManagerInterface $em): void
+  public function createSchoolClass($schoolClass, EntityManagerInterface $em): bool
   {
-    $schoolClassAdd = new SchoolClass();
-    $schoolClassAdd->setName($schoolClass->getName());
-    $schoolClassAdd->setGrade($schoolClass->getGrade());
-    $schoolClassAdd->setStudents($schoolClass->getStudents());
-    $schoolClassAdd->setRepetents($schoolClass->getRepetents());
-    $schoolClassAdd->setBudget($schoolClass->getBudget());
-    $schoolClassAdd->setUsedBudget($schoolClass->getUsedBudget());
-    $schoolClassAdd->setDepartment($schoolClass->getDepartment());
-    $schoolClassAdd->setYear($schoolClass->getYear());
-    $em->persist($schoolClassAdd);
-    $em->flush();
+    try {
+      $em->persist($schoolClass);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function updateSchoolClass($schoolClass, EntityManagerInterface $em): void

@@ -11,13 +11,15 @@ class PublisherService
 
   // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
 
-  public function createPublisher($publisher, EntityManagerInterface $em): void
+  public function createPublisher(Publisher $publisher, EntityManagerInterface $em): bool
   {
-    $publisherAdd = new Publisher();
-    $publisherAdd->setName($publisher->getName());
-    $publisherAdd->setPublisherNumber($publisher->getPublisherNumber());
-    $em->persist($publisherAdd);
-    $em->flush();
+    try {
+      $em->persist($publisher);
+      $em->flush();
+    } catch (\Exception $e) {
+      return false;
+    }
+    return true;
   }
 
   public function updatePublisher($publisher, EntityManagerInterface $em): void

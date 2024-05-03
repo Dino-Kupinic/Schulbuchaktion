@@ -11,18 +11,19 @@ function createCookie(tokenValue: string) {
 
 async function submitData() {
   try {
-    const token = await $fetch("/login", {
+    const response = await $fetch("/login", {
       method: "POST",
-      body: {
+      params: {
         usr: username.value,
         pwd: password.value,
       },
       baseURL: config.public.baseURL,
     })
-    console.log(token)
+    // @ts-ignore
+    console.log(response)
 
     // @ts-ignore
-    // createCookie(token)
+    createCookie(response.token)
   } catch (error) {
     console.error("Error submitting data:", error)
   }

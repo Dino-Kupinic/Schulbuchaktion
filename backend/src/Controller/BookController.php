@@ -63,7 +63,8 @@ class BookController extends AbstractController
     }
   }
 
-  #[Route(path: "/delete/{id}", methods: ["GET"])]
+  // TODO: Problem with foreign key constraint
+  #[Route(path: "/delete/{id}", methods: ["DELETE"])]
   public function deleteBook(BookService $bookService, int $id): Response
   {
     try {

@@ -16,10 +16,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PublisherRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Publisher::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Publisher::class);
+  }
 
 //    /**
 //     * @return Publisher[] Returns an array of Publisher objects

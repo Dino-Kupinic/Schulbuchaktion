@@ -16,10 +16,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class YearsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Years::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Years::class);
+  }
 
 //    /**
 //     * @return Years[] Returns an array of Years objects

@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\AuthToken;
-use App\Kernel;
 use App\Service\AuthService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,17 +12,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route("api/v1")]
 class LoginController extends AbstractController
 {
-  #[Route('/ldaps', name: 'app_ldap')]
-  public function index(AuthService $authService, Request $request, Kernel $kernel): Response
+  #[Route("/login", name: 'index')]
+  public function index(AuthService $authService, Request $request): Response
   {
     $user = $request->get("usr");
     $pwd = $request->get("pwd");
-    $status = $authService->authenticateUser($user, $pwd);
 
-    $key = file_get_contents($kernel->getProjectDir() . "/config/jwt/private.pem");
-    $token = new AuthToken($key);
-    $token->setValue(['user' => $user, 'authorized' => $status]);
+    $token = $authService->createToken($user, $pwd);
 
-    return new JsonResponse($token, 200, [], true);
+    return new JsonResponse(['token' => $token]);
   }
 }

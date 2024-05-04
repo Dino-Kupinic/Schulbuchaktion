@@ -1,4 +1,8 @@
 {
+  "error": {
+    "title": "Ein Fehler ist aufgetreten",
+    "home": "Zurück zur Startseite"
+  },
   "info": {
     "couldNotFetch": "Konnte nicht geladen werden",
     "infoBugReport": "Fehler melden",

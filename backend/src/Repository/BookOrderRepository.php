@@ -16,10 +16,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookOrderRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, BookOrder::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, BookOrder::class);
+  }
 
 //    /**
 //     * @return BookOrder[] Returns an array of BookOrder objects

@@ -43,3 +43,17 @@
 html {
   font-family: -apple-system, "Inter", "Arial", sans-serif;
 }
+
+.dark .v-popper--theme-dropdown .v-popper__inner {
+  color: theme('colors.neutral.200');
+  background-color: theme('colors.neutral.900');
+  border-color: theme('colors.neutral.700');
+}
+
+.dark .v-popper__popper .v-popper__arrow-outer {
+  border-color: theme('colors.neutral.800');
+}
+
+.dark .v-popper__popper .v-popper__arrow-inner {
+  border-color: theme('colors.neutral.900');
+}

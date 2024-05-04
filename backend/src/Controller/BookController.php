@@ -3,108 +3,77 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use App\Repository\BookRepository;
 use App\Service\BookService;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
-use function PHPUnit\Framework\isEmpty;
 
-#[Route("api/v1")]
+/**
+ * Controller class for handling book data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Book
+ * @see BookRepository
+ * @see BookService
+ */
+#[Route("api/v1/books")]
 class BookController extends AbstractController
 {
-  /**
-   * @return Response -> all books formatted as json
-   */
-  #[Route(
-    path: "/book",
-    name: "app_book_get_all",
-    methods: ["GET"],
-  )]
-  public function getBooks(
-    BookService $bookService,
-    BookRepository $bookRepo
-  ): Response {
-    //Get the current user
-
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/", methods: ["GET"])]
+  public function getBooks(BookService $bookService): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("book")
+      ->withGroups("book:read")
       ->toArray();
 
-    //Get all books
-    $books = $bookService->getBooks($bookRepo);
-
-    if (count($books) > 0) {
-      return $this->json($books, status: Response::HTTP_OK, context: $context);
+    try {
+      $books = $bookService->getBooks();
+      if (count($books) > 0) {
+        return $this->json(["success" => true, "data" => $books], status: Response::HTTP_OK, context: $context);
+      }
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get books: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-
-    return $this->json(null, status: Response::HTTP_NOT_FOUND);
   }
 
-
-  /**
-   * @return Response -> book formatted as json
-   */
-  #[Route(
-    path: "/book/{id}",
-    name: "app_book_get",
-    methods: ["GET"],
-  )]
-  public function getBook(
-    BookService $bookService,
-    BookRepository $bookRepo,
-    int $id
-  ): Response {
-    //Get the current user
-
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/{id}", methods: ["GET"])]
+  public function getBook(BookService $bookService, int $id): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("book")
+      ->withGroups("book:read")
       ->toArray();
 
-    //Get the book with the given id
-    $book = $bookService->getBookById($id, $bookRepo);
-
-    if (!isEmpty($book)) {
-      return $this->json($book, status: Response::HTTP_OK, context: $context);
+    try {
+      $book = $bookService->findBookById($id);
+      if ($book == null) {
+        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      }
+      return $this->json(["success" => true, "data" => $book], status: Response::HTTP_OK, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get book with id $id: {$e->getMessage()}"
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    return $this->json(null, status: Response::HTTP_NOT_FOUND);
   }
 
-
-  /**
-   * @return Response -> book formatted as json
-   */
-  #[Route(
-    path: "/book/create",
-    name: "app_book_post",
-    methods: ["POST"],
-  )]
-  public function createBook(
-    BookService $bookService,
-    EntityManagerInterface $em,
-    Book $bookToCreate
-  ): Response {
-    //Get the current user
-
-
-    //Save the groups of which the content should be returned in the $context variable
-    $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("book")
-      ->toArray();
-
-    //Create a new book
-    $createdSuccessfully = $bookService->createBook($bookToCreate, $em);
-
-    if ($createdSuccessfully) {
-      return $this->json("success", status: Response::HTTP_CREATED, context: $context);
+  #[Route(path: "/delete/{id}", methods: ["GET"])]
+  public function deleteBook(BookService $bookService, int $id): Response
+  {
+    try {
+      $bookService->deleteBook($id);
+      return $this->json(["success" => true, "message" => "Book was successfully deleted"], status: Response::HTTP_OK);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to delete book with id $id: {$e->getMessage()}"
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-
-    return $this->json(null, status: Response::HTTP_INTERNAL_SERVER_ERROR);
   }
 }

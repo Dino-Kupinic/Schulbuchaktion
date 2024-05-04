@@ -1,4 +1,8 @@
 {
+  "error": {
+    "title": "An Error occurred",
+    "home": "Go home"
+  },
   "info": {
     "couldNotFetch": "Couldn't fetch",
     "infoBugReport": "Report bug",

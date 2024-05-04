@@ -16,10 +16,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SchoolClassRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, SchoolClass::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, SchoolClass::class);
+  }
 
 //    /**
 //     * @return SchoolClass[] Returns an array of SchoolClass objects

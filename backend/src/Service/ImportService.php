@@ -65,10 +65,10 @@ class ImportService
 
   public function persist(array $data)
   {
-    foreach ($data as $row) {
-      $bookData = $this->getBookData($row);
-      $this->bookService->createBook($bookData);
-    }
+//    foreach ($data as $row) {
+//      $bookData = $this->getBookData($row);
+//      $this->bookService->createBook($bookData);
+//    }
   }
 }
 

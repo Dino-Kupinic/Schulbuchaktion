@@ -16,7 +16,7 @@ async function submitFile() {
   formData.append("name", file.value.files[0].name)
 
   try {
-    const data = await $fetch(`/importXLSX`, {
+    const data = await $fetch("/importXLSX", {
       method: "POST",
       body: formData,
       baseURL: config.public.baseURL,

@@ -21,5 +21,35 @@
     "classManagement": "Klassenverwaltung",
     "budgetOverview": "Budget Übersicht",
     "import": "Import"
+  },
+  "tableTitles":{
+    "orderTable": "Bestellliste",
+    "bookOverview": "Bücherübersicht"
+  },
+  "tableSearch":{
+    "searchForBooks": "Nach Büchern suchen...",
+    "searchForOrders": "Nach Bestellungen suchen..."
+  },
+  "book": {
+    "orderNumber": "Bestellnummer",
+    "title": "Titel",
+    "publisher": "Veröffentlicht von",
+    "subject": "Thema",
+    "department": "Abteilung",
+    "grade": "Schulstufe",
+    "schoolYear": "Schuljahr",
+    "ebookPlus": "E-Book Plus",
+    "ebook": "E-Book",
+    "price": "Preis"
+  },
+  "pagination": {
+    "showing": "Zeigt",
+    "to": "bis",
+    "of": "von",
+    "results": "Ergebnissen"
+  },
+  "actions": {
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
   }
 }

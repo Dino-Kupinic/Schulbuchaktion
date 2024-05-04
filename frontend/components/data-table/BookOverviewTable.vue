@@ -19,6 +19,18 @@ const columns = ref([
     label: "Subject",
   },
   {
+    key: "grade",
+    label: "Grade",
+  },
+  {
+    key: "ebook",
+    label: "E-book",
+  },
+  {
+    key: "ebookPlus",
+    label: "E-book plus",
+  },
+  {
     key: "bookPrice",
     label: "Price",
     sortable: true,
@@ -28,140 +40,25 @@ const columns = ref([
   },
 ])
 
-// @TODO fetch content from DB
-const id = ref(0)
+const books: Ref<Book[]> = ref([])
 
-const publisher: Partial<Publisher> = {
-  id: 1,
-  publisherNumber: 48,
-  name: "jannick",
-}
-
-const publisher2: Partial<Publisher> = {
-  id: 1,
-  publisherNumber: 48,
-  name: "Thomas",
-}
-
-const subject: Partial<Subject> = {
-  id: 1,
-  name: "Deutsch",
-}
-
-const subject2: Partial<Subject> = {
-  id: 1,
-  name: "Englisch",
-}
-
-const books: Ref<Partial<Book>[]> = ref([
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 1000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher2,
-    subject: subject2,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-  {
-    orderNumber: id.value++,
-    title: "Lord of the Rings",
-    bookPrice: 10000,
-    ebook: false,
-    ebookPlus: true,
-    publisher: publisher,
-    subject: subject,
-  },
-])
-
-const items = (row: Book) => [
-  [
-    {
-      label: "Edit",
-      icon: "i-heroicons-pencil-square-20-solid",
-      click: () => console.log("Edit", row.orderNumber),
-    },
-  ],
-  [
-    {
-      label: "Delete",
-      icon: "i-heroicons-trash-20-solid",
-      click: () => console.log("Edit", row.orderNumber),
-    },
-  ],
-]
+const items = (row: Book) =>
+  ref([
+    [
+      {
+        label: t("actions.edit"),
+        icon: "i-heroicons-pencil-square-20-solid",
+        //click: () => edit Book,
+      },
+    ],
+    [
+      {
+        label: t("actions.delete"),
+        icon: "i-heroicons-trash-20-solid",
+        click: () => deleteBookById(row.id),
+      },
+    ],
+  ])
 
 const page = ref(1)
 const pageCount = ref(5)
@@ -187,7 +84,7 @@ const filteredRows = computed(() => {
     return books.value
   }
 
-  return books.value.filter((book) => {
+  return books.value.filter((book: Book) => {
     return Object.values(book).some((value) => {
       return (
         String(value).toLowerCase().includes(query.value.toLowerCase()) ||
@@ -198,6 +95,78 @@ const filteredRows = computed(() => {
       )
     })
   })
+})
+
+const config = useRuntimeConfig()
+
+const { t, locale } = useI18n()
+
+watch(
+  locale,
+  () => {
+    columns.value = [
+      {
+        key: "orderNumber",
+        label: t("book.orderNumber"),
+        sortable: true,
+      },
+      {
+        key: "title",
+        label: t("book.title"),
+        sortable: true,
+      },
+      {
+        key: "publisher",
+        label: t("book.publisher"),
+      },
+      {
+        key: "subject",
+        label: t("book.subject"),
+      },
+      {
+        key: "grade",
+        label: t("book.grade"),
+      },
+      {
+        key: "ebook",
+        label: t("book.ebook"),
+      },
+      {
+        key: "ebookPlus",
+        label: t("book.ebookPlus"),
+      },
+      {
+        key: "bookPrice",
+        label: t("book.price"),
+        sortable: true,
+      },
+      {
+        key: "actions",
+      },
+    ]
+  },
+  { immediate: true },
+)
+
+async function getBooks(): Promise<Book[]> {
+  const response = await $fetch("/books", {
+    method: "GET",
+    baseURL: config.public.baseURL,
+  })
+
+  // @ts-expect-error
+  return response.data
+}
+
+async function deleteBookById(id: number) {
+  await $fetch("books/delete/" + id, {
+    method: "DELETE",
+    baseURL: config.public.baseURL,
+  })
+}
+
+onMounted(async () => {
+  books.value = await getBooks()
 })
 
 function select(row: Book) {
@@ -213,12 +182,13 @@ function select(row: Book) {
 </script>
 
 <template>
+  <PageTitle>{{ $t("tableTitles.bookOverview") }}</PageTitle>
   <UCard
     class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
     :ui="{ shadow: 'shadow-none', ring: '' }"
   >
     <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput v-model="query" placeholder="Search for books..." />
+      <UInput v-model="query" :placeholder="$t('tableSearch.searchForBooks')" />
     </div>
     <UTable
       v-model="selectedRows"
@@ -243,10 +213,41 @@ function select(row: Book) {
         <span> {{ row.publisher.name }}</span>
       </template>
       <template #bookPrice-data="{ row }">
-        <span> {{ row.bookPrice / 100 }} €</span>
+        <span>
+          {{
+            Intl.NumberFormat("de-DE", {
+              style: "currency",
+              currency: "EUR",
+            }).format(row.bookPrice / 100)
+          }}
+        </span>
+      </template>
+      <template #ebook-data="{ row }">
+        <Icon
+          v-if="row.ebook"
+          class="text-green-500"
+          name="material-symbols:check-small"
+        ></Icon>
+        <Icon
+          v-else
+          class="text-red-500"
+          name="material-symbols:close-small-outline"
+        ></Icon>
+      </template>
+      <template #ebookPlus-data="{ row }">
+        <Icon
+          v-if="row.ebookPlus"
+          class="text-green-500"
+          name="material-symbols:check-small"
+        ></Icon>
+        <Icon
+          v-else
+          class="text-red-500"
+          name="material-symbols:close-small-outline"
+        ></Icon>
       </template>
       <template #actions-data="{ row }">
-        <UDropdown :items="items(row)">
+        <UDropdown :items="items(row).value">
           <UButton
             color="gray"
             variant="ghost"
@@ -259,13 +260,13 @@ function select(row: Book) {
       <div class="flex flex-wrap items-center justify-between">
         <div>
           <span class="text-sm leading-5">
-            Showing
+            {{ $t("pagination.showing") }}
             <span class="font-medium">{{ pageFrom }}</span>
-            to
+            {{ $t("pagination.to") }}
             <span class="font-medium">{{ pageTo }}</span>
-            of
+            {{ $t("pagination.of") }}
             <span class="font-medium">{{ pageTotal }}</span>
-            results
+            {{ $t("pagination.results") }}
           </span>
         </div>
 

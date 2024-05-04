@@ -1,4 +1,5 @@
 type Book = {
+  id: number
   orderNumber: number
   title: string
   shortTitle?: string

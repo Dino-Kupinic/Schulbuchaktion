@@ -155,6 +155,7 @@ const filteredRows = computed(() => {
 </script>
 
 <template>
+  <PageTitle>Book Order Overview</PageTitle>
   <UCard
     class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
     :ui="{ shadow: 'shadow-none', ring: '', body: 'p-0' }"

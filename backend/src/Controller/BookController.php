@@ -63,7 +63,7 @@ class BookController extends AbstractController
     }
   }
 
-  #[Route(path: "/delete/{id}", methods: ["GET"])]
+  #[Route(path: "/delete/{id}", methods: ["DELETE"])]
   public function deleteBook(BookService $bookService, int $id): Response
   {
     try {

@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import type { NavigationItem } from "~/types/nav"
+
+defineProps<{
+  links: NavigationItem[]
+}>()
 const burgerMenuVisible = ref<boolean>(false)
 </script>
 
 <template>
-  <NavBarContainer
-    :class="{ 'rounded-b-none border-b-0 shadow-none': burgerMenuVisible }"
-  >
+  <NavBarContainer>
     <NavBarLogoLink />
     <NavBarBurgerMenu
+      :links
       @burger-menu-visible="(visible: boolean) => (burgerMenuVisible = visible)"
     />
   </NavBarContainer>

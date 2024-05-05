@@ -25,5 +25,3 @@ const props = withDefaults(
     </NuxtLink>
   </UButton>
 </template>
-
-<style scoped></style>

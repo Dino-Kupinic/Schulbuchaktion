@@ -5,5 +5,3 @@
     <NavUserAvatar username="DK" />
   </NavUserDropdown>
 </template>
-
-<style scoped></style>

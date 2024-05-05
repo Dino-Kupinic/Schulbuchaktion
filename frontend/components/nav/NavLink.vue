@@ -7,6 +7,8 @@ const props = defineProps<{
 
 <template>
   <NuxtLink :to="props.link">
-    {{ props.title }}
+    <span>
+      {{ props.title }}
+    </span>
   </NuxtLink>
 </template>

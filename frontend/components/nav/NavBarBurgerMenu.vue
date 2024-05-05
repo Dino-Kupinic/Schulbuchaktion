@@ -30,8 +30,8 @@ watch(revealMenu, () => {
     @click="openMenu()"
   />
   <template v-if="revealMenu">
-    <UContainer
-      class="absolute top-[72px] z-10 flex h-[calc(100%-72px)] w-full flex-col items-start justify-start gap-y-5 space-y-3 overflow-x-hidden rounded-b border-neutral-300 bg-white p-5 opacity-100 dark:border-gray-700 dark:bg-[#171717]"
+    <div
+      class="absolute top-[72px] z-10 flex h-[calc(100%-72px)] w-full flex-col items-start justify-start gap-y-5 space-y-3 overflow-x-hidden bg-white p-5 opacity-100 dark:border-neutral-700 dark:bg-neutral-900"
     >
       <UContainer class="w-full space-y-1">
         <NavUser />
@@ -57,7 +57,7 @@ watch(revealMenu, () => {
         <NavBarLanguageToggle />
         <NavBarThemeToggle />
       </UContainer>
-    </UContainer>
+    </div>
   </template>
 </template>
 

@@ -1,8 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    <p>Hallo</p>
+  <div
+    class="h-full w-full rounded-lg border p-3 shadow-sm dark:border-neutral-700"
+  >
+    <h1>Hallo</h1>
     <NavBarLanguageToggle />
   </div>
 </template>

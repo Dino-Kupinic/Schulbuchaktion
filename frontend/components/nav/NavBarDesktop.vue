@@ -14,7 +14,7 @@ defineProps<{
         v-for="link in links"
         :key="link.link"
         :to="link.link"
-        class="px-3"
+        class="hover:text-primary px-3"
       >
         {{ link.title }}
       </NuxtLink>

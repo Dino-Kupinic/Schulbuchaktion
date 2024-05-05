@@ -16,7 +16,7 @@
   "settings": {
     "settingName": "Settings"
   },
-  "navLinks": {
+  "nav": {
     "orderList": "Order List",
     "classManagement": "Class Management",
     "budgetOverview": "Budget Overview",

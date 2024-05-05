@@ -1,9 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <ULink to="/">
-    <TheLogo class="h-12"></TheLogo>
-  </ULink>
+  <NuxtLink to="/">
+    <TheLogo class="h-12" />
+  </NuxtLink>
 </template>
-
-<style scoped></style>

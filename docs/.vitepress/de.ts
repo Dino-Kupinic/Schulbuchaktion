@@ -1,5 +1,4 @@
 import {DefaultTheme, defineConfig} from "vitepress"
-import {FooterTranslations} from "vitepress/types/local-search"
 
 export const de = defineConfig({
   lang: "de-DE",
@@ -105,7 +104,7 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
-          text: "Navigationsleiste",
+          text: "Durch die Schulbuchaktion navigieren",
           link: "navigation"
         }
       ]
@@ -165,6 +164,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Meilensteine",
           link: "milestones",
         },
+        {
+          text: "API",
+          link: "api",
+        },
       ],
     },
     {
@@ -196,26 +199,12 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "database",
         },
         {
+          text: "XLSX Import",
+          link: "import",
+        },
+        {
           text: "Services",
           link: "services",
-        }
-      ],
-    },
-    {
-      text: "Komponenten",
-      collapsed: false,
-      items: [
-        {
-          text: "Navigationsleiste",
-          link: "navigation"
-        },
-        {
-          text: "Info Button",
-          link: "info-button",
-        },
-        {
-          text: "Navbar User",
-          link: "nav-user",
         }
       ],
     },

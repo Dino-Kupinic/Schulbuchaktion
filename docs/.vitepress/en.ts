@@ -100,7 +100,7 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {
-          text: "Navigation Bar",
+          text: "Navigating through Schulbuchaktion",
           link: "navigation"
         }
       ]
@@ -204,23 +204,5 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         },
       ],
     },
-    {
-      text: "Components",
-      collapsed: false,
-      items: [
-        {
-          text: "Navigation Bar",
-          link: "navigation"
-        },
-        {
-          text: "Info Button",
-          link: "info-button",
-        },
-        {
-          text: "Navbar User",
-          link: "nav-user",
-        }
-      ],
-    }
   ]
 }

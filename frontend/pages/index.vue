@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="h-full w-full rounded-lg border p-3 shadow-sm dark:border-neutral-700"
+    class="h-full w-full rounded-lg border p-3 shadow-sm dark:border-gray-700"
   >
     <h1>Hallo</h1>
     <NavBarLanguageToggle />

@@ -37,26 +37,28 @@ class AuthToken
 
   private static DateTimeZone $timezone;
 
+  #[ORM\Column(length: 255)]
+  private ?string $role = null;
 
-  public function __construct(string $username = null, bool $authenticated = null, EntityManagerInterface $em = null)
+  public function __construct(string $username = null, string $role = "SBA_NOT_PERMITTED", bool $authenticated = null, EntityManagerInterface $em = null)
   {
     if (empty(AuthToken::$key)) {
       self::$key = file_get_contents($_ENV["JWT_SECRET_ABSOLUT_PATH"]);
       self::$timezone = new DateTimeZone("Europe/Vienna");
     }
-
     $this->timeStamp = new DateTime();
     $this->timeStamp->setTimezone(self::$timezone);
 
     if (!is_null($username) && $authenticated) {
       $this->username = $username;
+      $this->role = $role;
       $this->authenticated = $authenticated;
       $timeStamp = (int)$this->timeStamp->format('U');
       $em->persist($this);
       $em->flush();
 
       $id = $this->id;
-      $this->jwtString = $this->encode(compact('id', 'username', 'authenticated', 'timeStamp'));
+      $this->jwtString = $this->encode(compact('id', 'username', 'role', 'authenticated', 'timeStamp'));
       $em->persist($this);
       $em->flush();
     } else $this->jwtString = $this->encode(compact('authenticated'));
@@ -166,6 +168,18 @@ class AuthToken
   public function __toString(): string
   {
     return $this->jwtString;
+  }
+
+  public function getRole(): ?string
+  {
+    return $this->role;
+  }
+
+  public function setRole(string $role): static
+  {
+    $this->role = $role;
+
+    return $this;
   }
 
 

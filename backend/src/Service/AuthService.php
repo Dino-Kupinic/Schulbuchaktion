@@ -24,9 +24,10 @@ class AuthService
   }
 
 
-  public function authenticateUser($user, $password): bool
+  public function authenticateUser($user, $password): array
   {
     $success = false;
+    $role = "SBA_NOT_PERMITTED";
     try {
       $ds = ldap_connect($_ENV["LDAP_URL"]) or throw new Exception("Could not connect to LDAP server.");
       ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -47,18 +48,29 @@ class AuthService
 
         $success = @ldap_bind($ds, $userDN, $password) or throw new Exception("Error trying to bind: " . ldap_error($ds));
 
+        if ($success) {
+          if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_ADMIN"])) {
+            $role = "SBA_ADMIN";
+          } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_USER"])) {
+            $role = "SBA_USER";
+          } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_GUEST"])){
+            $role = "SBA_GUEST";
+          }
+        }
+
         ldap_close($ds);
       }
-    } catch (Exception) {
+    } catch (Exception $e) {
       $success = false;
+      echo $e;
     }
-    return $success;
+    return compact('role', 'success');
   }
 
   public function createToken(string $user, string $password): string
   {
     $status = $this->authenticateUser($user, $password);
-    return new AuthToken($user, $status, $this->em);
+    return new AuthToken($user,$status["role"], $status["success"], $this->em);
   }
 
   public function checkToken(string $JWTString): bool
@@ -96,6 +108,37 @@ class AuthService
       $this->em->remove($token);
     }
     $this->em->flush();
+  }
+
+  function checkGroupEx($ad, $userdn, $groupdn): bool
+  {
+    try {
+      $attributes = array('gidnumber');
+      $result = ldap_read($ad, $userdn, '(objectclass=*)', $attributes);
+      if ($result === FALSE) {
+        return FALSE;
+      };
+      $entries = ldap_get_entries($ad, $result);
+
+      if ($entries['count'] <= 0) {
+        return FALSE;
+      }
+
+      if (empty($entries[0]['gidnumber'])) {
+        return FALSE;
+      } else {
+        for ($i = 0; $i < $entries[0]['gidnumber']['count']; $i++) {
+          if ( $entries[0]['gidnumber'][$i] == $groupdn) {
+            return TRUE;
+          } elseif ($this->checkGroupEx($ad, $entries[0]['gidnumber'][$i], $groupdn)) {
+            return TRUE;
+          }
+        }
+      }
+      return FALSE;
+    } catch (Exception) {
+      return false;
+    }
   }
 }
 

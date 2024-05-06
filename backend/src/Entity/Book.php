@@ -22,58 +22,58 @@ class Book
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $orderNumber = null;
 
   #[ORM\Column(length: 255, nullable: true)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $shortTitle = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $title = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $schoolForm = null;
 
   #[ORM\Column(length: 255, nullable: true)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $description = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $bookPrice = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?bool $ebook = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?bool $ebookPlus = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $grade = null;
 
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?Subject $subject = null;
 
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?Publisher $publisher = null;
 
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?Years $year = null;
 
   #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'bookId')]
@@ -250,7 +250,7 @@ class Book
   {
     if (!$this->bookOrders->contains($bookOrder)) {
       $this->bookOrders->add($bookOrder);
-      $bookOrder->setBookId($this);
+      $bookOrder->setBook($this);
     }
 
     return $this;
@@ -260,8 +260,8 @@ class Book
   {
     if ($this->bookOrders->removeElement($bookOrder)) {
       // set the owning side to null (unless already changed)
-      if ($bookOrder->getBookId() === $this) {
-        $bookOrder->setBookId(null);
+      if ($bookOrder->getBook() === $this) {
+        $bookOrder->setBook(null);
       }
     }
 

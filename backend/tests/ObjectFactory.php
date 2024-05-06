@@ -79,7 +79,7 @@ class ObjectFactory
   {
     $bookOrder = new BookOrder();
     $bookOrder->setSchoolClass(self::createSchoolClass());
-    $bookOrder->setBookId(self::createBook());
+    $bookOrder->setBook(self::createBook());
     $bookOrder->setYear(self::createYear());
     $bookOrder->setCount(20);
     $bookOrder->setTeacherCopy(true);

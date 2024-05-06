@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
-use function PHPUnit\Framework\isEmpty;
 
 /**
  * Controller class for handling book orders.
@@ -27,7 +26,7 @@ class BookOrderController extends AbstractController
   public function getBooks(BookOrderService $bookOrderService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("book:read")
+      ->withGroups("bookOrder:read")
       ->toArray();
 
     try {
@@ -39,7 +38,7 @@ class BookOrderController extends AbstractController
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
-        "error" => "Failed to get books: " . $e->getMessage()
+        "error" => "Failed to get book orders: " . $e->getMessage(),
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
@@ -48,7 +47,7 @@ class BookOrderController extends AbstractController
   public function getBook(BookOrderService $bookOrderService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("book:read")
+      ->withGroups("bookOrder:read")
       ->toArray();
 
     try {
@@ -60,22 +59,21 @@ class BookOrderController extends AbstractController
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
-        "error" => "Failed to get book with id $id: {$e->getMessage()}"
+        "error" => "Failed to get book order with id $id: {$e->getMessage()}",
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
 
-  // TODO: Problem with foreign key constraint
   #[Route(path: "/delete/{id}", methods: ["DELETE"])]
   public function deleteBook(BookOrderService $bookOrderService, int $id): Response
   {
     try {
       $bookOrderService->deleteBookOrder($id);
-      return $this->json(["success" => true, "message" => "Book was successfully deleted"], status: Response::HTTP_OK);
+      return $this->json(["success" => true, "message" => "Book Order was successfully deleted"], status: Response::HTTP_OK);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
-        "error" => "Failed to delete book with id $id: {$e->getMessage()}"
+        "error" => "Failed to delete book order with id $id: {$e->getMessage()}",
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }

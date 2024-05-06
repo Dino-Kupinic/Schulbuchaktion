@@ -14,42 +14,45 @@ class SchoolClass
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?string $name = null;
 
   #[ORM\Column]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $grade = null;
 
   #[ORM\Column]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $students = null;
 
   #[ORM\Column(nullable: true)]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $repetents = null;
 
   #[ORM\Column]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $budget = null;
 
   #[ORM\Column]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $usedBudget = null;
 
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
   #[ORM\JoinColumn(nullable: false)]
+  #[Groups(["schoolClass:read"])]
   private ?Department $department = null;
 
   #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'schoolClass')]
+  #[Groups(["schoolClass:read"])]
   private Collection $bookOrders;
 
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
   #[ORM\JoinColumn(nullable: false)]
+  #[Groups(["schoolClass:read"])]
   private ?Years $year = null;
 
   public function __construct()

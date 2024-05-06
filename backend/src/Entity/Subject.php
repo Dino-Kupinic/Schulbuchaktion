@@ -14,11 +14,11 @@ class Subject
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $name = null;
 
   #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'subject')]

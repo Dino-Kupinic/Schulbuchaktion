@@ -12,7 +12,7 @@
   "settings": {
     "settingName": "Einstellungen"
   },
-  "navLinks": {
+  "nav": {
     "orderList": "Bestellliste",
     "classManagement": "Klassenverwaltung",
     "budgetOverview": "Budget Übersicht",

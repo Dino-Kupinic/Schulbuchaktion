@@ -6,13 +6,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <UButton
-    class="bg-inherit text-black hover:bg-inherit dark:bg-inherit dark:text-white dark:hover:bg-inherit"
-  >
-    <NuxtLink :to="props.link">
-      {{ $t("navLinks." + props.title) }}
-    </NuxtLink>
-  </UButton>
+  <NuxtLink :to="props.link">
+    <span>
+      {{ props.title }}
+    </span>
+  </NuxtLink>
 </template>
-
-<style scoped></style>

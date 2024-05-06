@@ -1,11 +1,15 @@
 <script setup lang="ts"></script>
 
 <template>
-  <UContainer
-    class="flex h-full w-1/3 items-center justify-end space-x-3 border-inherit pr-5 max-lg:hidden xl:w-1/4"
+  <div
+    class="flex h-full items-center justify-end space-x-3 border-inherit pr-5"
   >
-    <slot></slot>
-  </UContainer>
+    <NavBarThemeToggle />
+    <NavDivider />
+    <NavBarLanguageToggle />
+    <NavDivider />
+    <NavSettingsButton />
+    <NavInfoButton />
+    <NavUser />
+  </div>
 </template>
-
-<style scoped></style>

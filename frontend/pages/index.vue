@@ -4,7 +4,7 @@
   <div
     class="h-full w-full rounded-lg border p-3 shadow-sm dark:border-gray-700"
   >
-    <BookOverviewTable class="mt-4" />    <NavBarLanguageToggle />
+    <BookOverviewTable class="mt-4" />
   </div>
 </template>
 

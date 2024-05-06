@@ -11,7 +11,7 @@ watch(
     links.value = [
       {
         title: t("nav.orderList"),
-        link: "/settings",
+        link: "/orderlist",
       },
       {
         title: t("nav.classManagement"),

@@ -152,16 +152,64 @@ const filteredRows = computed(() => {
     })
   })
 })
+
+const { t, locale } = useI18n()
+
+watch(
+  locale,
+  () => {
+    columns.value = [
+      {
+        key: "bookTitle",
+        label: t("book.title"),
+        sortable: true,
+      },
+      {
+        key: "bookSubject",
+        label: t("book.subject"),
+        sortable: true,
+      },
+      {
+        key: "department",
+        label: t("book.department"),
+        sortable: true,
+      },
+      {
+        key: "year",
+        label: t("book.schoolYear"),
+        sortable: true,
+      },
+      {
+        key: "grade",
+        label: t("book.grade"),
+        sortable: true,
+      },
+
+      {
+        key: "bookPrice",
+        label: t("book.price"),
+        sortable: true,
+      },
+      {
+        key: "actions",
+      },
+    ]
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-  <PageTitle>Book Order Overview</PageTitle>
+  <PageTitle>{{ $t("tableTitles.orderTable") }}</PageTitle>
   <UCard
     class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
     :ui="{ shadow: 'shadow-none', ring: '', body: 'p-0' }"
   >
     <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput v-model="query" placeholder="Search for bookorders..." />
+      <UInput
+        v-model="query"
+        :placeholder="$t('tableSearch.searchForOrders')"
+      />
     </div>
     <UTable
       v-model="selectedRows"
@@ -195,13 +243,13 @@ const filteredRows = computed(() => {
       <div class="flex flex-wrap items-center justify-between">
         <div>
           <span class="text-sm leading-5">
-            Showing
+            {{ $t("pagination.showing") }}
             <span class="font-medium">{{ pageFrom }}</span>
-            to
+            {{ $t("pagination.to") }}
             <span class="font-medium">{{ pageTo }}</span>
-            of
+            {{ $t("pagination.of") }}
             <span class="font-medium">{{ pageTotal }}</span>
-            results
+            {{ $t("pagination.results") }}
           </span>
         </div>
 

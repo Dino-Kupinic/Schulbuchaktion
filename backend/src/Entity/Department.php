@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DepartmentRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -15,29 +16,31 @@ class Department
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(["department:read"])]
+  #[Groups(["department:read", "bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(["department:read"])]
+  #[Groups(["department:read", "bookOrder:read"])]
   private ?string $name = null;
 
   #[ORM\Column]
-  #[Groups(["department:read"])]
+  #[Groups(["department:read", "bookOrder:read"])]
   private ?int $budget = null;
 
   #[ORM\Column]
-  #[Groups(["department:read"])]
+  #[Groups(["department:read", "bookOrder:read"])]
   private ?int $usedBudget = null;
+
+  #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+  #[Groups(["department:read", "bookOrder:read"])]
+  private ?DateTimeInterface $validFrom = null;
+
+  #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+  #[Groups(["department:read", "bookOrder:read"])]
+  private ?DateTimeInterface $validTo = null;
 
   #[ORM\OneToMany(targetEntity: SchoolClass::class, mappedBy: 'department')]
   private Collection $schoolClasses;
-
-  #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-  private ?\DateTimeInterface $validFrom = null;
-
-  #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-  private ?\DateTimeInterface $validTo = null;
 
   public function __construct()
   {
@@ -120,6 +123,15 @@ class Department
     }
 
     return $this;
+  }
+
+  public function updateFrom(Department $department): void
+  {
+    $this->setName($department->getName());
+    $this->setBudget($department->getBudget());
+    $this->setUsedBudget($department->getUsedBudget());
+    $this->setValidFrom($department->getValidFrom());
+    $this->setValidTo($department->getValidTo());
   }
 
   public function getValidFrom(): ?\DateTimeInterface

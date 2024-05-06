@@ -43,17 +43,17 @@ class SchoolClass
 
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?Department $department = null;
-
-  #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'schoolClass')]
-  #[Groups(["schoolClass:read"])]
-  private Collection $bookOrders;
 
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(["schoolClass:read"])]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?Years $year = null;
+
+  #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'schoolClass')]
+  private Collection $bookOrders;
+
 
   public function __construct()
   {

@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import type { NavigationItem } from "~/types/nav"
+
+defineProps<{
+  links: NavigationItem[]
+}>()
 const emit = defineEmits(["burgerMenuVisible"])
 
 const icon = ref<string>("i-heroicons-bars-3-solid")
 const revealMenu = ref<boolean>(false)
-const links = [
-  { title: "orderList", link: "/orderlist" },
-  { title: "classManagement", link: "/classes" },
-  { title: "budgetOverview", link: "/budget" },
-  { title: "import", link: "/import" },
-]
+
 function openMenu() {
   revealMenu.value = !revealMenu.value
   emit("burgerMenuVisible", revealMenu.value)
@@ -23,14 +23,15 @@ watch(revealMenu, () => {
 <template>
   <UButton
     color="blue"
-    class="mx-2"
+    class="mr-4"
     :trailing-icon="icon"
+    size="lg"
     variant="soft"
     @click="openMenu()"
   />
   <template v-if="revealMenu">
-    <UContainer
-      class="absolute top-20 z-10 flex h-full w-[92%] flex-col items-start justify-start gap-y-5 space-y-3 overflow-x-hidden rounded-b border border-t-0 border-neutral-300 bg-white p-5 opacity-100 dark:border-gray-700 dark:bg-[#171717]"
+    <div
+      class="absolute top-[72px] z-10 flex h-[calc(100%-72px)] w-full flex-col items-start justify-start gap-y-5 space-y-3 overflow-x-hidden bg-white p-5 opacity-100 dark:border-gray-700 dark:bg-gray-900"
     >
       <UContainer class="w-full space-y-1">
         <NavUser />
@@ -56,8 +57,6 @@ watch(revealMenu, () => {
         <NavBarLanguageToggle />
         <NavBarThemeToggle />
       </UContainer>
-    </UContainer>
+    </div>
   </template>
 </template>
-
-<style scoped></style>

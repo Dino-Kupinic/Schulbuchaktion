@@ -53,8 +53,8 @@ devDependencies:
     specifier: ^20.12.2
     version: 20.12.8
   '@vite-pwa/nuxt':
-    specifier: ^0.6.0
-    version: 0.6.0(rollup@4.17.2)(vite@5.2.11)(workbox-build@7.1.0)(workbox-window@7.1.0)
+    specifier: ^0.7.0
+    version: 0.7.0(rollup@4.17.2)(vite@5.2.11)(workbox-build@7.1.0)(workbox-window@7.1.0)
   autoprefixer:
     specifier: ^10.4.19
     version: 10.4.19(postcss@8.4.38)
@@ -3985,8 +3985,8 @@ packages:
       - encoding
       - supports-color
 
-  /@vite-pwa/nuxt@0.6.0(rollup@4.17.2)(vite@5.2.11)(workbox-build@7.1.0)(workbox-window@7.1.0):
-    resolution: {integrity: sha512-oW2fQ18yC7p81F4NeZe7y14dqzWR0IBljoEp5Ns2hHh44EyBsPP8kdFYqDOLJsbVGjqZdSmWdxESgLfT3SGpLA==}
+  /@vite-pwa/nuxt@0.7.0(rollup@4.17.2)(vite@5.2.11)(workbox-build@7.1.0)(workbox-window@7.1.0):
+    resolution: {integrity: sha512-s4bNChQSlhIIRDZApxWaA4p10UnBDm+DP/mnNgncRaZeWxAg3wpikR8PY/c0ZwJ5H2GBS+k7CVUlKryZZ44DGg==}
     peerDependencies:
       '@vite-pwa/assets-generator': ^0.2.4
     peerDependenciesMeta:

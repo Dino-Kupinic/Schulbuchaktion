@@ -81,7 +81,7 @@ class SubjectController extends AbstractController
    * @return Response -> subject formatted as json
    */
   #[Route(
-    path: "/subject/create",
+    path: "/create/subject",
     name: "app_subject_post",
     methods: ["POST"],
   )]

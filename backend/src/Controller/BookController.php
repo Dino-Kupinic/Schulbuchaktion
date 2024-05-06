@@ -63,6 +63,24 @@ class BookController extends AbstractController
     }
   }
 
+  #[Route(path: "/create", methods: ["POST"])]
+  public function createBook(Book $book, BookService $bookService): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("book:read")
+      ->toArray();
+
+    try {
+      $book = $bookService->createBook($book);
+      return $this->json(["success" => true, "data" => $book], status: Response::HTTP_CREATED, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to create book: {$e->getMessage()}"
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
   // TODO: Problem with foreign key constraint
   #[Route(path: "/delete/{id}", methods: ["DELETE"])]
   public function deleteBook(BookService $bookService, int $id): Response

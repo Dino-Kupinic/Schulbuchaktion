@@ -6,6 +6,7 @@ use App\Repository\SchoolClassRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolClassRepository::class)]
 class SchoolClass
@@ -13,24 +14,31 @@ class SchoolClass
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
+  #[Groups(["schoolClass:read"])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(["schoolClass:read"])]
   private ?string $name = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read"])]
   private ?int $grade = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read"])]
   private ?int $students = null;
 
   #[ORM\Column(nullable: true)]
+  #[Groups(["schoolClass:read"])]
   private ?int $repetents = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read"])]
   private ?int $budget = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read"])]
   private ?int $usedBudget = null;
 
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]

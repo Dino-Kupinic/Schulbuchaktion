@@ -81,7 +81,7 @@ class PublisherController extends AbstractController
    * @return Response -> publisher formatted as json
    */
   #[Route(
-    path: "/publisher/create",
+    path: "/create/publisher",
     name: "app_publisher_post",
     methods: ["POST"],
   )]

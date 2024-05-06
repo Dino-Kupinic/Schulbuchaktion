@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\DepartmentRepository;
 use App\Service\DepartmentService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,101 +18,80 @@ use function PHPUnit\Framework\isEmpty;
  * This controller is either used to get all departments or a department by id
  */
 
-#[Route("/api/v1")]
-class DepartmentController extends AbstractController {
-  /**
-   * @return Response -> all departments formatted as json
-   */
-  #[Route(
-    path: "/department",
-    name: "app_department",
-    methods: ["GET"]
-  )]
-  public function getDepartments(
-    DepartmentRepository $departmentRepo,
-    DepartmentService $departmentService,
-  ): Response {
-    //Get the current user
-
-
-    //Check if the user is logged in
-
-
-    //Save the groups of which the content should be returned in the $context variable
+#[Route("/api/v1/departments")]
+class DepartmentController extends AbstractController
+{
+  #[Route(path: "/", methods: ["GET"])]
+  public function getDepartments(DepartmentService $departmentService): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("department")
+      ->withGroups("department:read")
       ->toArray();
 
-    //Get all departments
-    $departments = $departmentService->getDepartments($departmentRepo);
-
-    if (count($departments) > 0) {
-      return $this->json($departments, status: Response::HTTP_OK, context: $context);
+    try {
+      $departments = $departmentService->getDepartments();
+      if (count($departments) > 0) {
+        return $this->json(["success" => true, "data" => $departments], status: Response::HTTP_OK, context: $context);
+      }
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get departments: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    return $this->json(null, status: Response::HTTP_NOT_FOUND);
   }
 
-
-  /**
-   * @return Response -> the department with the given id formatted as json
-   */
-  #[Route(
-    path: "/department/{id}",
-    name: "app_department_get_by_id",
-    methods: ["GET"]
-  )]
-  public function getDepartmentById(
-    DepartmentRepository $departmentRepo,
-    DepartmentService $departmentService,
-    int $id
-  ):Response {
-    //Get the current user
-
-    //Check if the user is logged in
-
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/{id}", methods: ["GET"])]
+  public function getDepartment(DepartmentService $departmentService, int $id): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("department")
+      ->withGroups("department:read")
       ->toArray();
 
-    //Search for a department in the repository with the value of the given id parameter
-    $department = $departmentService->getDepartmentById($id, $departmentRepo);
-
-    if (!isEmpty($department)) {
-      return $this->json($department, status: Response::HTTP_OK, context: $context);
+    try {
+      $department = $departmentService->getDepartmentById($id);
+      if ($department == null) {
+        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      }
+      return $this->json(["success" => true, "data" => $department], status: Response::HTTP_OK, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get department: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    return $this->json(null, status: Response::HTTP_NOT_FOUND);
   }
 
-
-  /**
-   * @return Response -> the department with the given id formatted as json
-   */
-  #[Route(
-    path: "/department/create",
-    name: "app_department_create",
-    methods: ["POST"]
-  )]
-  public function createDepartment(
-    EntityManagerInterface $em,
-    DepartmentService $departmentService,
-    Department $department,
-  ): Response {
-    //Get the current user
-
-    //Check if the user is logged in
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/create", methods: ["POST"])]
+  public function createDepartment(Department $department, DepartmentService $departmentService): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("department")
+      ->withGroups("department:read")
       ->toArray();
 
-    $createdSuccessfully = $departmentService->createDepartment($department, $em);
-
-    if ($createdSuccessfully) {
-      return $this->json('success', status: Response::HTTP_CREATED, context: $context);
+    try {
+      $department = $departmentService->createDepartment($department);
+      return $this->json(["success" => true, "data" => $department], status: Response::HTTP_CREATED, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to create department: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    return $this->json(null, status: Response::HTTP_INTERNAL_SERVER_ERROR);
+  }
+
+  #[Route(path: "/delete/{id}", methods: ["PUT"])]
+  public function deleteDepartment(DepartmentService $departmentService, int $id): Response
+  {
+    try {
+      $departmentService->deleteDepartment($id);
+      return $this->json(["success" => true, "message" => "Department was successfully deleted"], status: Response::HTTP_OK);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to delete department with id $id: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
   }
 }

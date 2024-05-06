@@ -6,85 +6,80 @@ use App\Entity\Department;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Service class for handling Department data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Department
+ * @see DepartmentRepository
+ */
 class DepartmentService
 {
+  private EntityManagerInterface $entityManager;
+  private DepartmentRepository $departmentRepository;
 
-  // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
-
-  public function createDepartment(Department $department, EntityManagerInterface $em): bool
+  public function __construct(EntityManagerInterface $entityManager, DepartmentRepository $departmentRepository)
   {
-    try {
-      $em->persist($department);
-      $em->flush();
-    } catch (\Exception $e) {
-      return false;
-    }
-    return true;
+    $this->entityManager = $entityManager;
+    $this->departmentRepository = $departmentRepository;
   }
 
-  public function updateDepartment($department, EntityManagerInterface $em): void
+  /**
+   * Get all departments.
+   *
+   * @return Department[]|null The departments
+   */
+  public function getDepartments(): array|null
   {
-    $departmentUpdate = $em->getRepository(Department::class)->find($department->getId());
-    $departmentUpdate->setName($department->getName());
-    $departmentUpdate->setBudget($department->getBudget());
-    $departmentUpdate->setUsedBudget($department->getUsedBudget());
-    $departmentUpdate->setValidFrom($department->getValidFrom());
-    $departmentUpdate->setValidTo($department->getValidTo());
-    $em->flush();
+    return $this->departmentRepository->findAll();
   }
 
-  public function dropDepartment($id, EntityManagerInterface $em): void
+  /**
+   * Get a department by id.
+   *
+   * @param int $id The id of the department
+   * @return Department|null The department
+   */
+  public function getDepartmentById(int $id): Department|null
   {
-    $department = $em->getRepository(Department::class)->find($id);
-    $em->remove($department);
-    $em->flush();
+    return $this->departmentRepository->find($id);
   }
 
-  public function getDepartments(DepartmentRepository $departmentRepository): array
+  /**
+   * Create a new department.
+   *
+   * @param Department $department The department object to persist
+   * @return Department The persisted department object
+   */
+  public function createDepartment(Department $department): Department
   {
-    return $departmentRepository->findAll();
+    $this->entityManager->persist($department);
+    $this->entityManager->flush();
+    return $department;
   }
 
-  public function getDepartmentById($id, DepartmentRepository $departmentRepository): Department
+  /**
+   * Update a department.
+   *
+   * @param Department $department The department object with updated information
+   * @return Department The updated department object
+   */
+  public function updateDepartment(Department $department): Department
   {
-    return $departmentRepository->find($id);
+    $this->entityManager->persist($department);
+    $this->entityManager->flush();
+    return $department;
   }
 
-  public function updateDepartmentName($department, EntityManagerInterface $em): void
+  /**
+   * Delete a department.
+   *
+   * @param int $id The id of the department to delete
+   */
+  public function deleteDepartment(int $id): void
   {
-    $departmentName = $em->getRepository(Department::class)->find($department->getId());
-    $departmentName->setName($department->getName());
-    $em->flush();
+    $department = $this->departmentRepository->find($id);
+    $this->entityManager->remove($department);
+    $this->entityManager->flush();
   }
-
-  public function updateDepartmentBudget($department, EntityManagerInterface $em): void
-  {
-    $departmentBudget = $em->getRepository(Department::class)->find($department->getId());
-    $departmentBudget->setBudget($department->getBudget());
-    $em->flush();
-  }
-
-  public function updateDepartmentUsedBudget($department, EntityManagerInterface $em): void
-  {
-    $departmentUsedBudget = $em->getRepository(Department::class)->find($department->getId());
-    $departmentUsedBudget->setUsedBudget($department->getUsedBudget());
-    $em->flush();
-  }
-
-  public function updateDepartmentValidFrom($department, EntityManagerInterface $em): void
-  {
-    $departmentValidFrom = $em->getRepository(Department::class)->find($department->getId());
-    $departmentValidFrom->setValidFrom($department->getValidFrom());
-    $em->flush();
-  }
-
-  public function updateDepartmentValidTo($department, EntityManagerInterface $em): void
-  {
-    $departmentValidTo = $em->getRepository(Department::class)->find($department->getId());
-    $departmentValidTo->setValidTo($department->getValidTo());
-    $em->flush();
-  }
-
-
-
 }

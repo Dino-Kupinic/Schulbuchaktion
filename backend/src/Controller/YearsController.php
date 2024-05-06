@@ -81,7 +81,7 @@ class YearsController extends AbstractController
    * @return Response -> years formatted as json
    */
   #[Route(
-    path: "/years/create",
+    path: "/create/years",
     name: "app_years_post",
     methods: ["POST"],
   )]

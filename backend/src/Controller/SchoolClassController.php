@@ -6,105 +6,96 @@ use App\Entity\SchoolClass;
 use App\Repository\SchoolClassRepository;
 use App\Service\SchoolClassService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use function PHPUnit\Framework\isEmpty;
 
-#[Route("api/v1")]
+
+/**
+ * Controller class for handling schoolClass data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see SchoolClass
+ * @see SchoolClassRepository
+ * @see SchoolClassService
+ */
+#[Route("api/v1/schoolClass")]
 class SchoolClassController extends AbstractController
 {
-  /**
-   * @return Response -> all schoolClass formatted as json
-   */
-  #[Route(
-    path: "/schoolClass",
-    name: "app_schoolClass_get_all",
-    methods: ["GET"],
-  )]
-  public function getSchoolClasses(
-    SchoolClassService $schoolClassService,
-    SchoolClassRepository $schoolClassRepo
-  ): Response {
-    //Get the current user
-
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/", methods: ["GET"])]
+  public function getSchoolClasses(SchoolClassService $schoolClassService): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("schoolClass")
+      ->withGroups("schoolClass:read")
       ->toArray();
 
-    //Get all schoolClass
-    $schoolClass = $schoolClassService->getSchoolClasses($schoolClassRepo);
-
-    if (count($schoolClass) > 0) {
-      return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
+    try {
+      $schoolClasses = $schoolClassService->getSchoolClasses();
+      if (count($schoolClasses) > 0) {
+        return $this->json(["success" => true, "data" => $schoolClasses], status: Response::HTTP_OK, context: $context);
+      }
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get schoolClasses: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-
-    return $this->json(null, status: Response::HTTP_NOT_FOUND);
   }
 
-
-  /**
-   * @return Response -> schoolClass formatted as json
-   */
-  #[Route(
-    path: "/schoolClass/{id}",
-    name: "app_schoolClass_get",
-    methods: ["GET"],
-  )]
-  public function getSchoolClass(
-    SchoolClassService $schoolClassService,
-    SchoolClassRepository $schoolClassRepo,
-    int $id
-  ): Response {
-    //Get the current user
-
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/{id}", methods: ["GET"])]
+  public function getSchoolClass(SchoolClassService $schoolClassService, int $id): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("schoolClass")
+      ->withGroups("schoolClass:read")
       ->toArray();
 
-    //Get the schoolClass with the given id
-    $schoolClass = $schoolClassService->getSchoolClassById($id, $schoolClassRepo);
-
-    if (!isEmpty($schoolClass)) {
-      return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
+    try {
+      $schoolClass = $schoolClassService->findSchoolClassById($id);
+      if ($schoolClass == null) {
+        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      }
+      return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_OK, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get schoolClass: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    return $this->json(null, status: Response::HTTP_NOT_FOUND);
   }
 
-
-  /**
-   * @return Response -> schoolClass formatted as json
-   */
-  #[Route(
-    path: "/schoolClass/create",
-    name: "app_schoolClass_post",
-    methods: ["POST"],
-  )]
-  public function createSchoolClass(
-    SchoolClassService $schoolClassService,
-    EntityManagerInterface $em,
-    SchoolClass $schoolClassToCreate
-  ): Response {
-    //Get the current user
-
-
-    //Save the groups of which the content should be returned in the $context variable
+  #[Route(path: "/create", methods: ["POST"])]
+  public function createSchoolClass(SchoolClass $schoolClass, SchoolClassService $schoolClassService): Response
+  {
     $context = (new ObjectNormalizerContextBuilder())
-      ->withGroups("schoolClass")
+      ->withGroups("schoolClass:read")
       ->toArray();
 
-    //Create a new schoolClass
-    $createdSuccessfully = $schoolClassService->createSchoolClass($schoolClassToCreate, $em);
-
-    if ($createdSuccessfully) {
-      return $this->json("success", status: Response::HTTP_CREATED, context: $context);
+    try {
+      $schoolClass = $schoolClassService->createSchoolClass($schoolClass);
+      return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_CREATED, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to create schoolClass: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+  }
 
-    return $this->json(null, status: Response::HTTP_INTERNAL_SERVER_ERROR);
+  #[Route(path: "/delete/{id}", methods: ["DELETE"])]
+  public function deleteSchoolClass(SchoolClassService $schoolClassService, int $id): Response
+  {
+    try {
+      $schoolClassService->deleteSchoolClass($id);
+      return $this->json(["success" => true, "data" => "SchoolClass with id $id deleted"], status: Response::HTTP_OK);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to delete schoolClass: " . $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
   }
 }

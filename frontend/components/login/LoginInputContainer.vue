@@ -5,7 +5,7 @@ const username = ref<string>("")
 const password = ref<string>("")
 
 function createCookie(tokenValue: string) {
-  const token = useCookie("AuthToken")
+  const token = useCookie("BearerToken")
   token.value = tokenValue
 }
 
@@ -19,8 +19,6 @@ async function submitData() {
       },
       baseURL: config.public.baseURL,
     })
-    // @ts-ignore
-    console.log(response)
 
     // @ts-ignore
     createCookie(response.token)

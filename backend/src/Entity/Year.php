@@ -9,16 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: YearsRepository::class)]
-class Years
+class Year
 {
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read', "bookOrder:read"])]
+  #[Groups(['book:read', "bookOrder:read", "schoolClass:read"])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['book:read', "bookOrder:read"])]
+  #[Groups(['book:read', "bookOrder:read", "schoolClass:read"])]
   private ?int $year = null;
 
   #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'year', orphanRemoval: true)]
@@ -139,5 +139,10 @@ class Years
     }
 
     return $this;
+  }
+
+  public function updateFrom(Year $year)
+  {
+    $this->setYear($year->getYear());
   }
 }

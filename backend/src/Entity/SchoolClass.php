@@ -49,7 +49,7 @@ class SchoolClass
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
   #[ORM\JoinColumn(nullable: false)]
   #[Groups(["schoolClass:read", "bookOrder:read"])]
-  private ?Years $year = null;
+  private ?Year $year = null;
 
   #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'schoolClass')]
   private Collection $bookOrders;
@@ -180,12 +180,12 @@ class SchoolClass
     return $this;
   }
 
-  public function getYear(): ?Years
+  public function getYear(): ?Year
   {
     return $this->year;
   }
 
-  public function setYear(?Years $year): static
+  public function setYear(?Year $year): static
   {
     $this->year = $year;
 

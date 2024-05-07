@@ -16,27 +16,27 @@ class Department
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(["department:read", "bookOrder:read"])]
+  #[Groups(["department:read", "bookOrder:read", "schoolClass:read"])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(["department:read", "bookOrder:read"])]
+  #[Groups(["department:read", "bookOrder:read", "schoolClass:read"])]
   private ?string $name = null;
 
   #[ORM\Column]
-  #[Groups(["department:read", "bookOrder:read"])]
+  #[Groups(["department:read", "bookOrder:read", "schoolClass:read"])]
   private ?int $budget = null;
 
   #[ORM\Column]
-  #[Groups(["department:read", "bookOrder:read"])]
+  #[Groups(["department:read", "bookOrder:read", "schoolClass:read"])]
   private ?int $usedBudget = null;
 
   #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-  #[Groups(["department:read", "bookOrder:read"])]
+  #[Groups(["department:read", "bookOrder:read", "schoolClass:read"])]
   private ?DateTimeInterface $validFrom = null;
 
   #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-  #[Groups(["department:read", "bookOrder:read"])]
+  #[Groups(["department:read", "bookOrder:read", "schoolClass:read"])]
   private ?DateTimeInterface $validTo = null;
 
   #[ORM\OneToMany(targetEntity: SchoolClass::class, mappedBy: 'department')]

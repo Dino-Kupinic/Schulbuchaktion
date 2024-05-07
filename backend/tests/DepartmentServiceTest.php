@@ -8,7 +8,7 @@ use App\Entity\Department;
 use App\Entity\Publisher;
 use App\Entity\SchoolClass;
 use App\Entity\Subject;
-use App\Entity\Years;
+use App\Entity\Year;
 use App\Repository\DepartmentRepository;
 use App\Service\DepartmentService;
 use Doctrine\ORM\EntityManagerInterface;

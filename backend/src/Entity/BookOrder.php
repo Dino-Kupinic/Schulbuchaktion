@@ -12,38 +12,38 @@ class BookOrder
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?int $count = null;
 
   #[ORM\Column]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?bool $teacherCopy = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?string $lastUser = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?string $creationUser = null;
 
   #[ORM\ManyToOne(inversedBy: 'bookOrders')]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?SchoolClass $schoolClass = null;
 
   #[ORM\ManyToOne(inversedBy: 'bookOrders')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
+  #[Groups(["bookOrder:read"])]
   private ?Book $book = null;
 
   #[ORM\ManyToOne(inversedBy: 'bookOrders')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['bookOrder:read', "bookOrder:read"])]
-  private ?Years $year = null;
+  #[Groups(["bookOrder:read"])]
+  private ?Year $year = null;
 
   public function getId(): ?int
   {
@@ -103,12 +103,12 @@ class BookOrder
     return $this;
   }
 
-  public function getYear(): ?Years
+  public function getYear(): ?Year
   {
     return $this->year;
   }
 
-  public function setYear(?Years $year): static
+  public function setYear(?Year $year): static
   {
     $this->year = $year;
 

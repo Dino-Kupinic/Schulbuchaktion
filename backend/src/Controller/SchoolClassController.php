@@ -22,7 +22,7 @@ use function PHPUnit\Framework\isEmpty;
  * @see SchoolClassRepository
  * @see SchoolClassService
  */
-#[Route("api/v1/schoolClass")]
+#[Route("api/v1/schoolClasses")]
 class SchoolClassController extends AbstractController
 {
   #[Route(path: "/", methods: ["GET"])]
@@ -56,7 +56,7 @@ class SchoolClassController extends AbstractController
     try {
       $schoolClass = $schoolClassService->findSchoolClassById($id);
       if ($schoolClass == null) {
-        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+        return $this->json(["success" => false, "error" => "Couldn't find school class with id $id"], status: Response::HTTP_NOT_FOUND);
       }
       return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {

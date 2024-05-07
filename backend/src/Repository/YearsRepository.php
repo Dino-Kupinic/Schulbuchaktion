@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Years;
+use App\Entity\Year;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Years>
+ * @extends ServiceEntityRepository<Year>
  *
- * @method Years|null find($id, $lockMode = null, $lockVersion = null)
- * @method Years|null findOneBy(array $criteria, array $orderBy = null)
- * @method Years[]    findAll()
- * @method Years[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Year|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Year|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Year[]    findAll()
+ * @method Year[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class YearsRepository extends ServiceEntityRepository
 {
   public function __construct(ManagerRegistry $registry)
   {
-    parent::__construct($registry, Years::class);
+    parent::__construct($registry, Year::class);
   }
 
 //    /**

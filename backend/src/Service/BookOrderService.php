@@ -19,11 +19,24 @@ class BookOrderService
 {
   private EntityManagerInterface $entityManager;
   private BookOrderRepository $bookOrderRepository;
+  private BookService $bookService;
+  private YearsService $yearsService;
+  private SchoolClassService $schoolClassService;
 
-  public function __construct(EntityManagerInterface $entityManager, BookOrderRepository $bookOrderRepository)
+  public function __construct
+  (
+    EntityManagerInterface $entityManager,
+    BookOrderRepository    $bookOrderRepository,
+    BookService            $bookService,
+    YearsService           $yearsService,
+    SchoolClassService     $schoolClassService,
+  )
   {
     $this->entityManager = $entityManager;
     $this->bookOrderRepository = $bookOrderRepository;
+    $this->bookService = $bookService;
+    $this->yearsService = $yearsService;
+    $this->schoolClassService = $schoolClassService;
   }
 
   /**
@@ -98,39 +111,92 @@ class BookOrderService
   }
 
   /**
+   * Validate request data.
+   *
+   * @param array $data The request data
+   * @throws Exception If the data is not valid
+   */
+  private function validateRequestData(array $data): void
+  {
+    $requiredFields = ["count", "teacherCopy", "lastUser", "creationUser", "book", "year", "schoolClass"];
+    $intFields = ["count", "book", "year", "schoolClass"];
+    $boolFields = ["teacherCopy"];
+    $stringFields = ["lastUser", "creationUser"];
+
+    foreach ($requiredFields as $field) {
+      if (!isset($data[$field])) {
+        throw new Exception("Missing $field in request.");
+      }
+    }
+
+    foreach ($intFields as $field) {
+      if (!is_int($data[$field])) {
+        throw new Exception("$field must be a number.");
+      }
+    }
+
+    foreach ($boolFields as $field) {
+      if (!is_bool($data[$field])) {
+        throw new Exception("$field must be a boolean.");
+      }
+    }
+
+    foreach ($stringFields as $field) {
+      if (!is_string($data[$field])) {
+        throw new Exception("$field must be a string.");
+      }
+    }
+  }
+
+  /**
+   * Set BookOrder properties.
+   *
+   * @param array $data The request data
+   * @return BookOrder The BookOrder object
+   * @throws Exception If an error occurs
+   */
+  private function setBookOrderProperties(array $data): BookOrder
+  {
+    $bookOrder = new BookOrder();
+    $bookOrder->setCount($data["count"]);
+    $bookOrder->setTeacherCopy($data["teacherCopy"]);
+    $bookOrder->setLastUser($data["lastUser"]);
+    $bookOrder->setCreationUser($data["creationUser"]);
+
+    $book = $this->bookService->findBookById($data["book"]);
+    if ($book === null) {
+      throw new Exception("Book with id {$data['book']} not found.");
+    }
+    $bookOrder->setBook($book);
+
+    $year = $this->yearsService->findYearById($data["year"]);
+    if ($year === null) {
+      throw new Exception("Year with id {$data['year']} not found.");
+    }
+    $bookOrder->setYear($year);
+
+    $schoolClass = $this->schoolClassService->findSchoolClassById($data["schoolClass"]);
+    if ($schoolClass === null) {
+      throw new Exception("School class with id {$data['schoolClass']} not found.");
+    }
+    $bookOrder->setSchoolClass($schoolClass);
+
+    return $bookOrder;
+  }
+
+  /**
    * Parse request data into a BookOrder object.
    *
    * @param Request $request The request object
+   * @return BookOrder The BookOrder object
    * @throws Exception If the data cannot be parsed
    */
   public function parseRequestData(Request $request): BookOrder
   {
     $data = json_decode($request->getContent(), true);
 
-    if (
-      !isset($data["count"]) ||
-      !isset($data["teacherCopy"]) ||
-      !isset($data["lastUser"]) ||
-      !isset($data["creationUser"]) ||
-      !isset($data["book"]) ||
-      !isset($data["year"]) ||
-      !isset($data["schoolClass"])
-    ) {
-      throw new Exception("Missing data in request.");
-    }
+    $this->validateRequestData($data);
 
-    if (!is_int($data["count"]) || !is_bool($data["teacherCopy"])) {
-      throw new Exception("Count must be a number and/or teacherCopy must be a boolean.");
-    }
-
-    $bookOrder = new BookOrder();
-    $bookOrder->setCount($data["count"]);
-    $bookOrder->setTeacherCopy($data["teacherCopy"]);
-    $bookOrder->setLastUser($data["lastUser"]);
-    $bookOrder->setCreationUser($data["creationUser"]);
-    $bookOrder->setBook($data["book"]);
-    $bookOrder->setYear($data["year"]);
-    $bookOrder->setSchoolClass($data["schoolClass"]);
-    return $bookOrder;
+    return $this->setBookOrderProperties($data);
   }
 }

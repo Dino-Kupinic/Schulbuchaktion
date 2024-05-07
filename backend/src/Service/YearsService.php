@@ -2,48 +2,115 @@
 
 namespace App\Service;
 
-use App\Entity\Years;
+use App\Entity\Year;
 use App\Repository\YearsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
 
 class YearsService
 {
+  private EntityManagerInterface $entityManager;
+  private YearsRepository $yearsRepository;
 
-  // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
-
-  public function createYear(Years $years, EntityManagerInterface $em): bool
+  public function __construct(EntityManagerInterface $entityManager, YearsRepository $yearsRepository)
   {
-    try {
-      $em->persist($years);
-      $em->flush();
-    } catch (\Exception $e) {
-      return false;
+    $this->entityManager = $entityManager;
+    $this->yearsRepository = $yearsRepository;
+  }
+
+  /**
+   * Create a new year.
+   *
+   * @param Year $year The year object to persist
+   * @return Year The persisted year object
+   */
+  public function createYear(Year $year): Year
+  {
+    $this->entityManager->persist($year);
+    $this->entityManager->flush();
+    return $year;
+  }
+
+  /**
+   * Update a year.
+   *
+   * @param int $id The id of the year to update
+   * @param Year $year The year object to update
+   * @return Year The updated year object
+   */
+  public function updateYear(int $id, Year $year): Year
+  {
+    $oldYear = $this->findYearById($id);
+
+    if ($oldYear) {
+      $oldYear->updateFrom($year);
+      $this->entityManager->flush();
     }
-    return true;
+
+    return $oldYear;
   }
 
-  public function dropYears($id, EntityManagerInterface $em): void
+  /**
+   * Delete a year.
+   *
+   * @param int $id The id of the year to delete
+   * @return Year|null The deleted year object or null if not found
+   */
+  public function deleteYear(int $id): Year|null
   {
-    $years = $em->getRepository(Years::class)->find($id);
-    $em->remove($years);
-    $em->flush();
+    $year = $this->findYearById($id);
+
+    if ($year) {
+      $this->entityManager->remove($year);
+      $this->entityManager->flush();
+    }
+
+    return $year;
   }
 
-  public function getYears(YearsRepository $yearsRepository): array
+  /**
+   * Get all years.
+   *
+   * @return array|null An array of year objects
+   */
+  public function getYears(): array|null
   {
-    return $yearsRepository->findAll();
+    return $this->yearsRepository->findAll();
   }
 
-  public function getYearsById($id, YearsRepository $yearsRepository): Years
+  /**
+   * Find a year by its id.
+   *
+   * @param int $id The id of the year to find
+   * @return Year|null The year object or null if not found
+   */
+  public function findYearById(int $id): Year|null
   {
-    return $yearsRepository->find($id);
+    return $this->yearsRepository->find($id);
   }
 
-  public function updateYears($years, EntityManagerInterface $em): void
+  /**
+   * Parse request data into a year object.
+   *
+   * @param Request $request The request object
+   * @throws Exception If year is not provided or is not a number
+   */
+  public function parseRequestData(Request $request): Year
   {
-    $yearsUpdate = $em->getRepository(Years::class)->find($years->getId());
-    $yearsUpdate->setYear($years->getYear());
-    $em->flush();
-  }
+    $data = json_decode($request->getContent(), true);
 
+    if (!isset($data['year'])) {
+      throw new Exception("Year is required");
+    }
+
+    if (!is_int($data['year'])) {
+      throw new Exception("Year must be a number");
+    }
+
+    $year = new Year();
+    $year->setYear($data['year']);
+
+    return $year;
+  }
 }

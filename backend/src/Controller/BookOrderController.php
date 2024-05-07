@@ -99,18 +99,15 @@ class BookOrderController extends AbstractController
   }
 
   #[Route(path: "/update/{id}", methods: ["PUT"])]
-  public function updateBook(BookOrderService $bookOrderService, int $id): Response
+  public function updateBook(BookOrderService $bookOrderService, Request $request, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("bookOrder:read")
       ->toArray();
 
     try {
-      $bookOrder = $bookOrderService->findBookOrderById($id);
-      if ($bookOrder == null) {
-        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
-      }
-      $bookOrder = $bookOrderService->updateBookOrder($id, $bookOrder);
+      $temp = $bookOrderService->parseRequestData($request);
+      $bookOrder = $bookOrderService->updateBookOrder($id, $temp);
       return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
       return $this->json([

@@ -14,15 +14,15 @@ class Publisher
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read', "bookOrder:read"])]
+  #[Groups(['book:read', "bookOrder:read", 'publisher:read'])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['book:read', "bookOrder:read"])]
+  #[Groups(['book:read', "bookOrder:read", 'publisher:read'])]
   private ?int $publisherNumber = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read', "bookOrder:read"])]
+  #[Groups(['book:read', "bookOrder:read", 'publisher:read'])]
   private ?string $name = null;
 
   #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'publisher')]
@@ -90,5 +90,11 @@ class Publisher
     }
 
     return $this;
+  }
+
+  public function updateFrom(Publisher $publisher)
+  {
+    $this->setName($publisher->getName());
+    $this->setPublisherNumber($publisher->getPublisherNumber());
   }
 }

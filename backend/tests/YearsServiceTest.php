@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-use App\Entity\Years;
+use App\Entity\Year;
 use App\Repository\YearsRepository;
 use App\Service\YearsService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +45,7 @@ class YearsServiceTest extends KernelTestCase
   {
     $yearsService = new YearsService();
     $yearsRepository = $this->createMock(YearsRepository::class);
-    $expectedResult = [new Years(), new Years()];
+    $expectedResult = [new Year(), new Year()];
 
     $yearsRepository->expects($this->once())
       ->method('findAll')

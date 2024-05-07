@@ -74,10 +74,9 @@ class Book
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
   #[Groups(['book:read', "bookOrder:read"])]
-  private ?Years $year = null;
+  private ?Year $year = null;
 
-  #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'bookId')]
-  #[Groups(['book:read'])]
+  #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'book')]
   private Collection $bookOrders;
 
   public function __construct()
@@ -210,12 +209,12 @@ class Book
     return $this;
   }
 
-  public function getYear(): ?Years
+  public function getYear(): ?Year
   {
     return $this->year;
   }
 
-  public function setYear(?Years $year): static
+  public function setYear(?Year $year): static
   {
     $this->year = $year;
 

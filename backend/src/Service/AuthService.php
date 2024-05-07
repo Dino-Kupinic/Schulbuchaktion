@@ -62,7 +62,6 @@ class AuthService
       }
     } catch (Exception $e) {
       $success = false;
-      echo $e;
     }
     return compact('role', 'success');
   }
@@ -85,7 +84,7 @@ class AuthService
         return true;
       } else return false;
 
-    } catch (Exception $e) {
+    } catch (Exception) {
       return false;
     }
   }

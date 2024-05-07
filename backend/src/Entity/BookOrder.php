@@ -139,5 +139,14 @@ class BookOrder
     return $this;
   }
 
-
+  public function updateFrom(BookOrder $bookOrder): void
+  {
+    $this->count = $bookOrder->getCount();
+    $this->teacherCopy = $bookOrder->getTeacherCopy();
+    $this->lastUser = $bookOrder->getLastUser();
+    $this->creationUser = $bookOrder->getCreationUser();
+    $this->schoolClass = $bookOrder->getSchoolClass();
+    $this->book = $bookOrder->getBook();
+    $this->year = $bookOrder->getYear();
+  }
 }

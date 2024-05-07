@@ -6,6 +6,7 @@ use App\Entity\BookOrder;
 use App\Repository\BookOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Service class for handling book orders.
@@ -40,17 +41,23 @@ class BookOrderService
   }
 
   /**
-   * Update a new book order.
+   * Update a book order.
    *
-   * @param BookOrder $bookOrder The book order object with updated information
+   * @param int $id The id of the book order to update
+   * @param BookOrder $bookOrder The book order object to update
    * @return BookOrder The updated book order object
-   * @throws Exception If an error occurs during transaction
    */
-  public function updateBookOrder(BookOrder $bookOrder): BookOrder
+  public function updateBookOrder(int $id, BookOrder $bookOrder): BookOrder
   {
-    $this->entityManager->persist($bookOrder);
-    $this->entityManager->flush();
-    return $bookOrder;
+    $oldBookOrder = $this->findBookOrderById($id);
+
+    if ($oldBookOrder) {
+      $oldBookOrder->updateFrom($bookOrder);
+      $this->entityManager->persist($oldBookOrder);
+      $this->entityManager->flush();
+    }
+
+    return $oldBookOrder;
   }
 
   /**
@@ -88,5 +95,42 @@ class BookOrderService
   public function findBookOrderById(int $id): BookOrder|null
   {
     return $this->bookOrderRepository->find($id);
+  }
+
+  /**
+   * Parse request data into a BookOrder object.
+   *
+   * @param Request $request The request object
+   * @throws Exception If the data cannot be parsed
+   */
+  public function parseRequestData(Request $request): BookOrder
+  {
+    $data = json_decode($request->getContent(), true);
+
+    if (
+      !isset($data["count"]) ||
+      !isset($data["teacherCopy"]) ||
+      !isset($data["lastUser"]) ||
+      !isset($data["creationUser"]) ||
+      !isset($data["book"]) ||
+      !isset($data["year"]) ||
+      !isset($data["schoolClass"])
+    ) {
+      throw new Exception("Missing data in request.");
+    }
+
+    if (!is_int($data["count"]) || !is_bool($data["teacherCopy"])) {
+      throw new Exception("Count must be a number and/or teacherCopy must be a boolean.");
+    }
+
+    $bookOrder = new BookOrder();
+    $bookOrder->setCount($data["count"]);
+    $bookOrder->setTeacherCopy($data["teacherCopy"]);
+    $bookOrder->setLastUser($data["lastUser"]);
+    $bookOrder->setCreationUser($data["creationUser"]);
+    $bookOrder->setBook($data["book"]);
+    $bookOrder->setYear($data["year"]);
+    $bookOrder->setSchoolClass($data["schoolClass"]);
+    return $bookOrder;
   }
 }

@@ -7,6 +7,7 @@ use App\Repository\BookOrderRepository;
 use App\Service\BookOrderService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
@@ -64,6 +65,25 @@ class BookOrderController extends AbstractController
     }
   }
 
+  #[Route(path: "/create", methods: ["POST"])]
+  public function createBook(BookOrderService $bookOrderService, Request $request): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("bookOrder:read")
+      ->toArray();
+
+    try {
+      $temp = $bookOrderService->parseRequestData($request);
+      $bookOrder = $bookOrderService->createBookOrder($temp);
+      return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_CREATED, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to create book order: {$e->getMessage()}",
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
   #[Route(path: "/delete/{id}", methods: ["DELETE"])]
   public function deleteBook(BookOrderService $bookOrderService, int $id): Response
   {
@@ -74,6 +94,28 @@ class BookOrderController extends AbstractController
       return $this->json([
         "success" => false,
         "error" => "Failed to delete book order with id $id: {$e->getMessage()}",
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  #[Route(path: "/update/{id}", methods: ["PUT"])]
+  public function updateBook(BookOrderService $bookOrderService, int $id): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("bookOrder:read")
+      ->toArray();
+
+    try {
+      $bookOrder = $bookOrderService->findBookOrderById($id);
+      if ($bookOrder == null) {
+        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      }
+      $bookOrder = $bookOrderService->updateBookOrder($id, $bookOrder);
+      return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_OK, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to update book order with id $id: {$e->getMessage()}",
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }

@@ -10,7 +10,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const cookie = decodedCookie()
   if (cookie !== null) {
     if (cookie.authenticated) {
-      console.log("User is allowed to routes!")
+      if (to.path === "/login") {
+        return navigateTo("/")
+      } else return navigateTo(to)
+    } else {
+      return navigateTo("/login")
     }
   }
 })

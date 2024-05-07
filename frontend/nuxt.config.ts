@@ -71,7 +71,6 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/color-mode",
     "@nuxt/ui",
-    "nuxt-csurf",
     "@vite-pwa/nuxt",
     "nuxt-typed-router",
     "nuxt-viewport",

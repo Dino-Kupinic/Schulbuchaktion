@@ -8,7 +8,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class YearsService
+/**
+ * Service class for handling year data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Year
+ * @see YearsRepository
+ * @see YearsController
+ */
+class YearService
 {
   private EntityManagerInterface $entityManager;
   private YearsRepository $yearsRepository;
@@ -24,9 +32,16 @@ class YearsService
    *
    * @param Year $year The year object to persist
    * @return Year The persisted year object
+   * @throws Exception If an error occurs during transaction
    */
   public function createYear(Year $year): Year
   {
+    $temp = $this->findYearByYear($year->getYear());
+
+    if ($temp != null) {
+      throw new Exception("Year with id " . $year->getId() . " already exists.");
+    }
+
     $this->entityManager->persist($year);
     $this->entityManager->flush();
     return $year;
@@ -45,6 +60,7 @@ class YearsService
 
     if ($oldYear) {
       $oldYear->updateFrom($year);
+      $this->entityManager->persist($oldYear);
       $this->entityManager->flush();
     }
 
@@ -112,5 +128,16 @@ class YearsService
     $year->setYear($data['year']);
 
     return $year;
+  }
+
+  /**
+   * Find a year by its year.
+   *
+   * @param int|null $getYear The year to find
+   * @return Year|null The year object or null if not found
+   */
+  private function findYearByYear(?int $getYear): Year|null
+  {
+    return $this->yearsRepository->findOneBy(['year' => $getYear]);
   }
 }

@@ -92,7 +92,7 @@ class Publisher
     return $this;
   }
 
-  public function updateFrom(Publisher $publisher)
+  public function updateFrom(Publisher $publisher): void
   {
     $this->setName($publisher->getName());
     $this->setPublisherNumber($publisher->getPublisherNumber());

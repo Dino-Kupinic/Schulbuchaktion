@@ -14,6 +14,9 @@ use JWT\Authentication\JWT;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 
+/**
+ *
+ */
 #[ORM\Entity(repositoryClass: AuthTokenRepository::class)]
 class AuthToken
 {

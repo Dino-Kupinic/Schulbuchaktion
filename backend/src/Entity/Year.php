@@ -14,11 +14,11 @@ class Year
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read', "bookOrder:read", "schoolClass:read"])]
+  #[Groups(['book:read', "bookOrder:read", "schoolClass:read", "year:read"])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['book:read', "bookOrder:read", "schoolClass:read"])]
+  #[Groups(['book:read', "bookOrder:read", "schoolClass:read", "year:read"])]
   private ?int $year = null;
 
   #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'year', orphanRemoval: true)]

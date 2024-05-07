@@ -8,14 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * Represents the Book entity
- *
- * @author Lukas Bauer, Dino Kupinic
- * @version 1.0
- * @see BookRepository
- * @see BookService
- */
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
@@ -277,5 +269,21 @@ class Book
     $this->grade = $grade;
 
     return $this;
+  }
+
+  public function updateFrom(Book $book): void
+  {
+    $this->setOrderNumber($book->getOrderNumber());
+    $this->setShortTitle($book->getShortTitle());
+    $this->setTitle($book->getTitle());
+    $this->setSchoolForm($book->getSchoolForm());
+    $this->setDescription($book->getDescription());
+    $this->setBookPrice($book->getBookPrice());
+    $this->setEbook($book->isEbook());
+    $this->setEbookPlus($book->isEbookPlus());
+    $this->setGrade($book->getGrade());
+    $this->setSubject($book->getSubject());
+    $this->setPublisher($book->getPublisher());
+    $this->setYear($book->getYear());
   }
 }

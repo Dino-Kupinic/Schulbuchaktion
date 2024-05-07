@@ -7,6 +7,14 @@ use App\Repository\SchoolClassRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
+/**
+ * Service class for handling SchoolClass data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see SchoolClass
+ * @see SchoolClassRepository
+ * @see SchoolClassController
+ */
 class SchoolClassService
 {
   private EntityManagerInterface $entityManager;
@@ -17,7 +25,6 @@ class SchoolClassService
     $this->entityManager = $entityManager;
     $this->schoolClassRepository = $schoolClassRepository;
   }
-
 
   /**
    * Create a new schoolClass.

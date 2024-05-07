@@ -20,7 +20,7 @@ class BookOrderService
   private EntityManagerInterface $entityManager;
   private BookOrderRepository $bookOrderRepository;
   private BookService $bookService;
-  private YearsService $yearsService;
+  private YearService $yearsService;
   private SchoolClassService $schoolClassService;
 
   public function __construct
@@ -28,7 +28,7 @@ class BookOrderService
     EntityManagerInterface $entityManager,
     BookOrderRepository    $bookOrderRepository,
     BookService            $bookService,
-    YearsService           $yearsService,
+    YearService            $yearsService,
     SchoolClassService     $schoolClassService,
   )
   {

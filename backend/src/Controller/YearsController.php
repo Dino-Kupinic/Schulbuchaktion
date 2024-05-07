@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\YearsService;
+use App\Service\YearService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 class YearsController extends AbstractController
 {
   #[Route(path: "/", methods: ["GET"])]
-  public function getYears(YearsService $yearsService): Response
+  public function getYears(YearService $yearsService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("year:read")
@@ -35,7 +35,7 @@ class YearsController extends AbstractController
   }
 
   #[Route(path: "/{id}", methods: ["GET"])]
-  public function getYear(YearsService $yearsService, int $id): Response
+  public function getYear(YearService $yearsService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("year:read")
@@ -44,7 +44,7 @@ class YearsController extends AbstractController
     try {
       $year = $yearsService->findYearById($id);
       if ($year == null) {
-        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+        return $this->json(["success" => false, "data" => "Year with id $id not found"], status: Response::HTTP_NOT_FOUND);
       }
       return $this->json(["success" => true, "data" => $year], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
@@ -55,9 +55,8 @@ class YearsController extends AbstractController
     }
   }
 
-  // create year
   #[Route(path: "/create", methods: ["POST"])]
-  public function createYear(YearsService $yearsService, Request $request): Response
+  public function createYear(YearService $yearsService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("year:read")

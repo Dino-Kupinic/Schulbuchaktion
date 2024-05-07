@@ -5,45 +5,95 @@ namespace App\Service;
 use App\Entity\Subject;
 use App\Repository\SubjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
+/**
+ * Service class for handling Subject data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Subject
+ * @see SubjectRepository
+ * @see SubjectController
+ */
 class SubjectService
 {
+  private SubjectRepository $subjectRepository;
+  private EntityManagerInterface $entityManager;
 
-  // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
-
-  public function createSubject($subject, EntityManagerInterface $em): bool
+  public function __construct(SubjectRepository $subjectRepository, EntityManagerInterface $entityManager)
   {
-    try {
-      $em->persist($subject);
-      $em->flush();
-    } catch (\Exception $e) {
-      return false;
+    $this->subjectRepository = $subjectRepository;
+    $this->entityManager = $entityManager;
+  }
+
+  /**
+   * Create a new subject.
+   *
+   * @param Subject $subject The subject object to persist
+   * @return Subject The persisted subject object
+   * @throws Exception If the subject already exists
+   */
+  public function createSubject(Subject $subject): Subject
+  {
+    $temp = $this->findSubjectById($subject->getName());
+    if ($temp != null) {
+      throw new Exception("Subject with name " . $subject->getName() . " already exists.");
     }
-    return true;
+    $this->entityManager->persist($subject);
+    $this->entityManager->flush();
+
+    return $subject;
   }
 
-  public function dropSubject($id, EntityManagerInterface $em): void
+  /**
+   * Update a subject.
+   *
+   * @param Subject $subject The subject object with updated information
+   * @param string $name The new name of the subject
+   * @return Subject The updated subject object
+   */
+  public function updateSubject(Subject $subject, string $name): Subject
   {
-    $subject = $em->getRepository(Subject::class)->find($id);
-    $em->remove($subject);
-    $em->flush();
+    $oldSubject = $this->findSubjectById($subject->getId());
+
+    if ($oldSubject) {
+      $oldSubject->setName($name);
+      $this->entityManager->persist($subject);
+      $this->entityManager->flush();
+    }
+
+    return $subject;
   }
 
-  public function getSubjects(SubjectRepository $subjectRepository): array
+  /**
+   * Delete a subject.
+   *
+   * @param Subject $subject The subject object to delete
+   */
+  public function deleteSubject(Subject $subject): void
   {
-    return $subjectRepository->findAll();
+    $this->entityManager->remove($subject);
+    $this->entityManager->flush();
   }
 
-  public function getSubjectById($id, SubjectRepository $subjectRepository): Subject
+  /**
+   * Get all subjects.
+   *
+   * @return array|null An array of all subjects or null if none found
+   */
+  public function getSubjects(): array|null
   {
-    return $subjectRepository->find($id);
+    return $this->subjectRepository->findAll();
   }
 
-  public function updateSubjectName($subject, EntityManagerInterface $em): void
+  /**
+   * Find a subject by its id.
+   *
+   * @param int $id The id of the subject to find
+   * @return Subject|null The subject object or null if not found
+   */
+  public function findSubjectById(int $id): Subject|null
   {
-    $subjectName = $em->getRepository(Subject::class)->find($subject->getId());
-    $subjectName->setName($subject->getName());
-    $em->flush();
+    return $this->subjectRepository->find($id);
   }
-
 }

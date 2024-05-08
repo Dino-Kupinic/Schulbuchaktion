@@ -9,6 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Controller class for handling login requests.
+ * @author Michael Ploier
+ * @version 1.0
+ * @see AuthService
+ */
 #[Route("api/v1")]
 class LoginController extends AbstractController
 {

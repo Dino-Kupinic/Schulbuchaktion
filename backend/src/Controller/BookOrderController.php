@@ -54,7 +54,7 @@ class BookOrderController extends AbstractController
     try {
       $bookOrders = $bookOrderService->findBookOrderById($id);
       if ($bookOrders == null) {
-        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+        return $this->json(["success" => false, "data" => "Couldn't find book order with id $id"], status: Response::HTTP_NOT_FOUND);
       }
       return $this->json(["success" => true, "data" => $bookOrders], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {

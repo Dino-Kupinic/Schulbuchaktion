@@ -5,13 +5,11 @@ namespace App\Controller;
 use App\Entity\SchoolClass;
 use App\Repository\SchoolClassRepository;
 use App\Service\SchoolClassService;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
-use function PHPUnit\Framework\isEmpty;
 
 
 /**

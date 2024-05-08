@@ -13,6 +13,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use function PHPUnit\Framework\isEmpty;
 
+/**
+ * Controller class for handling subject data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Subject
+ * @see SubjectRepository
+ * @see SubjectService
+ */
 #[Route("api/v1/subjects")]
 class SubjectController extends AbstractController
 {

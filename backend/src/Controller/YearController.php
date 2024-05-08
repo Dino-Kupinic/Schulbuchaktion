@@ -10,8 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
+/**
+ * Controller class for handling years.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Year
+ * @see YearRepository
+ * @see YearService
+ */
 #[Route("api/v1/years")]
-class YearsController extends AbstractController
+class YearController extends AbstractController
 {
   #[Route(path: "/", methods: ["GET"])]
   public function getYears(YearService $yearsService): Response

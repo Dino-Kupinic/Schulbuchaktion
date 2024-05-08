@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @version 1.0
  * @see Year
  * @see YearsRepository
- * @see YearsController
+ * @see YearController
  */
 class YearService
 {

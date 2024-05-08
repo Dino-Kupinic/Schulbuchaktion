@@ -9,6 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
+/**
+ * Controller class for handling publishers.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Publisher
+ * @see PublisherRepository
+ * @see PublisherService
+ */
 #[Route("api/v1/publishers")]
 class PublisherController extends AbstractController
 {

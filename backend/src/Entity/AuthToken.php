@@ -14,13 +14,9 @@ use JWT\Authentication\JWT;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 
-/**
- *
- */
 #[ORM\Entity(repositoryClass: AuthTokenRepository::class)]
 class AuthToken
 {
-  private static string $key = '';
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
@@ -39,7 +35,7 @@ class AuthToken
   private ?bool $authenticated = null;
 
   private static DateTimeZone $timezone;
-
+  private static string $key = '';
 
   public function __construct(string $username = null, bool $authenticated = null, EntityManagerInterface $em = null)
   {
@@ -170,6 +166,4 @@ class AuthToken
   {
     return $this->jwtString;
   }
-
-
 }

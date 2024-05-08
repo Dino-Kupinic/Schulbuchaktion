@@ -53,7 +53,7 @@ class DepartmentController extends AbstractController
     try {
       $department = $departmentService->findDepartmentById($id);
       if ($department == null) {
-        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+        return $this->json(["success" => false, "data" => "Couldn't find department with id $id"], status: Response::HTTP_NOT_FOUND);
       }
       return $this->json(["success" => true, "data" => $department], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {

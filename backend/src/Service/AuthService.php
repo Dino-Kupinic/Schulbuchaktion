@@ -8,6 +8,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
+/**
+ * Service class for handling authentication data.
+ * @author Michael Ploier
+ * @version 1.0
+ * @see AuthToken
+ * @see AuthTokenRepository
+ * @see LoginController
+ */
 class AuthService
 {
   private EntityManagerInterface $em;

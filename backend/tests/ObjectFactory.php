@@ -8,13 +8,13 @@ use App\Entity\Department;
 use App\Entity\Publisher;
 use App\Entity\SchoolClass;
 use App\Entity\Subject;
-use App\Entity\Years;
+use App\Entity\Year;
 
 class ObjectFactory
 {
-  public static function createYear(): Years
+  public static function createYear(): Year
   {
-    $year = new Years();
+    $year = new Year();
     $year->setYear(2021);
     return $year;
   }
@@ -79,7 +79,7 @@ class ObjectFactory
   {
     $bookOrder = new BookOrder();
     $bookOrder->setSchoolClass(self::createSchoolClass());
-    $bookOrder->setBookId(self::createBook());
+    $bookOrder->setBook(self::createBook());
     $bookOrder->setYear(self::createYear());
     $bookOrder->setCount(20);
     $bookOrder->setTeacherCopy(true);

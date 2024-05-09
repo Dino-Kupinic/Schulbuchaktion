@@ -20,6 +20,29 @@
     "orderList": "Bestellliste",
     "classManagement": "Klassenverwaltung",
     "budgetOverview": "Budget Übersicht",
+    "import": "Importieren"
+  },
+  "import": {
+    "title": "Importieren",
+    "subtitle": "Importieren Sie Ihre Bücherliste",
+    "info": {
+      "title": "Bevor Sie eine Datei auswählen, stellen Sie sicher, dass:",
+      "infos": [
+        "Die Datei wurde in keiner Weise verändert",
+        "Der Dateityp ist XLSX",
+        "Es ist das richtige Jahr"
+      ]
+    },
+    "submit": "Senden",
+    "success": "Erfolgreich",
+    "successDescription": "Sie können nun die importierten Daten in der Buchliste sehen.",
+    "failure": "Fehlschlag",
+    "failureDescription": "Beim Importieren der Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "alert": "Achtung",
+    "alertDescription": "Bei einem erneuten Import im selben Jahr werden die aktuellen Daten überschrieben. Stellen Sie sicher, dass Sie ein Backup haben.",
+    "yearLabel": "Jahr",
+    "yearSelect": "Wählen ein Jahr",
+    "fileLabel": "Datei"
     "import": "Import"
   },
   "tableTitles":{

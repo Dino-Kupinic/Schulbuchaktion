@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar />
-    <main class="h-[calc(100vh-72px)] w-screen p-3">
+    <main class="h-auto w-screen p-5 sm:h-[calc(100vh-72px)]">
       <slot />
     </main>
   </div>

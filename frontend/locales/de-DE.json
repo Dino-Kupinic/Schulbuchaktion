@@ -42,14 +42,14 @@
     "alertDescription": "Bei einem erneuten Import im selben Jahr werden die aktuellen Daten überschrieben. Stellen Sie sicher, dass Sie ein Backup haben.",
     "yearLabel": "Jahr",
     "yearSelect": "Wählen ein Jahr",
-    "fileLabel": "Datei"
+    "fileLabel": "Datei",
     "import": "Import"
   },
-  "tableTitles":{
+  "tableTitles": {
     "orderTable": "Bestellliste",
     "bookOverview": "Bücherübersicht"
   },
-  "tableSearch":{
+  "tableSearch": {
     "searchForBooks": "Nach Büchern suchen...",
     "searchForOrders": "Nach Bestellungen suchen..."
   },

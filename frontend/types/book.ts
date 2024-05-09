@@ -1,4 +1,8 @@
-type Book = {
+import type { Year } from "~/types/year"
+import type { Subject } from "~/types/subject"
+import type { Publisher } from "~/types/publisher"
+
+export type Book = {
   id: number
   orderNumber: number
   title: string
@@ -10,6 +14,6 @@ type Book = {
   ebookPlus: boolean
   subject?: Partial<Subject>
   publisher?: Partial<Publisher>
-  year: Years[]
+  year: Year[]
   grade: number
 }

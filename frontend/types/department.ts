@@ -1,4 +1,6 @@
-type Department = {
+import type { SchoolClass } from "~/types/schoolclass"
+
+export type Department = {
   id: number
   name: string
   budget: number

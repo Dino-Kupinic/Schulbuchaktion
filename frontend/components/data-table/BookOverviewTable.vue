@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import EditTableModal from "~/components/data-table/EditTableModal.vue"
+import type { Book } from "~/types/book"
 
 const columns = ref([
   {

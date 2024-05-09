@@ -1,4 +1,4 @@
-type SchoolClass = {
+export type SchoolClass = {
   id: number
   name: string
   grade: number

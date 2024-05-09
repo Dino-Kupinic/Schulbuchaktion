@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import BookOrderTable from "~/components/data-table/BookOrderTable.vue"
+import type { APIResponseArray } from "~/types/response"
+import type { BookOrder } from "~/types/bookorder"
 
 const columns = ref([
   {
@@ -40,7 +41,14 @@ const columns = ref([
 
 const id = ref(0)
 
-const bookOrders = useLazyFetch<BookOrder>("bookOrders")
+const config = useRuntimeConfig()
+
+const { data: bookOrders, pending } = await useLazyFetch<
+  APIResponseArray<BookOrder[]>
+>("/bookOrders", {
+  baseURL: config.public.baseURL,
+  pick: ["data"],
+})
 
 const items = (row: BookOrder) => [
   [
@@ -88,12 +96,12 @@ function select(row: BookOrder) {
 
 const query = ref("")
 
-const filteredRows = computed(() => {
+const filteredRows: ComputedRef<BookOrder[]> = computed(() => {
   if (!query.value) {
-    return bookOrders.value
+    return bookOrders
   }
 
-  return bookOrders.value.filter((bookOrder) => {
+  return bookOrders.value?.data?.filter((bookOrder) => {
     return Object.values(bookOrder).some((value) => {
       return String(value).toLowerCase().includes(query.value.toLowerCase())
     })

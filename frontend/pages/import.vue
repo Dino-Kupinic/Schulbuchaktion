@@ -1,7 +1,21 @@
 <script setup lang="ts">
-const file = ref<File>()
+import type { APIResponseArray } from "~/types/response"
+import type { Year } from "~/types/year"
+
+const toast = useToast()
 const config = useRuntimeConfig()
-const response = ref<string>("")
+const { t } = useI18n()
+
+const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
+  "/years",
+  {
+    baseURL: config.public.baseURL,
+    pick: ["data"],
+  },
+)
+
+const file = ref<File>()
+const year = ref<number>()
 
 async function submitFile() {
   if (!file.value) {
@@ -12,6 +26,7 @@ async function submitFile() {
 
   const formData = new FormData()
   formData.append("file", file.value)
+  formData.append("year", year.value?.toString() ?? "")
 
   try {
     const data = await $fetch("/importXLSX", {
@@ -19,11 +34,14 @@ async function submitFile() {
       body: formData,
       baseURL: config.public.baseURL,
     })
-    response.value = "File uploaded successfully!"
     console.log(data)
+    toast.add({
+      title: t("import.success"),
+      description: t("import.successDescription"),
+      icon: "i-heroicons-check-circle",
+    })
   } catch (err: unknown) {
     const error = err as Error
-    console.error("Error uploading file:", error)
     throw createError({
       statusMessage: error.message,
     })
@@ -32,23 +50,52 @@ async function submitFile() {
 </script>
 
 <template>
-  <div
-    class="flex h-full w-full items-center justify-center rounded-lg border p-3 shadow-sm dark:border-gray-700"
-  >
-    <div>
-      <PageTitle>Import XLSX</PageTitle>
-      <div class="flex h-auto flex-col space-y-2 rounded-lg border p-4">
-        <UInput
-          type="file"
-          accept=".xlsx"
-          icon="i-heroicons-folder"
-          @change="file = $event[0]"
+  <div class="flex h-full w-full flex-col">
+    <PageHeader :title="$t('import.title')" :subtitle="$t('import.subtitle')" />
+    <UCard>
+      <template #header>
+        <InfoList />
+      </template>
+      <div class="space-y-3">
+        <UAlert
+          icon="i-jam-triangle-danger"
+          color="red"
+          variant="subtle"
+          :title="$t('import.alert')"
+          :description="$t('import.alertDescription')"
         />
-        <div>
-          <UButton label="Submit" class="px-8" @click="submitFile()" />
-        </div>
+        <UFormGroup :label="$t('import.yearLabel')" required>
+          <div v-if="pending">
+            <USkeleton class="h-8 w-full" />
+          </div>
+          <div v-else>
+            <USelect
+              v-model="year"
+              :options="years?.data"
+              size="md"
+              :placeholder="$t('import.yearSelect')"
+              value-attribute="id"
+              option-attribute="year"
+            />
+          </div>
+        </UFormGroup>
+        <UFormGroup :label="$t('import.fileLabel')" required>
+          <UInput
+            type="file"
+            accept=".xlsx"
+            size="md"
+            icon="i-heroicons-folder"
+            @change="file = $event[0]"
+          />
+        </UFormGroup>
       </div>
-      <p v-if="response">{{ response }}</p>
-    </div>
+      <template #footer>
+        <UButton
+          :label="$t('import.submit')"
+          class="px-8"
+          @click="submitFile()"
+        />
+      </template>
+    </UCard>
   </div>
 </template>

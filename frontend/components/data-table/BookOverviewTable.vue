@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import EditTableModal from "~/components/data-table/EditTableModal.vue"
+
 const columns = ref([
   {
     key: "orderNumber",
@@ -49,13 +51,6 @@ const items = (row: Book) =>
         label: t("actions.edit"),
         icon: "i-heroicons-pencil-square-20-solid",
         //click: () => edit Book,
-      },
-    ],
-    [
-      {
-        label: t("actions.delete"),
-        icon: "i-heroicons-trash-20-solid",
-        click: () => deleteBookById(row.id),
       },
     ],
   ])
@@ -118,22 +113,27 @@ watch(
       {
         key: "publisher",
         label: t("book.publisher"),
+        sortable: true,
       },
       {
         key: "subject",
         label: t("book.subject"),
+        sortable: true,
       },
       {
         key: "grade",
         label: t("book.grade"),
+        sortable: true,
       },
       {
         key: "ebook",
         label: t("book.ebook"),
+        sortable: true,
       },
       {
         key: "ebookPlus",
         label: t("book.ebookPlus"),
+        sortable: true,
       },
       {
         key: "bookPrice",
@@ -182,19 +182,30 @@ function select(row: Book) {
 </script>
 
 <template>
-  <PageTitle>{{ $t("tableTitles.bookOverview") }}</PageTitle>
+  <EditTableModal />
   <UCard
-    class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
+    class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:min-h-28"
     :ui="{ shadow: 'shadow-none', ring: '' }"
   >
     <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
       <UInput v-model="query" :placeholder="$t('tableSearch.searchForBooks')" />
     </div>
+    <!-- Wrap UTable in a div with a specific height and overflow-y auto -->
     <UTable
       v-model="selectedRows"
       v-model:sort="sort"
       :rows="filteredRows"
       :columns="columnsTable"
+      :ui="{
+        wrapper: 'relative overflow-x-auto max-h-[450px] overflow-y-auto',
+        tr: {
+          base: 'relative overflow-y-auto whitespace-nowrap',
+          padding: 'px-4 py-4',
+          color: 'text-gray-500 dark:text-gray-400',
+          font: '',
+          size: 'text-sm',
+        },
+      }"
       @select="select"
     >
       <template #name-data="{ row }">
@@ -207,7 +218,7 @@ function select(row: Book) {
         >
       </template>
       <template #subject-data="{ row }">
-        <span> {{ row.subject.name }}</span>
+        <span>{{ row.subject.name }}</span>
       </template>
       <template #publisher-data="{ row }">
         <span> {{ row.publisher.name }}</span>
@@ -223,28 +234,32 @@ function select(row: Book) {
         </span>
       </template>
       <template #ebook-data="{ row }">
-        <Icon
-          v-if="row.ebook"
-          class="text-green-500"
-          name="material-symbols:check-small"
-        ></Icon>
-        <Icon
-          v-else
-          class="text-red-500"
-          name="material-symbols:close-small-outline"
-        ></Icon>
+        <div class="text-center">
+          <Icon
+            v-if="row.ebook"
+            class="text-green-500"
+            name="material-symbols:check-small"
+          ></Icon>
+          <Icon
+            v-else
+            class="text-red-500"
+            name="material-symbols:close-small-outline"
+          ></Icon>
+        </div>
       </template>
       <template #ebookPlus-data="{ row }">
-        <Icon
-          v-if="row.ebookPlus"
-          class="text-green-500"
-          name="material-symbols:check-small"
-        ></Icon>
-        <Icon
-          v-else
-          class="text-red-500"
-          name="material-symbols:close-small-outline"
-        ></Icon>
+        <div class="text-center">
+          <Icon
+            v-if="row.ebookPlus"
+            class="text-green-500"
+            name="material-symbols:check-small"
+          ></Icon>
+          <Icon
+            v-else
+            class="text-red-500"
+            name="material-symbols:close-small-outline"
+          ></Icon>
+        </div>
       </template>
       <template #actions-data="{ row }">
         <UDropdown :items="items(row).value">
@@ -256,6 +271,7 @@ function select(row: Book) {
         </UDropdown>
       </template>
     </UTable>
+
     <template #footer>
       <div class="flex flex-wrap items-center justify-between">
         <div>
@@ -287,4 +303,5 @@ function select(row: Book) {
     </template>
   </UCard>
 </template>
+
 <style scoped></style>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BookOrderTable from "~/components/data-table/BookOrderTable.vue"
+
 const columns = ref([
   {
     key: "bookTitle",
@@ -38,62 +40,7 @@ const columns = ref([
 
 const id = ref(0)
 
-const bookOrders = ref([
-  {
-    id: id.value++,
-    bookTitle: "Hallo das ist ein Buch",
-    bookSubject: "Roman",
-    department: "Department",
-    year: "2020",
-    grade: "1",
-    bookPrice: 10000,
-  },
-  {
-    id: id.value++,
-    bookTitle: "Hallo das ist ein Buch",
-    bookSubject: "Roman",
-    department: "Department",
-    year: "3020",
-    grade: "3",
-    bookPrice: 20000,
-  },
-  {
-    id: id.value++,
-    bookTitle: "Hallo das ist ein Buch",
-    bookSubject: "Roman",
-    department: "Department",
-    year: "4020",
-    grade: "1",
-    bookPrice: 10000,
-  },
-  {
-    id: id.value++,
-    bookTitle: "Hallo das ist ein Buch",
-    bookSubject: "Roman",
-    department: "Department 1",
-    year: "5020",
-    grade: "1",
-    bookPrice: 10000,
-  },
-  {
-    id: id.value++,
-    bookTitle: "Hallo ist ein Buch 1",
-    bookSubject: "Amon",
-    department: "Department 2",
-    year: "2020",
-    grade: "1",
-    bookPrice: 10000,
-  },
-  {
-    id: id.value++,
-    bookTitle: "Hallo das ist ein Buch",
-    bookSubject: "Roman",
-    department: "Department",
-    year: "2020",
-    grade: "1",
-    bookPrice: 10000,
-  },
-])
+const bookOrders = useLazyFetch<BookOrder>("bookOrders")
 
 const items = (row: BookOrder) => [
   [

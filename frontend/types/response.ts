@@ -8,7 +8,7 @@
 export interface APIResponse<T = unknown> {
   success: boolean
   data?: T
-  errorMessage?: string
+  error?: string
 }
 
 /**

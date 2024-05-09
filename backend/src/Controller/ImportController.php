@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Year;
 use App\Service\ImportService;
 use App\Service\YearService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,11 @@ class ImportController extends AbstractController
     $yearId = $request->request->get("year");
 
     if (!$uploadedFile) {
-      return new Response("No file provided", Response::HTTP_BAD_REQUEST);
+      return $this->json(["success" => false, "error" => "No file provided"], Response::HTTP_BAD_REQUEST);
+    }
+
+    if (!$yearId) {
+      return $this->json(["success" => false, "error" => "No year provided"], Response::HTTP_BAD_REQUEST);
     }
 
     $filePath = $uploadedFile->getPathname();
@@ -27,6 +32,17 @@ class ImportController extends AbstractController
 
     $header = $data[0];
     if ($importService->isHeaderValid($header)) {
+      try {
+        $year = $yearService->findYearById($yearId);
+        if (!$year) {
+          $temp = new Year();
+          $temp->setYear(date("Y"));
+          $year = $yearService->createYear($temp);
+        }
+      } catch (\Exception $e) {
+        return $this->json(["success" => false, "error" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+      }
+
       unset($data[0]);
       $importService->persist($data, $yearId);
 //      return $this->json(["success" => true, "data" => []], Response::HTTP_OK);

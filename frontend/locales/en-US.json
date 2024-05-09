@@ -36,6 +36,8 @@
     "submit": "Submit",
     "success": "Success",
     "successDescription": "You can now view the imported data in the book list.",
+    "failure": "Failure",
+    "failureDescription": "An error occurred while importing the data. Please try again.",
     "alert": "Heads up!",
     "alertDescription": "Re-Importing in the same year will overwrite the current data. Make sure you have a backup.",
     "yearLabel": "Year",

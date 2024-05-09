@@ -36,6 +36,8 @@
     "submit": "Senden",
     "success": "Erfolgreich",
     "successDescription": "Sie können nun die importierten Daten in der Buchliste sehen.",
+    "failure": "Fehlschlag",
+    "failureDescription": "Beim Importieren der Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
     "alert": "Achtung",
     "alertDescription": "Bei einem erneuten Import im selben Jahr werden die aktuellen Daten überschrieben. Stellen Sie sicher, dass Sie ein Backup haben.",
     "yearLabel": "Jahr",

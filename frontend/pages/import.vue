@@ -42,6 +42,12 @@ async function submitFile() {
     })
   } catch (err: unknown) {
     const error = err as Error
+    toast.add({
+      title: t("import.failure"),
+      description: t("import.failureDescription"),
+      color: "red",
+      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
+    })
     throw createError({
       statusMessage: error.message,
     })

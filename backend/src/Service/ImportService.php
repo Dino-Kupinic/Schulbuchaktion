@@ -68,7 +68,7 @@ class ImportService
     ];
   }
 
-  public function persist(array $data)
+  public function persist(array $data, int $yearId): void
   {
 //    foreach ($data as $row) {
 //      $bookData = $this->getBookData($row);

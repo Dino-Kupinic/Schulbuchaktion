@@ -27,9 +27,8 @@ class ImportController extends AbstractController
     if ($importService->isHeaderValid($header)) {
       unset($data[0]);
       $importService->persist($data);
-      dd($data);
 //      return new Response("Success", Response::HTTP_OK);
-//      return new JsonResponse($data, Response::HTTP_OK);
+      return $this->json($data, Response::HTTP_OK);
     }
 
     return new Response(

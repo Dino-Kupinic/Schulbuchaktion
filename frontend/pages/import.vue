@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import PageTitle from "~/components/typography/PageTitle.vue"
-import PageContainer from "~/components/util/PageContainer.vue"
-
-const file = ref(null)
+const file = ref<File>()
 const config = useRuntimeConfig()
 const response = ref<string>("")
 
 async function submitFile() {
-  if (!file.value) return
+  if (!file.value) {
+    throw createError({
+      statusMessage: "No file selected",
+    })
+  }
 
   const formData = new FormData()
-  // @ts-expect-error
-  formData.append("file", file.value.files[0])
-  // @ts-expect-error
-  formData.append("name", file.value.files[0].name)
+  formData.append("file", file.value)
 
   try {
     const data = await $fetch("/importXLSX", {
@@ -28,21 +26,29 @@ async function submitFile() {
     console.error("Error uploading file:", error)
     throw createError({
       statusMessage: error.message,
-      fatal: true,
     })
   }
 }
 </script>
 
 <template>
-  <PageContainer>
-    <PageTitle>Import XLSX</PageTitle>
-    <div class="flex h-auto flex-col space-y-2 rounded-lg border p-4">
-      <input ref="file" type="file" accept=".xlsx" />
-      <div>
-        <UButton label="Submit" @click="submitFile()" />
+  <div
+    class="flex h-full w-full items-center justify-center rounded-lg border p-3 shadow-sm dark:border-gray-700"
+  >
+    <div>
+      <PageTitle>Import XLSX</PageTitle>
+      <div class="flex h-auto flex-col space-y-2 rounded-lg border p-4">
+        <UInput
+          type="file"
+          accept=".xlsx"
+          icon="i-heroicons-folder"
+          @change="file = $event[0]"
+        />
+        <div>
+          <UButton label="Submit" class="px-8" @click="submitFile()" />
+        </div>
       </div>
+      <p v-if="response">{{ response }}</p>
     </div>
-    <p v-if="response">{{ response }}</p>
-  </PageContainer>
+  </div>
 </template>

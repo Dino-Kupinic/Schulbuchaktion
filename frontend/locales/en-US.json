@@ -21,5 +21,25 @@
     "classManagement": "Class Management",
     "budgetOverview": "Budget Overview",
     "import": "Import"
+  },
+  "import": {
+    "title": "Import",
+    "subtitle": "Import your book list",
+    "info": {
+      "title": "Before choosing a file, you make sure that:",
+      "infos": [
+        "The file was not modified in any way",
+        "The file type is XLSX",
+        "It is the correct year"
+      ]
+    },
+    "submit": "Submit",
+    "success": "Success",
+    "successDescription": "You can now view the imported data in the book list.",
+    "alert": "Heads up!",
+    "alertDescription": "Re-Importing in the same year will overwrite the current data. Make sure you have a backup.",
+    "yearLabel": "Year",
+    "yearSelect": "Select a year",
+    "fileLabel": "File"
   }
 }

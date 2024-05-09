@@ -8,76 +8,67 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * Represents the Book entity
- *
- * @author Lukas Bauer, Dino Kupinic
- * @version 1.0
- * @see BookRepository
- * @see BookService
- */
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $orderNumber = null;
 
   #[ORM\Column(length: 255, nullable: true)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $shortTitle = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $title = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $schoolForm = null;
 
   #[ORM\Column(length: 255, nullable: true)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $description = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?int $bookPrice = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?bool $ebook = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?bool $ebookPlus = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?string $grade = null;
 
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?Subject $subject = null;
 
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['book:read'])]
+  #[Groups(['book:read', "bookOrder:read"])]
   private ?Publisher $publisher = null;
 
   #[ORM\ManyToOne(inversedBy: 'books')]
   #[ORM\JoinColumn(nullable: false)]
-  #[Groups(['book:read'])]
-  private ?Years $year = null;
+  #[Groups(['book:read', "bookOrder:read"])]
+  private ?Year $year = null;
 
-  #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'bookId')]
-  #[Groups(['book:read'])]
+  #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'book')]
   private Collection $bookOrders;
 
   public function __construct()
@@ -210,12 +201,12 @@ class Book
     return $this;
   }
 
-  public function getYear(): ?Years
+  public function getYear(): ?Year
   {
     return $this->year;
   }
 
-  public function setYear(?Years $year): static
+  public function setYear(?Year $year): static
   {
     $this->year = $year;
 
@@ -250,7 +241,7 @@ class Book
   {
     if (!$this->bookOrders->contains($bookOrder)) {
       $this->bookOrders->add($bookOrder);
-      $bookOrder->setBookId($this);
+      $bookOrder->setBook($this);
     }
 
     return $this;
@@ -260,8 +251,8 @@ class Book
   {
     if ($this->bookOrders->removeElement($bookOrder)) {
       // set the owning side to null (unless already changed)
-      if ($bookOrder->getBookId() === $this) {
-        $bookOrder->setBookId(null);
+      if ($bookOrder->getBook() === $this) {
+        $bookOrder->setBook(null);
       }
     }
 
@@ -278,5 +269,21 @@ class Book
     $this->grade = $grade;
 
     return $this;
+  }
+
+  public function updateFrom(Book $book): void
+  {
+    $this->setOrderNumber($book->getOrderNumber());
+    $this->setShortTitle($book->getShortTitle());
+    $this->setTitle($book->getTitle());
+    $this->setSchoolForm($book->getSchoolForm());
+    $this->setDescription($book->getDescription());
+    $this->setBookPrice($book->getBookPrice());
+    $this->setEbook($book->isEbook());
+    $this->setEbookPlus($book->isEbookPlus());
+    $this->setGrade($book->getGrade());
+    $this->setSubject($book->getSubject());
+    $this->setPublisher($book->getPublisher());
+    $this->setYear($book->getYear());
   }
 }

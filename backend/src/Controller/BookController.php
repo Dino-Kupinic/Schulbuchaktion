@@ -52,27 +52,13 @@ class BookController extends AbstractController
     try {
       $book = $bookService->findBookById($id);
       if ($book == null) {
-        return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+        return $this->json(["success" => false, "data" => "Couldn't find book with id $id"], status: Response::HTTP_NOT_FOUND);
       }
       return $this->json(["success" => true, "data" => $book], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
         "error" => "Failed to get book with id $id: {$e->getMessage()}"
-      ], Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  #[Route(path: "/delete/{id}", methods: ["DELETE"])]
-  public function deleteBook(BookService $bookService, int $id): Response
-  {
-    try {
-      $bookService->deleteBook($id);
-      return $this->json(["success" => true, "message" => "Book was successfully deleted"], status: Response::HTTP_OK);
-    } catch (Exception $e) {
-      return $this->json([
-        "success" => false,
-        "error" => "Failed to delete book with id $id: {$e->getMessage()}"
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }

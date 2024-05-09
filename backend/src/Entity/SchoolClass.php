@@ -6,6 +6,7 @@ use App\Repository\SchoolClassRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolClassRepository::class)]
 class SchoolClass
@@ -13,36 +14,46 @@ class SchoolClass
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?string $name = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $grade = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $students = null;
 
   #[ORM\Column(nullable: true)]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $repetents = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $budget = null;
 
   #[ORM\Column]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $usedBudget = null;
 
   #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
   #[ORM\JoinColumn(nullable: false)]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?Department $department = null;
+
+  #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
+  #[ORM\JoinColumn(nullable: false)]
+  #[Groups(["schoolClass:read", "bookOrder:read"])]
+  private ?Year $year = null;
 
   #[ORM\OneToMany(targetEntity: BookOrder::class, mappedBy: 'schoolClass')]
   private Collection $bookOrders;
 
-  #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
-  #[ORM\JoinColumn(nullable: false)]
-  private ?Years $year = null;
 
   public function __construct()
   {
@@ -169,12 +180,12 @@ class SchoolClass
     return $this;
   }
 
-  public function getYear(): ?Years
+  public function getYear(): ?Year
   {
     return $this->year;
   }
 
-  public function setYear(?Years $year): static
+  public function setYear(?Year $year): static
   {
     $this->year = $year;
 

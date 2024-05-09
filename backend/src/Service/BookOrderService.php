@@ -5,100 +5,198 @@ namespace App\Service;
 use App\Entity\BookOrder;
 use App\Repository\BookOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Service class for handling book orders.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see BookOrder
+ * @see BookOrderRepository
+ */
 class BookOrderService
 {
+  private EntityManagerInterface $entityManager;
+  private BookOrderRepository $bookOrderRepository;
+  private BookService $bookService;
+  private YearService $yearsService;
+  private SchoolClassService $schoolClassService;
 
-  // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
-
-  public function createBookOrder(BookOrder $bookOrder, EntityManagerInterface $em): bool
+  public function __construct
+  (
+    EntityManagerInterface $entityManager,
+    BookOrderRepository    $bookOrderRepository,
+    BookService            $bookService,
+    YearService            $yearsService,
+    SchoolClassService     $schoolClassService,
+  )
   {
-    try {
-      $em->persist($bookOrder);
-      $em->flush();
-    } catch (\Exception $e) {
-      return false;
+    $this->entityManager = $entityManager;
+    $this->bookOrderRepository = $bookOrderRepository;
+    $this->bookService = $bookService;
+    $this->yearsService = $yearsService;
+    $this->schoolClassService = $schoolClassService;
+  }
+
+  /**
+   * Create a new book order.
+   *
+   * @param BookOrder $bookOrder The book order object to persist
+   * @return BookOrder The persisted book order object
+   * @throws Exception If an error occurs during transaction
+   */
+  public function createBookOrder(BookOrder $bookOrder): BookOrder
+  {
+    $this->entityManager->persist($bookOrder);
+    $this->entityManager->flush();
+    return $bookOrder;
+  }
+
+  /**
+   * Update a book order.
+   *
+   * @param int $id The id of the book order to update
+   * @param BookOrder $bookOrder The book order object to update
+   * @return BookOrder The updated book order object
+   */
+  public function updateBookOrder(int $id, BookOrder $bookOrder): BookOrder
+  {
+    $oldBookOrder = $this->findBookOrderById($id);
+
+    if ($oldBookOrder) {
+      $oldBookOrder->updateFrom($bookOrder);
+      $this->entityManager->persist($oldBookOrder);
+      $this->entityManager->flush();
     }
-    return true;
+
+    return $oldBookOrder;
   }
 
-  public function updateBookOrder(BookOrder $bookOrder, EntityManagerInterface $em): void
+  /**
+   * Delete a book order.
+   *
+   * @param int $id The id of the book order to delete
+   * @throws Exception If an error occurs during transaction
+   */
+  public function deleteBookOrder(int $id): void
   {
-    $bookOrderUpdate = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderUpdate->setSchoolClass($bookOrder->getSchoolClass());
-    $bookOrderUpdate->setBookId($bookOrder->getBookId());
-    $bookOrderUpdate->setYear($bookOrder->getYear());
-    $bookOrderUpdate->setCount($bookOrder->getCount());
-    $bookOrderUpdate->setTeacherCopy($bookOrder->getTeacherCopy());
-    $bookOrderUpdate->setLastUser($bookOrder->getLastUser());
-    $bookOrderUpdate->setCreationUser($bookOrder->getCreationUser());
-    $em->flush();
+    $bookOrder = $this->findBookOrderById($id);
+    if ($bookOrder === null) {
+      throw new Exception("Book order with id $id not found.");
+    }
+    $this->entityManager->remove($bookOrder);
+    $this->entityManager->flush();
   }
 
-  public function dropBookOrder($id, EntityManagerInterface $em): void
+  /**
+   * Get all book orders.
+   *
+   * @return array|null The array of book orders or null if not found
+   */
+  public function getBookOrders(): array|null
   {
-    $bookOrder = $em->getRepository(BookOrder::class)->find($id);
-    $em->remove($bookOrder);
-    $em->flush();
+    return $this->bookOrderRepository->findAll();
   }
 
-  public function getBookOrders(BookOrderRepository $bookOrderRepository): array
+  /**
+   * Find a book order by its id.
+   *
+   * @param int $id The id of the book order to find
+   * @return BookOrder|null The book order object or null if not found
+   */
+  public function findBookOrderById(int $id): BookOrder|null
   {
-    return $bookOrderRepository->findAll();
+    return $this->bookOrderRepository->find($id);
   }
 
-  public function getBookOrderById($id, BookOrderRepository $bookOrderRepository): BookOrder
+  /**
+   * Validate request data.
+   *
+   * @param array $data The request data
+   * @throws Exception If the data is not valid
+   */
+  private function validateRequestData(array $data): void
   {
-    return $bookOrderRepository->find($id);
+    $requiredFields = ["count", "teacherCopy", "lastUser", "creationUser", "book", "year", "schoolClass"];
+    $intFields = ["count", "book", "year", "schoolClass"];
+    $boolFields = ["teacherCopy"];
+    $stringFields = ["lastUser", "creationUser"];
+
+    foreach ($requiredFields as $field) {
+      if (!isset($data[$field])) {
+        throw new Exception("Missing $field in request.");
+      }
+    }
+
+    foreach ($intFields as $field) {
+      if (!is_int($data[$field])) {
+        throw new Exception("$field must be a number.");
+      }
+    }
+
+    foreach ($boolFields as $field) {
+      if (!is_bool($data[$field])) {
+        throw new Exception("$field must be a boolean.");
+      }
+    }
+
+    foreach ($stringFields as $field) {
+      if (!is_string($data[$field])) {
+        throw new Exception("$field must be a string.");
+      }
+    }
   }
 
-  public function updateBookOrderSchoolClass($bookOrder, EntityManagerInterface $em): void
+  /**
+   * Set BookOrder properties.
+   *
+   * @param array $data The request data
+   * @return BookOrder The BookOrder object
+   * @throws Exception If an error occurs
+   */
+  private function setBookOrderProperties(array $data): BookOrder
   {
-    $bookOrderSchoolClass = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderSchoolClass->setSchoolClass($bookOrder->getSchoolClass());
-    $em->flush();
+    $bookOrder = new BookOrder();
+    $bookOrder->setCount($data["count"]);
+    $bookOrder->setTeacherCopy($data["teacherCopy"]);
+    $bookOrder->setLastUser($data["lastUser"]);
+    $bookOrder->setCreationUser($data["creationUser"]);
+
+    $book = $this->bookService->findBookById($data["book"]);
+    if ($book === null) {
+      throw new Exception("Book with id {$data['book']} not found.");
+    }
+    $bookOrder->setBook($book);
+
+    $year = $this->yearsService->findYearById($data["year"]);
+    if ($year === null) {
+      throw new Exception("Year with id {$data['year']} not found.");
+    }
+    $bookOrder->setYear($year);
+
+    $schoolClass = $this->schoolClassService->findSchoolClassById($data["schoolClass"]);
+    if ($schoolClass === null) {
+      throw new Exception("School class with id {$data['schoolClass']} not found.");
+    }
+    $bookOrder->setSchoolClass($schoolClass);
+
+    return $bookOrder;
   }
 
-  public function updateBookOrderBook($bookOrder, EntityManagerInterface $em): void
+  /**
+   * Parse request data into a BookOrder object.
+   *
+   * @param Request $request The request object
+   * @return BookOrder The BookOrder object
+   * @throws Exception If the data cannot be parsed
+   */
+  public function parseRequestData(Request $request): BookOrder
   {
-    $bookOrderBook = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderBook->setBook($bookOrder->getBook());
-    $em->flush();
-  }
+    $data = json_decode($request->getContent(), true);
 
-  public function updateBookOrderYear($bookOrder, EntityManagerInterface $em): void
-  {
-    $bookOrderYear = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderYear->setYear($bookOrder->getYear());
-    $em->flush();
-  }
+    $this->validateRequestData($data);
 
-  public function updateBookOrderCount($bookOrder, EntityManagerInterface $em): void
-  {
-    $bookOrderCount = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderCount->setCount($bookOrder->getCount());
-    $em->flush();
+    return $this->setBookOrderProperties($data);
   }
-
-  public function updateBookOrderTeacherCopy($bookOrder, EntityManagerInterface $em): void
-  {
-    $bookOrderTeacherCopy = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderTeacherCopy->setTeacherCopy($bookOrder->getTeacherCopy());
-    $em->flush();
-  }
-
-  public function updateBookOrderLastUser($bookOrder, EntityManagerInterface $em): void
-  {
-    $bookOrderLastUser = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderLastUser->setLastUser($bookOrder->getLastUser());
-    $em->flush();
-  }
-
-  public function updateBookOrderCreationUser($bookOrder, EntityManagerInterface $em): void
-  {
-    $bookOrderCreationUser = $em->getRepository(BookOrder::class)->find($bookOrder->getId());
-    $bookOrderCreationUser->setCreationUser($bookOrder->getCreationUser());
-    $em->flush();
-  }
-
 }

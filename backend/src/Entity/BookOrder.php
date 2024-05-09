@@ -12,35 +12,38 @@ class BookOrder
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(["bookOrder:read"])]
   private ?int $id = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(["bookOrder:read"])]
   private ?int $count = null;
 
   #[ORM\Column]
-  #[Groups(['book:read'])]
+  #[Groups(["bookOrder:read"])]
   private ?bool $teacherCopy = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(["bookOrder:read"])]
   private ?string $lastUser = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['book:read'])]
+  #[Groups(["bookOrder:read"])]
   private ?string $creationUser = null;
 
   #[ORM\ManyToOne(inversedBy: 'bookOrders')]
+  #[Groups(["bookOrder:read"])]
   private ?SchoolClass $schoolClass = null;
 
   #[ORM\ManyToOne(inversedBy: 'bookOrders')]
   #[ORM\JoinColumn(nullable: false)]
-  private ?Book $bookId = null;
+  #[Groups(["bookOrder:read"])]
+  private ?Book $book = null;
 
   #[ORM\ManyToOne(inversedBy: 'bookOrders')]
   #[ORM\JoinColumn(nullable: false)]
-  private ?Years $year = null;
+  #[Groups(["bookOrder:read"])]
+  private ?Year $year = null;
 
   public function getId(): ?int
   {
@@ -88,24 +91,24 @@ class BookOrder
     return $this;
   }
 
-  public function getBookId(): ?Book
+  public function getBook(): ?Book
   {
-    return $this->bookId;
+    return $this->book;
   }
 
-  public function setBookId(?Book $bookId): static
+  public function setBook(?Book $book): static
   {
-    $this->bookId = $bookId;
+    $this->book = $book;
 
     return $this;
   }
 
-  public function getYear(): ?Years
+  public function getYear(): ?Year
   {
     return $this->year;
   }
 
-  public function setYear(?Years $year): static
+  public function setYear(?Year $year): static
   {
     $this->year = $year;
 
@@ -136,5 +139,14 @@ class BookOrder
     return $this;
   }
 
-
+  public function updateFrom(BookOrder $bookOrder): void
+  {
+    $this->count = $bookOrder->getCount();
+    $this->teacherCopy = $bookOrder->getTeacherCopy();
+    $this->lastUser = $bookOrder->getLastUser();
+    $this->creationUser = $bookOrder->getCreationUser();
+    $this->schoolClass = $bookOrder->getSchoolClass();
+    $this->book = $bookOrder->getBook();
+    $this->year = $bookOrder->getYear();
+  }
 }

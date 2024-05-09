@@ -34,6 +34,10 @@ class BookService
    */
   public function createBook(Book $book): Book
   {
+    $temp = $this->findBookById($book->getId());
+    if ($temp != null) {
+      throw new Exception("Book with id " . $book->getId() . " already exists.");
+    }
     $this->entityManager->persist($book);
     $this->entityManager->flush();
     return $book;
@@ -48,8 +52,14 @@ class BookService
    */
   public function updateBook(Book $book): Book
   {
-    $this->entityManager->persist($book);
-    $this->entityManager->flush();
+    $oldBook = $this->findBookById($book->getId());
+
+    if ($oldBook) {
+      $oldBook->updateFrom($book);
+      $this->entityManager->persist($book);
+      $this->entityManager->flush();
+    }
+
     return $book;
   }
 

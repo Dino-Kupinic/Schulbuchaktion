@@ -2,7 +2,7 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -49,8 +49,8 @@
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5",
-    "vitest": "^1.5.3",
+    "typescript": "^5.4.3",
+    "vitest": "^1.6.0",
     "vue-tsc": "1.8.22"
   }
 }

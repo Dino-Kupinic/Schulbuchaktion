@@ -4,9 +4,14 @@ namespace App\Service;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+/**
+ * Service class for handling import of books from an xlsx file.
+ * @author Dino Kupinic
+ * @version 1.0
+ */
 class ImportService
 {
-  private $bookService;
+  private BookService $bookService;
 
   public function __construct(BookService $bookService)
   {

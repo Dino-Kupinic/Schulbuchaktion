@@ -21,7 +21,7 @@ class Subject
   #[Groups(['book:read', "bookOrder:read", "subject:read"])]
   private ?string $name = null;
 
-  #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'subject')]
+  #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'subject', cascade: ['persist'])]
   private Collection $books;
 
   public function __construct()

@@ -286,4 +286,9 @@ class Book
     $this->setPublisher($book->getPublisher());
     $this->setYear($book->getYear());
   }
+
+  public function __toString(): string
+  {
+    return $this->title;
+  }
 }

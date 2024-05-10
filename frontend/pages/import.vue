@@ -53,14 +53,6 @@ async function submitFile() {
     })
   }
 }
-
-const yearsArray = ref<Year[] | undefined>(years.value?.data)
-const yearOptions = computed(() => {
-  if (!yearsArray.value) {
-    return []
-  }
-  return [...yearsArray.value, { id: -1, year: "Create new" }]
-})
 </script>
 
 <template>
@@ -85,7 +77,7 @@ const yearOptions = computed(() => {
           <div v-else>
             <USelect
               v-model="year"
-              :options="yearOptions"
+              :options="years?.data"
               size="md"
               :placeholder="$t('import.yearSelect')"
               value-attribute="id"

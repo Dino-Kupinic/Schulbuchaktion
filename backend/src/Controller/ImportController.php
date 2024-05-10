@@ -46,7 +46,6 @@ class ImportController extends AbstractController
       return $this->json(["success" => false, "error" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
     }
 
-
     return $this->json(["success" => true, "data" => []], Response::HTTP_OK);
   }
 }

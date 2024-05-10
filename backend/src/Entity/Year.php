@@ -141,8 +141,13 @@ class Year
     return $this;
   }
 
-  public function updateFrom(Year $year)
+  public function updateFrom(Year $year): void
   {
     $this->setYear($year->getYear());
+  }
+
+  public function clearBooks(): void
+  {
+    $this->books->clear();
   }
 }

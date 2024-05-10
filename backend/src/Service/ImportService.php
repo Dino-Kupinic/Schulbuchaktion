@@ -20,12 +20,14 @@ class ImportService
   private BookService $bookService;
   private PublisherService $publisherService;
   private SubjectService $subjectService;
+  private BookBatchProcessorService $bookBatchProcessor;
 
-  public function __construct(BookService $bookService, PublisherService $publisherService, SubjectService $subjectService)
+  public function __construct(BookService $bookService, PublisherService $publisherService, SubjectService $subjectService, BookBatchProcessorService $bookBatchProcessor)
   {
     $this->bookService = $bookService;
     $this->publisherService = $publisherService;
     $this->subjectService = $subjectService;
+    $this->bookBatchProcessor = $bookBatchProcessor;
   }
 
   /**
@@ -112,56 +114,71 @@ class ImportService
    *
    * @param array $data 2D array containing the xlsx data
    * @param Year $year year for which the data is being imported
-   * @throws Exception if an error occurs while persisting the data
    * @return void
+   * @throws Exception if an error occurs while persisting the data
    */
   public function persist(array $data, Year $year): void
   {
     try {
       $books = $year->getBooks();
       if ($books->count() > 0) {
+        $bookIds = [];
         foreach ($books as $book) {
-          $year->removeBook($book);
-          $this->bookService->deleteBook($book->getId());
+          $bookIds[] = $book->getId();
         }
+
+        $this->bookService->deleteBooksByIds($bookIds);
+        $year->clearBooks();
       }
 
-      foreach ($data as $row) {
-        $rowData = $this->getRowData($row);
+      $chunkSize = 200;
+      $chunks = array_chunk($data, $chunkSize);
 
-        $book = new Book();
+      foreach ($chunks as $chunk) {
+        $batch = [];
+        foreach ($chunk as $row) {
+          $rowData = $this->getRowData($row);
 
-        $book->setOrderNumber($rowData['orderNumber']);
-        $book->setShortTitle($rowData['shortTitle']);
-        $book->setTitle($rowData['title']);
-        $book->setSchoolForm($rowData['schoolForm']);
-        $book->setGrade($rowData['grade']);
-        $book->setDescription($rowData['description']);
-        $book->setBookPrice($rowData['priceBase'] ? $this->euroToCents($rowData['priceBase']) : $this->euroToCents($rowData['price']));
-        $book->setEbook($rowData['hasEbook'] === "vorhanden");
-        $book->setEbookPlus($rowData['hasEbookPlus'] === "vorhanden");
+          $book = new Book();
 
-        $subject = $this->subjectService->findSubjectByName($rowData['subject']);
-        if (!$subject) {
-          $subject = new Subject();
-          $subject->setName($rowData['subject']);
-          $this->subjectService->createSubject($subject);
+          $book->setOrderNumber($rowData['orderNumber']);
+          $book->setShortTitle($rowData['shortTitle']);
+          $book->setTitle($rowData['title']);
+          $book->setSchoolForm($rowData['schoolForm']);
+          $book->setGrade($rowData['grade']);
+          $book->setDescription($rowData['description']);
+          $book->setBookPrice(
+            $rowData['priceBase'] ?
+              $this->euroToCents($rowData['priceBase']) :
+              $this->euroToCents($rowData['price'])
+          );
+          $book->setEbook($rowData['hasEbook'] === "vorhanden");
+          $book->setEbookPlus($rowData['hasEbookPlus'] === "vorhanden");
+
+          $subject = $this->subjectService->findSubjectByName($rowData['subject']);
+          if (!$subject) {
+            $subject = new Subject();
+            $subject->setName($rowData['subject']);
+            $this->subjectService->createSubject($subject);
+          }
+
+          $publisher = $this->publisherService->findPublisherByNumber($rowData['publisherNumber']);
+          if (!$publisher) {
+            $publisher = new Publisher();
+            $publisher->setPublisherNumber($rowData['publisherNumber']);
+            $publisher->setName($rowData['publisherName']);
+            $this->publisherService->createPublisher($publisher);
+          }
+
+          $book->setSubject($subject);
+          $book->setPublisher($publisher);
+
+          $book->setYear($year);
+
+          $batch[] = $book;
         }
 
-        $publisher = $this->publisherService->findPublisherByNumber($rowData['publisherNumber']);
-        if (!$publisher) {
-          $publisher = new Publisher();
-          $publisher->setPublisherNumber($rowData['publisherNumber']);
-          $publisher->setName($rowData['publisherName']);
-          $this->publisherService->createPublisher($publisher);
-        }
-
-        $book->setSubject($subject);
-        $book->setPublisher($publisher);
-
-        $year->addBook($book);
-        $book->setYear($year);
-        $this->bookService->createBook($book);
+        $this->bookBatchProcessor->processBatch($batch);
       }
     } catch (Exception $e) {
       throw new Exception("Error while persisting data: " . $e->getMessage());

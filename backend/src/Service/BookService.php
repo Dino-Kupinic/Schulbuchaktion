@@ -34,10 +34,6 @@ class BookService
    */
   public function createBook(Book $book): Book
   {
-//    $temp = $this->findBookById($book->getId());
-//    if ($temp != null) {
-//      throw new Exception("Book with id " . $book->getId() . " already exists.");
-//    }
     $this->entityManager->persist($book);
     $this->entityManager->flush();
     return $book;
@@ -90,11 +86,24 @@ class BookService
   }
 
   /**
+   * Find a book by its id.
+   *
    * @param int $id The id of the book to retrieve
    * @return Book|null The book object or null if not found
    */
   public function findBookById(int $id): Book|null
   {
     return $this->bookRepository->find($id);
+  }
+
+  /**
+   * Delete books by their ids.
+   *
+   * @param array $bookIds The ids of the books to delete
+   * @return mixed The result of the deletion query
+   */
+  public function deleteBooksByIds(array $bookIds): mixed
+  {
+    return $this->bookRepository->deleteBooksByIds($bookIds);
   }
 }

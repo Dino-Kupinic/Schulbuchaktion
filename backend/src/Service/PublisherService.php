@@ -35,7 +35,7 @@ class PublisherService
    */
   public function createPublisher(Publisher $publisher): Publisher
   {
-    $temp = $this->findPublisherById($publisher->getId());
+    $temp = $this->findPublisherByNumber($publisher->getPublisherNumber());
 
     if ($temp != null) {
       throw new Exception("Publisher with name " . $publisher->getName() . " already exists.");
@@ -84,5 +84,16 @@ class PublisherService
   public function findPublisherById(int $id): Publisher|null
   {
     return $this->publisherRepository->find($id);
+  }
+
+  /**
+   * Find a publisher by its number (VNR).
+   *
+   * @param int $publisherNumber The number of the publisher to find
+   * @return Publisher|null The publisher object with the given number or null if not found
+   */
+  public function findPublisherByNumber(int $publisherNumber): Publisher|null
+  {
+    return $this->publisherRepository->findOneBy(['publisherNumber' => $publisherNumber]);
   }
 }

@@ -33,7 +33,7 @@ class Book
   #[Groups(['book:read', "bookOrder:read"])]
   private ?int $schoolForm = null;
 
-  #[ORM\Column(length: 255, nullable: true)]
+  #[ORM\Column(length: 512, nullable: true)]
   #[Groups(['book:read', "bookOrder:read"])]
   private ?string $description = null;
 
@@ -213,6 +213,11 @@ class Book
     return $this;
   }
 
+  public function removeYear(): void
+  {
+    $this->setYear(null);
+  }
+
   public function getEbook(): ?bool
   {
     return $this->ebook;
@@ -286,4 +291,11 @@ class Book
     $this->setPublisher($book->getPublisher());
     $this->setYear($book->getYear());
   }
+
+  public function __toString(): string
+  {
+    return $this->title;
+  }
+
+
 }

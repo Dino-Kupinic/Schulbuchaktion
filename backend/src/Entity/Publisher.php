@@ -25,7 +25,7 @@ class Publisher
   #[Groups(['book:read', "bookOrder:read", 'publisher:read'])]
   private ?string $name = null;
 
-  #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'publisher')]
+  #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'publisher', cascade: ['persist'])]
   private Collection $books;
 
   public function __construct()

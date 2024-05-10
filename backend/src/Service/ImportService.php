@@ -104,7 +104,7 @@ class ImportService
   public function euroToCents(string $euroString): float
   {
     $euroString = preg_replace("/[^0-9.]/", "", $euroString);
-    return round(floatval($euroString) * 100);
+    return round(floatval($euroString));
   }
 
   /**
@@ -112,12 +112,20 @@ class ImportService
    *
    * @param array $data 2D array containing the xlsx data
    * @param Year $year year for which the data is being imported
-   * @return void
    * @throws Exception if an error occurs while persisting the data
+   * @return void
    */
   public function persist(array $data, Year $year): void
   {
     try {
+      $books = $year->getBooks();
+      if ($books->count() > 0) {
+        foreach ($books as $book) {
+          $year->removeBook($book);
+          $this->bookService->deleteBook($book->getId());
+        }
+      }
+
       foreach ($data as $row) {
         $rowData = $this->getRowData($row);
 
@@ -137,12 +145,7 @@ class ImportService
         if (!$subject) {
           $subject = new Subject();
           $subject->setName($rowData['subject']);
-          $subject->addBook($book);
-          $temp = $this->subjectService->createSubject($subject);
-          $book->setSubject($temp);
-        } else {
-          $subject->addBook($book);
-          $book->setSubject($subject);
+          $this->subjectService->createSubject($subject);
         }
 
         $publisher = $this->publisherService->findPublisherByNumber($rowData['publisherNumber']);
@@ -150,13 +153,11 @@ class ImportService
           $publisher = new Publisher();
           $publisher->setPublisherNumber($rowData['publisherNumber']);
           $publisher->setName($rowData['publisherName']);
-          $publisher->addBook($book);
-          $temp = $this->publisherService->createPublisher($publisher);
-          $book->setPublisher($temp);
-        } else {
-          $publisher->addBook($book);
-          $book->setPublisher($publisher);
+          $this->publisherService->createPublisher($publisher);
         }
+
+        $book->setSubject($subject);
+        $book->setPublisher($publisher);
 
         $year->addBook($book);
         $book->setYear($year);

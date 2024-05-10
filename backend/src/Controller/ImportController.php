@@ -41,12 +41,12 @@ class ImportController extends AbstractController
         return $this->json(["success" => false, "error" => "Year with id $yearId not found"], Response::HTTP_NOT_FOUND);
       }
       unset($data[0]); // remove header
-//      $importService->persist($data, $year);
+      $importService->persist($data, $year);
     } catch (Exception $e) {
       return $this->json(["success" => false, "error" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
     }
 
-//      return $this->json(["success" => true, "data" => []], Response::HTTP_OK);
-    return $this->json($data, Response::HTTP_OK);
+
+    return $this->json(["success" => true, "data" => []], Response::HTTP_OK);
   }
 }

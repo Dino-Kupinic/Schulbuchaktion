@@ -66,7 +66,7 @@ class Year
   {
     if (!$this->books->contains($book)) {
       $this->books->add($book);
-      $book->addYear($this);
+      $book->setYear($this);
     }
 
     return $this;
@@ -75,7 +75,7 @@ class Year
   public function removeBook(Book $book): static
   {
     if ($this->books->removeElement($book)) {
-      $book->removeYear($this);
+      $book->removeYear();
     }
 
     return $this;

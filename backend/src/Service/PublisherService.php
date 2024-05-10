@@ -35,7 +35,7 @@ class PublisherService
    */
   public function createPublisher(Publisher $publisher): Publisher
   {
-    $temp = $this->findPublisherById($publisher->getId());
+    $temp = $this->findPublisherByNumber($publisher->getPublisherNumber());
 
     if ($temp != null) {
       throw new Exception("Publisher with name " . $publisher->getName() . " already exists.");

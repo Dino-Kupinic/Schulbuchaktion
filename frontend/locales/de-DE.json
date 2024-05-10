@@ -17,6 +17,7 @@
     "settingName": "Einstellungen"
   },
   "nav": {
+    "bookList": "Buch Liste",
     "orderList": "Bestellliste",
     "classManagement": "Klassenverwaltung",
     "budgetOverview": "Budget Übersicht",

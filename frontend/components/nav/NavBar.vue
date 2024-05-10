@@ -10,6 +10,10 @@ watch(
   () => {
     links.value = [
       {
+        title: t("nav.bookList"),
+        link: "/booklist",
+      },
+      {
         title: t("nav.orderList"),
         link: "/orderlist",
       },

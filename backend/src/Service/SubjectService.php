@@ -35,7 +35,7 @@ class SubjectService
    */
   public function createSubject(Subject $subject): Subject
   {
-    $temp = $this->findSubjectById($subject->getName());
+    $temp = $this->findSubjectByName($subject->getName());
     if ($temp != null) {
       throw new Exception("Subject with name " . $subject->getName() . " already exists.");
     }
@@ -95,5 +95,16 @@ class SubjectService
   public function findSubjectById(int $id): Subject|null
   {
     return $this->subjectRepository->find($id);
+  }
+
+  /**
+   * Find a subject by its name.
+   *
+   * @param mixed $subject The name of the subject to find
+   * @return Subject|null The subject object or null if not found
+   */
+  public function findSubjectByName(string $subject): Subject|null
+  {
+    return $this->subjectRepository->findOneBy(["name" => $subject]);
   }
 }

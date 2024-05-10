@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import { currentLocales } from "./config/i18n"
 import pkg from "./package.json"
 import { execaSync } from "execa"
@@ -46,7 +45,6 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
-  // routeRules: { "/api/**": { cors: true } },
   eslint: {},
   i18n: {
     locales: currentLocales,

@@ -16,6 +16,7 @@ const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
 
 const file = ref<File>()
 const year = ref<number>()
+const isLoading = ref<boolean>(false)
 
 async function submitFile() {
   if (!file.value) {
@@ -29,12 +30,12 @@ async function submitFile() {
   formData.append("year", year.value?.toString() ?? "")
 
   try {
-    const data = await $fetch("/importXLSX", {
+    isLoading.value = true
+    await $fetch("/importXLSX", {
       method: "POST",
       body: formData,
       baseURL: config.public.baseURL,
     })
-    console.log(data)
     toast.add({
       title: t("import.success"),
       description: t("import.successDescription"),
@@ -51,16 +52,10 @@ async function submitFile() {
     throw createError({
       statusMessage: error.message,
     })
+  } finally {
+    isLoading.value = false
   }
 }
-
-const yearsArray = ref<Year[] | undefined>(years.value?.data)
-const yearOptions = computed(() => {
-  if (!yearsArray.value) {
-    return []
-  }
-  return [...yearsArray.value, { id: -1, year: "Create new" }]
-})
 </script>
 
 <template>
@@ -85,7 +80,7 @@ const yearOptions = computed(() => {
           <div v-else>
             <USelect
               v-model="year"
-              :options="yearOptions"
+              :options="years?.data"
               size="md"
               :placeholder="$t('import.yearSelect')"
               value-attribute="id"
@@ -107,6 +102,7 @@ const yearOptions = computed(() => {
         <UButton
           :label="$t('import.submit')"
           class="px-8"
+          :loading="isLoading"
           @click="submitFile()"
         />
       </template>

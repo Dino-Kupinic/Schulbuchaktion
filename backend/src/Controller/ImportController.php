@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Year;
 use App\Service\ImportService;
 use App\Service\YearService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,24 +31,21 @@ class ImportController extends AbstractController
     $data = $importService->parseFile($filePath);
 
     $header = $data[0];
-    if ($importService->isHeaderValid($header)) {
-      try {
-        $year = $yearService->findYearById($yearId);
-        if (!$year) {
-          $temp = new Year();
-          $temp->setYear(date("Y"));
-          $year = $yearService->createYear($temp);
-        }
-      } catch (\Exception $e) {
-        return $this->json(["success" => false, "error" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-      }
-
-      unset($data[0]);
-      $importService->persist($data, $yearId);
-//      return $this->json(["success" => true, "data" => []], Response::HTTP_OK);
-      return $this->json($data, Response::HTTP_OK);
+    if (!$importService->isHeaderValid($header)) {
+      return $this->json(["success" => false, "error" => "XLSX Header is invalid, did you provide the correct file?"], Response::HTTP_BAD_REQUEST);
     }
 
-    return $this->json(["success" => false, "error" => "XLSX Header is invalid, did you provide the correct file?"], Response::HTTP_BAD_REQUEST);
+    try {
+      $year = $yearService->findYearById($yearId);
+      if (!$year) {
+        return $this->json(["success" => false, "error" => "Year with id $yearId not found"], Response::HTTP_NOT_FOUND);
+      }
+      unset($data[0]); // remove header
+      $importService->persist($data, $year);
+    } catch (Exception $e) {
+      return $this->json(["success" => false, "error" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+    }
+
+    return $this->json(["success" => true, "data" => []], Response::HTTP_OK);
   }
 }

@@ -21,6 +21,16 @@ class BookRepository extends ServiceEntityRepository
     parent::__construct($registry, Book::class);
   }
 
+  public function deleteBooksByIds(array $bookIds)
+  {
+    return $this->createQueryBuilder('b')
+      ->delete()
+      ->where('b.id IN (:ids)')
+      ->setParameter('ids', $bookIds)
+      ->getQuery()
+      ->execute();
+  }
+
 //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */

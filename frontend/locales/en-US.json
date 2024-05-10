@@ -45,16 +45,18 @@
     "yearSelect": "Select a year",
     "fileLabel": "File"
   },
-  "tableTitles":{
-    "orderTable": "Order Table",
-    "bookOverview": "Book Overview"
-  },
-  "tableSearch":{
-    "searchForBooks": "Search for books...",
+  "orderList": {
+    "title": "Order Table",
+    "subtitle": "Proceed to checkout",
     "searchForOrders": "Search for book orders..."
   },
+  "bookList":{
+    "title": "Book Overview",
+    "subtitle": "Choose a book to order",
+    "searchForBooks": "Search for books..."
+  },
   "book": {
-    "orderNumber": "Order number",
+    "orderNumber": "BNR",
     "title": "Title",
     "publisher": "Publisher",
     "subject": "Subject",

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import EditTableModal from "~/components/data-table/EditTableModal.vue"
 import type { Book } from "~/types/book"
+import type { APIResponseArray, APIResponsePaginated } from "~/types/response"
 
 const columns = ref([
   {
@@ -43,18 +43,7 @@ const columns = ref([
   },
 ])
 
-const books: Ref<Book[]> = ref([])
-
-const items = (row: Book) =>
-  ref([
-    [
-      {
-        label: t("actions.edit"),
-        icon: "i-heroicons-pencil-square-20-solid",
-        //click: () => edit Book,
-      },
-    ],
-  ])
+const config = useRuntimeConfig()
 
 const page = ref(1)
 const pageCount = ref(5)
@@ -63,6 +52,26 @@ const pageFrom = computed(() => (page.value - 1) * pageCount.value + 1)
 const pageTo = computed(() =>
   Math.min(page.value * pageCount.value, pageTotal.value),
 )
+const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
+  "/books",
+  {
+    params: {
+      perPage: 10,
+      page: 1,
+    },
+    baseURL: config.public.baseURL,
+  },
+)
+
+const items = (row: Book) =>
+  ref([
+    [
+      {
+        label: t("actions.edit"),
+        icon: "i-heroicons-pencil-square-20-solid",
+      },
+    ],
+  ])
 
 const selectedColumns = ref(columns)
 const columnsTable = computed(() =>
@@ -70,17 +79,55 @@ const columnsTable = computed(() =>
 )
 
 const sort = ref({ column: "id", direction: "asc" as const })
-
 const selectedRows = ref<Book[]>([])
-
 const query = ref("")
+
+const actions = [
+  [
+    {
+      key: "completed",
+      label: "Completed",
+      icon: "i-heroicons-check",
+    },
+  ],
+  [
+    {
+      key: "uncompleted",
+      label: "In Progress",
+      icon: "i-heroicons-arrow-path",
+    },
+  ],
+]
+
+const selectedStatus = ref([])
+const search = ref("")
+const searchStatus = computed(() => {
+  if (selectedStatus.value?.length === 0) {
+    return ""
+  }
+
+  if (selectedStatus?.value?.length > 1) {
+    return `?completed=${selectedStatus.value[0].value}&completed=${selectedStatus.value[1].value}`
+  }
+
+  return `?completed=${selectedStatus.value[0].value}`
+})
+
+const resetFilters = () => {
+  search.value = ""
+  selectedStatus.value = []
+}
 
 const filteredRows = computed(() => {
   if (!query.value) {
     return books.value
   }
 
-  return books.value.filter((book: Book) => {
+  if (!books.value) {
+    return []
+  }
+
+  return books.value?.data?.books.filter((book: Book) => {
     return Object.values(book).some((value) => {
       return (
         String(value).toLowerCase().includes(query.value.toLowerCase()) ||
@@ -92,8 +139,6 @@ const filteredRows = computed(() => {
     })
   })
 })
-
-const config = useRuntimeConfig()
 
 const { t, locale } = useI18n()
 
@@ -149,27 +194,6 @@ watch(
   { immediate: true },
 )
 
-async function getBooks(): Promise<Book[]> {
-  const response = await $fetch("/books", {
-    method: "GET",
-    baseURL: config.public.baseURL,
-  })
-
-  // @ts-expect-error
-  return response.data
-}
-
-async function deleteBookById(id: number) {
-  await $fetch("books/delete/" + id, {
-    method: "DELETE",
-    baseURL: config.public.baseURL,
-  })
-}
-
-onMounted(async () => {
-  books.value = await getBooks()
-})
-
 function select(row: Book) {
   const index = selectedRows.value.findIndex(
     (item) => item.orderNumber === row.orderNumber,
@@ -180,32 +204,82 @@ function select(row: Book) {
     selectedRows.value.splice(index, 1)
   }
 }
+
+// :ui="{
+// wrapper: 'relative overflow-x-auto max-h-[450px] overflow-y-auto',
+//   tr: {
+//   base: 'relative overflow-y-auto whitespace-nowrap',
+//     padding: 'px-4 py-4',
+//     color: 'text-gray-500 dark:text-gray-400',
+//     font: '',
+//     size: 'text-sm',
+// },
+// }"
 </script>
 
 <template>
   <UCard
     class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:min-h-28"
-    :ui="{ shadow: 'shadow-none', ring: '' }"
+    :ui="{
+      shadow: 'shadow-none',
+      ring: '',
+      body: {
+        padding: '',
+      },
+    }"
   >
-    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput v-model="query" :placeholder="$t('tableSearch.searchForBooks')" />
-    </div>
-    <!-- Wrap UTable in a div with a specific height and overflow-y auto -->
+    <template #header>
+      <div
+        class="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row"
+      >
+        <div class="flex w-full sm:w-[300px]">
+          <UInput
+            v-model="query"
+            size="md"
+            class="w-full"
+            icon="i-heroicons-magnifying-glass-20-solid"
+            :placeholder="$t('bookList.searchForBooks')"
+          />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <USelectMenu
+            v-model="pageCount"
+            :options="['3', '5', '10', '20', '30', '40']"
+          >
+            <UButton
+              icon="i-material-symbols-table-rows-outline"
+              color="gray"
+              size="md"
+            >
+              Rows
+            </UButton>
+          </USelectMenu>
+
+          <USelectMenu v-model="selectedColumns" :options="columns" multiple>
+            <UButton icon="i-heroicons-view-columns" color="gray" size="md">
+              Columns
+            </UButton>
+          </USelectMenu>
+
+          <UButton
+            icon="i-heroicons-funnel"
+            color="gray"
+            size="md"
+            :disabled="search === '' && selectedStatus.length === 0"
+            @click="resetFilters"
+          >
+            Reset
+          </UButton>
+        </div>
+      </div>
+    </template>
+
     <UTable
       v-model="selectedRows"
       v-model:sort="sort"
-      :rows="filteredRows"
+      :rows="books?.data?.books"
       :columns="columnsTable"
-      :ui="{
-        wrapper: 'relative overflow-x-auto max-h-[450px] overflow-y-auto',
-        tr: {
-          base: 'relative overflow-y-auto whitespace-nowrap',
-          padding: 'px-4 py-4',
-          color: 'text-gray-500 dark:text-gray-400',
-          font: '',
-          size: 'text-sm',
-        },
-      }"
       @select="select"
     >
       <template #name-data="{ row }">

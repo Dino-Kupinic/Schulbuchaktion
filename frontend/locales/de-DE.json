@@ -55,7 +55,7 @@
     "searchForOrders": "Nach Bestellungen suchen..."
   },
   "book": {
-    "orderNumber": "Bestellnummer",
+    "orderNumber": "BNR",
     "title": "Titel",
     "publisher": "Veröffentlicht von",
     "subject": "Thema",

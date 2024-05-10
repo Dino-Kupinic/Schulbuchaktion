@@ -26,3 +26,25 @@ export interface APIResponseArray<T> extends APIResponse<T[]> {}
  * @property {T} data - API response data
  */
 export interface APIResponseObject<T> extends APIResponse<T> {}
+
+/**
+ * API response interface for paginated data
+ * @interface APIResponsePaginated
+ * @extends APIResponse
+ * @property {boolean} success - API request status
+ * @property {T[]} data.books - API response data
+ * @property {number} data.total - Total number of data
+ * @property {number} data.perPage - Number of data per page
+ * @property {number} data.page - Current page
+ * @property {string} error - API response error message
+ */
+export interface APIResponsePaginated<T> extends APIResponse<object> {
+  success: boolean
+  data?: {
+    books: T[]
+    total: number
+    perPage: number
+    page: number
+  }
+  error?: string
+}

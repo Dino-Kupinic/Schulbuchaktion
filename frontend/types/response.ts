@@ -34,6 +34,7 @@ export interface APIResponseObject<T> extends APIResponse<T> {}
  * @property {boolean} success - API request status
  * @property {T[]} data.books - API response data
  * @property {number} data.total - Total number of data
+ * @property {number} data.pages - Total number of pages
  * @property {number} data.perPage - Number of data per page
  * @property {number} data.page - Current page
  * @property {string} error - API response error message
@@ -43,6 +44,7 @@ export interface APIResponsePaginated<T> extends APIResponse<object> {
   data?: {
     books: T[]
     total: number
+    pages: number
     perPage: number
     page: number
   }

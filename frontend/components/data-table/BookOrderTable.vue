@@ -39,16 +39,15 @@ const columns = ref([
   },
 ])
 
-const id = ref(0)
-
 const config = useRuntimeConfig()
 
-const { data: bookOrders, pending } = await useLazyFetch<
-  APIResponseArray<BookOrder[]>
->("/bookOrders", {
-  baseURL: config.public.baseURL,
-  pick: ["data"],
-})
+const { data: bookOrders } = await useLazyFetch<APIResponseArray<BookOrder[]>>(
+  "/bookOrders",
+  {
+    baseURL: config.public.baseURL,
+    pick: ["data"],
+  },
+)
 
 const items = (row: BookOrder) => [
   [
@@ -96,7 +95,7 @@ function select(row: BookOrder) {
 
 const query = ref("")
 
-const filteredRows: ComputedRef<BookOrder[]> = computed(() => {
+const filteredRows = computed(() => {
   if (!query.value) {
     return bookOrders
   }

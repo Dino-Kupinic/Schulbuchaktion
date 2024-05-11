@@ -57,12 +57,12 @@
   "book": {
     "orderNumber": "BNR",
     "title": "Titel",
-    "publisher": "Veröffentlicht von",
+    "publisher": "Verlag",
     "subject": "Thema",
     "department": "Abteilung",
     "grade": "Schulstufe",
     "schoolYear": "Schuljahr",
-    "ebookPlus": "E-Book Plus",
+    "ebookPlus": "E-Book+",
     "ebook": "E-Book",
     "price": "Preis"
   },

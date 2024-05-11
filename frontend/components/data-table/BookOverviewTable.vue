@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Book } from "~/types/book"
-import type { APIResponseArray, APIResponsePaginated } from "~/types/response"
+import type { APIResponsePaginated } from "~/types/response"
 
 const columns = ref([
   {
@@ -46,22 +46,26 @@ const columns = ref([
 const config = useRuntimeConfig()
 
 const page = ref(1)
-const pageCount = ref(5)
-const pageTotal = ref(10) // This value should be dynamic coming from the API
-const pageFrom = computed(() => (page.value - 1) * pageCount.value + 1)
-const pageTo = computed(() =>
-  Math.min(page.value * pageCount.value, pageTotal.value),
-)
-const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
+const pageCount = ref(10)
+const { data: books, pending } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
     params: {
-      perPage: 10,
-      page: 1,
+      perPage: pageCount.value,
+      page: page.value,
     },
     baseURL: config.public.baseURL,
   },
 )
+
+const pageFrom = computed(() => (page.value - 1) * pageCount.value + 1)
+const pageTo = computed(() => {
+  if (!books.value?.data?.pages) {
+    return 0
+  } else {
+    return Math.min(page.value * pageCount.value, books.value?.data?.pages)
+  }
+})
 
 const items = (row: Book) =>
   ref([
@@ -82,39 +86,10 @@ const sort = ref({ column: "id", direction: "asc" as const })
 const selectedRows = ref<Book[]>([])
 const query = ref("")
 
-const actions = [
-  [
-    {
-      key: "completed",
-      label: "Completed",
-      icon: "i-heroicons-check",
-    },
-  ],
-  [
-    {
-      key: "uncompleted",
-      label: "In Progress",
-      icon: "i-heroicons-arrow-path",
-    },
-  ],
-]
-
 const selectedStatus = ref([])
-const search = ref("")
-const searchStatus = computed(() => {
-  if (selectedStatus.value?.length === 0) {
-    return ""
-  }
-
-  if (selectedStatus?.value?.length > 1) {
-    return `?completed=${selectedStatus.value[0].value}&completed=${selectedStatus.value[1].value}`
-  }
-
-  return `?completed=${selectedStatus.value[0].value}`
-})
 
 const resetFilters = () => {
-  search.value = ""
+  query.value = ""
   selectedStatus.value = []
 }
 
@@ -247,16 +222,17 @@ function select(row: Book) {
             v-model="pageCount"
             :options="['3', '5', '10', '20', '30', '40']"
           >
-            <UButton
-              icon="i-material-symbols-table-rows-outline"
-              color="gray"
-              size="md"
-            >
+            <UButton icon="i-mingcute-rows-4-line" color="gray" size="md">
               Rows
             </UButton>
           </USelectMenu>
 
-          <USelectMenu v-model="selectedColumns" :options="columns" multiple>
+          <USelectMenu
+            v-model="selectedColumns"
+            :options="columns"
+            multiple
+            :ui-menu="{ base: 'w-40' }"
+          >
             <UButton icon="i-heroicons-view-columns" color="gray" size="md">
               Columns
             </UButton>
@@ -266,7 +242,7 @@ function select(row: Book) {
             icon="i-heroicons-funnel"
             color="gray"
             size="md"
-            :disabled="search === '' && selectedStatus.length === 0"
+            :disabled="query === '' && selectedStatus.length === 0"
             @click="resetFilters"
           >
             Reset
@@ -279,6 +255,12 @@ function select(row: Book) {
       v-model="selectedRows"
       v-model:sort="sort"
       :rows="books?.data?.books"
+      :loading-state="{
+        icon: 'i-heroicons-arrow-path-20-solid',
+        label: 'Loading...',
+      }"
+      :loading="pending"
+      :progress="{ color: 'primary', animation: 'carousel' }"
       :columns="columnsTable"
       @select="select"
     >
@@ -355,7 +337,7 @@ function select(row: Book) {
             {{ $t("pagination.to") }}
             <span class="font-medium">{{ pageTo }}</span>
             {{ $t("pagination.of") }}
-            <span class="font-medium">{{ pageTotal }}</span>
+            <span class="font-medium">{{ books?.data?.total }}</span>
             {{ $t("pagination.results") }}
           </span>
         </div>
@@ -363,7 +345,7 @@ function select(row: Book) {
         <UPagination
           v-model="page"
           :page-count="pageCount"
-          :total="pageTotal"
+          :total="books?.data?.pages"
           :ui="{
             wrapper: 'flex items-center',
             default: {

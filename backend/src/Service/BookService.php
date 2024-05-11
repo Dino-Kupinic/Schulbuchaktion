@@ -112,9 +112,11 @@ class BookService
     $offset = ($page - 1) * $perPage;
     $books = $this->bookRepository->findBy([], null, $perPage, $offset);
     $totalBooks = $this->bookRepository->count();
+    $pages = ceil($totalBooks / $perPage);
     return [
       'books' => $books,
       'total' => $totalBooks,
+      'pages' => $pages,
       'perPage' => $perPage,
       'currentPage' => $page
     ];

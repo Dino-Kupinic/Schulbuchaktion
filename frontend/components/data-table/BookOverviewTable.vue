@@ -193,7 +193,7 @@ function select(row: Book) {
         padding: '',
       },
       header: {
-        padding: 'sm:px-4',
+        padding: 'sm:px-4 py-3',
       },
     }"
   >
@@ -260,6 +260,9 @@ function select(row: Book) {
       :columns="columnsTable"
       :ui="{
         wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
+        td: {
+          padding: 'py-1',
+        },
       }"
       @select="select"
     >
@@ -365,6 +368,4 @@ function select(row: Book) {
       </div>
     </template>
   </UCard>
-  <PageTitle>Order Here</PageTitle>
-  <UCard class="h-full" />
 </template>

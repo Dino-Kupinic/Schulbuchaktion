@@ -74,6 +74,7 @@
   },
   "actions": {
     "edit": "Bearbeiten",
+    "info": "Info",
     "delete": "Löschen"
   }
 }

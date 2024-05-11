@@ -75,6 +75,7 @@
   },
   "actions": {
     "edit": "Edit",
+    "info": "Info",
     "delete": "Delete"
   }
 }

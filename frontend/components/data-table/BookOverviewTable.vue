@@ -46,7 +46,7 @@ const columns = ref([
 const config = useRuntimeConfig()
 
 const page = ref(1)
-const pageCount = ref(10)
+const pageCount = ref(5)
 const { data: books, pending } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
@@ -73,6 +73,10 @@ const items = (row: Book) =>
       {
         label: t("actions.edit"),
         icon: "i-heroicons-pencil-square-20-solid",
+      },
+      {
+        label: t("actions.info"),
+        icon: "i-heroicons-information-circle",
       },
     ],
   ])
@@ -290,7 +294,7 @@ function select(row: Book) {
         </span>
       </template>
       <template #ebook-data="{ row }">
-        <div class="text-center">
+        <div class="-ml-2 pr-10 text-center">
           <Icon
             v-if="row.ebook"
             class="text-green-500"
@@ -301,10 +305,11 @@ function select(row: Book) {
             class="text-red-500"
             name="material-symbols:close-small-outline"
           ></Icon>
+          Yes
         </div>
       </template>
       <template #ebookPlus-data="{ row }">
-        <div class="text-center">
+        <div class="-ml-2 pr-10 text-center">
           <Icon
             v-if="row.ebookPlus"
             class="text-green-500"
@@ -315,6 +320,7 @@ function select(row: Book) {
             class="text-red-500"
             name="material-symbols:close-small-outline"
           ></Icon>
+          Yes
         </div>
       </template>
       <template #actions-data="{ row }">

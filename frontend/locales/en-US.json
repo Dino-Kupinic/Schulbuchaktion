@@ -52,7 +52,7 @@
   },
   "bookList":{
     "title": "Book Overview",
-    "subtitle": "Choose a book to order",
+    "subtitle": "Choose books to order",
     "searchForBooks": "Search for books..."
   },
   "book": {
@@ -68,14 +68,18 @@
     "price": "Price"
   },
   "pagination": {
-    "showing": "Zeigt",
-    "to": "bis",
-    "of": "von",
-    "results": "Ergebnissen"
+    "showing": "Shows",
+    "to": "to",
+    "of": "of",
+    "results": "Results"
   },
   "actions": {
     "edit": "Edit",
     "info": "Info",
     "delete": "Delete"
+  },
+  "bool": {
+    "yes": "Yes",
+    "no": "No"
   }
 }

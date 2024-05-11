@@ -51,8 +51,16 @@
     "bookOverview": "Bücherübersicht"
   },
   "tableSearch": {
-    "searchForBooks": "Nach Büchern suchen...",
+  },
+  "orderList": {
+    "title": "Bestellliste",
+    "subtitle": "Zur Kasse gehen",
     "searchForOrders": "Nach Bestellungen suchen..."
+  },
+  "bookList":{
+    "title": "Bücherübersicht",
+    "subtitle": "Wählen Sie Bücher zum Bestellen aus",
+    "searchForBooks": "Nach Büchern suchen..."
   },
   "book": {
     "orderNumber": "BNR",
@@ -76,5 +84,9 @@
     "edit": "Bearbeiten",
     "info": "Info",
     "delete": "Löschen"
+  },
+  "bool": {
+    "yes": "Ja",
+    "no": "Nein"
   }
 }

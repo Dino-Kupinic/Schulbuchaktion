@@ -46,7 +46,7 @@ const columns = ref([
 const config = useRuntimeConfig()
 
 const page = ref(1)
-const pageCount = ref(5)
+const pageCount = ref(20)
 const { data: books, pending } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
@@ -183,27 +183,17 @@ function select(row: Book) {
     selectedRows.value.splice(index, 1)
   }
 }
-
-// :ui="{
-// wrapper: 'relative overflow-x-auto max-h-[450px] overflow-y-auto',
-//   tr: {
-//   base: 'relative overflow-y-auto whitespace-nowrap',
-//     padding: 'px-4 py-4',
-//     color: 'text-gray-500 dark:text-gray-400',
-//     font: '',
-//     size: 'text-sm',
-// },
-// }"
 </script>
 
 <template>
   <UCard
-    class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:min-h-28"
+    class="h-auto w-full rounded-lg"
     :ui="{
-      shadow: 'shadow-none',
-      ring: '',
       body: {
         padding: '',
+      },
+      header: {
+        padding: 'sm:px-4',
       },
     }"
   >
@@ -233,7 +223,7 @@ function select(row: Book) {
 
           <USelectMenu
             v-model="selectedColumns"
-            :options="columns"
+            :options="columns.slice(0, columns.length - 1)"
             multiple
             :ui-menu="{ base: 'w-40' }"
           >
@@ -246,7 +236,9 @@ function select(row: Book) {
             icon="i-heroicons-funnel"
             color="gray"
             size="md"
-            :disabled="query === '' && selectedStatus.length === 0"
+            :disabled="
+              selectedColumns.length === columns.length && query === ''
+            "
             @click="resetFilters"
           >
             Reset
@@ -266,6 +258,9 @@ function select(row: Book) {
       :loading="pending"
       :progress="{ color: 'primary', animation: 'carousel' }"
       :columns="columnsTable"
+      :ui="{
+        wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
+      }"
       @select="select"
     >
       <template #name-data="{ row }">
@@ -295,32 +290,38 @@ function select(row: Book) {
       </template>
       <template #ebook-data="{ row }">
         <div class="-ml-2 pr-10 text-center">
-          <Icon
-            v-if="row.ebook"
-            class="text-green-500"
-            name="material-symbols:check-small"
-          ></Icon>
-          <Icon
-            v-else
-            class="text-red-500"
-            name="material-symbols:close-small-outline"
-          ></Icon>
-          Yes
+          <span v-if="row.ebook">
+            <Icon
+              class="text-green-500"
+              name="material-symbols:check-small"
+            ></Icon>
+            {{ $t("bool.yes") }}
+          </span>
+          <span v-else>
+            <Icon
+              class="text-red-500"
+              name="material-symbols:close-small-outline"
+            ></Icon>
+            {{ $t("bool.no") }}
+          </span>
         </div>
       </template>
       <template #ebookPlus-data="{ row }">
         <div class="-ml-2 pr-10 text-center">
-          <Icon
-            v-if="row.ebookPlus"
-            class="text-green-500"
-            name="material-symbols:check-small"
-          ></Icon>
-          <Icon
-            v-else
-            class="text-red-500"
-            name="material-symbols:close-small-outline"
-          ></Icon>
-          Yes
+          <span v-if="row.ebookPlus">
+            <Icon
+              class="text-green-500"
+              name="material-symbols:check-small"
+            ></Icon>
+            {{ $t("bool.yes") }}
+          </span>
+          <span v-else>
+            <Icon
+              class="text-red-500"
+              name="material-symbols:close-small-outline"
+            ></Icon>
+            {{ $t("bool.no") }}
+          </span>
         </div>
       </template>
       <template #actions-data="{ row }">
@@ -341,7 +342,7 @@ function select(row: Book) {
             {{ $t("pagination.showing") }}
             <span class="font-medium">{{ pageFrom }}</span>
             {{ $t("pagination.to") }}
-            <span class="font-medium">{{ pageTo }}</span>
+            <span class="font-medium">{{ books?.data?.perPage }}</span>
             {{ $t("pagination.of") }}
             <span class="font-medium">{{ books?.data?.total }}</span>
             {{ $t("pagination.results") }}
@@ -364,6 +365,6 @@ function select(row: Book) {
       </div>
     </template>
   </UCard>
+  <PageTitle>Order Here</PageTitle>
+  <UCard class="h-full" />
 </template>
-
-<style scoped></style>

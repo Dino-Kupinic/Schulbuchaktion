@@ -9,12 +9,14 @@ function decodedCookie(): any {
 export default defineNuxtRouteMiddleware((to, from) => {
   const cookie = decodedCookie()
   if (cookie !== null) {
-    if (cookie.authenticated) {
-      if (to.path === "/login") {
-        return navigateTo("/")
-      } else return navigateTo(to)
-    } else {
+    console.log(cookie.authenticated)
+    if (cookie.authenticated && to.path === "/login") {
+      return navigateTo("/")
+    } else if (!cookie.authenticated) {
       return navigateTo("/login")
     }
+  } else if (to.path !== "/login") {
+    console.log("cookie is null")
+    return navigateTo("/login")
   }
 })

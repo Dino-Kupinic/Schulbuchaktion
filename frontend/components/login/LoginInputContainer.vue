@@ -22,6 +22,7 @@ async function submitData() {
 
     // @ts-ignore
     createCookie(response.token)
+    navigateTo("/")
   } catch (error) {
     console.error("Error submitting data:", error)
   }

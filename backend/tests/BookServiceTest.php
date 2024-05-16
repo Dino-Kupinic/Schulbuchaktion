@@ -20,14 +20,13 @@ class BookServiceTest extends KernelTestCase
 
     $this->assertSame('test', $kernel->getEnvironment());
 
-    $entityManager = $this->createMock(EntityManagerInterface::class);
-    $bookRepository = $this->createMock(BookRepository::class);
-
-    $book1 = ObjectFactory::createBook();
     try {
-      $bookService = new BookService($entityManager, $bookRepository);
+      $book1 = ObjectFactory::createBook();
 
+      $bookRepository = $this->createMock(BookRepository::class);
       $em = $this->createMock(EntityManagerInterface::class);
+
+      $bookService = new BookService($em, $bookRepository); // Use $em instead of $entityManager
 
       $em->expects($this->once())
         ->method('persist')

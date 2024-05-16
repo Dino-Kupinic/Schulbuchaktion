@@ -2,54 +2,55 @@
 
 namespace App\Tests;
 
-use App\Entity\Book;
-use App\Entity\BookOrder;
-use App\Entity\Department;
-use App\Entity\Publisher;
 use App\Entity\SchoolClass;
-use App\Entity\Subject;
-use App\Entity\Year;
 use App\Repository\SchoolClassRepository;
 use App\Service\SchoolClassService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SchoolClassServiceTest extends KernelTestCase
 {
-    public function testSomething(): void
-    {
-        $kernel = self::bootKernel();
+  /**
+   * @throws Exception
+   */
+  public function testPersistSchoolClass(): void
+  {
+    $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
-        // $routerService = static::getContainer()->get('router');
-        // $myCustomService = static::getContainer()->get(CustomService::class);
+    $this->assertSame('test', $kernel->getEnvironment());
 
+    try {
       $schoolClass1 = ObjectFactory::createSchoolClass();
 
-      try {
-        $schoolClassService = new SchoolClassService();
+      $schoolClassRepository = $this->createMock(SchoolClassRepository::class);
+      $em = $this->createMock(EntityManagerInterface::class);
 
-        $em = $this->createMock(EntityManagerInterface::class);
+      $schoolClassService = new SchoolClassService($em, $schoolClassRepository);
 
-        $em->expects($this->once())
-          ->method('persist')
-          ->with($this->equalTo($schoolClass1));
+      $em->expects($this->once())
+        ->method('persist')
+        ->with($this->equalTo($schoolClass1));
 
-        $em->expects($this->once())
-          ->method('flush');
+      $em->expects($this->once())
+        ->method('flush');
 
-        $schoolClassService->createSchoolClass($schoolClass1, $em);
-      } finally {
-        restore_exception_handler();
-      }
+      $schoolClassService->createSchoolClass($schoolClass1);
+    } catch (Exception $e) {
+      $this->fail($e->getMessage());
+    } catch (\Exception $e) {
+      $this->fail($e->getMessage());
+    } finally {
+      restore_exception_handler();
     }
+  }
 
   /**
    * @throws Exception
    */
-  public function testGetSchoolClass(): void
+  public function testGetSchoolClasses(): void
   {
-    $schoolClassService = new SchoolClassService();
+    $entityManager = $this->createMock(EntityManagerInterface::class);
     $schoolClassRepository = $this->createMock(SchoolClassRepository::class);
     $expectedResult = [new SchoolClass(), new SchoolClass()];
 
@@ -57,7 +58,8 @@ class SchoolClassServiceTest extends KernelTestCase
       ->method('findAll')
       ->willReturn($expectedResult);
 
-    $result = $schoolClassService->getSchoolClasses($schoolClassRepository);
+    $schoolClassService = new SchoolClassService($entityManager, $schoolClassRepository);
+    $result = $schoolClassService->getSchoolClasses();
 
     $this->assertSame($expectedResult, $result);
   }

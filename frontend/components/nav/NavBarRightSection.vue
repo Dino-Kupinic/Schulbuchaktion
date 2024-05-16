@@ -8,7 +8,7 @@
     <NavDivider />
     <NavBarLanguageToggle />
     <NavDivider />
-    <NavSettingsButton />
+    <NavSettingsButton :styling="true" />
     <NavInfoButton />
     <NavUser />
   </div>

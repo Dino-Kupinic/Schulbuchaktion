@@ -5,58 +5,95 @@ namespace App\Service;
 use App\Entity\Publisher;
 use App\Repository\PublisherRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
+/**
+ * Service class for handling Department data.
+ * @author Lukas Bauer, Dino Kupinic
+ * @version 1.0
+ * @see Publisher
+ * @see PublisherRepository
+ * @see PublisherController
+ */
 class PublisherService
 {
+  private EntityManagerInterface $entityManager;
+  private PublisherRepository $publisherRepository;
 
-  // We are not sure what the $department parameter gets. Be aware that this function is not functional at this moment.
-
-  public function createPublisher($publisher, EntityManagerInterface $em): void
+  public function __construct(EntityManagerInterface $entityManager, PublisherRepository $publisherRepository)
   {
-    $publisherAdd = new Publisher();
-    $publisherAdd->setName($publisher->getName());
-    $publisherAdd->setPublisherNumber($publisher->getPublisherNumber());
-    $em->persist($publisherAdd);
-    $em->flush();
+    $this->entityManager = $entityManager;
+    $this->publisherRepository = $publisherRepository;
   }
 
-  public function updatePublisher($publisher, EntityManagerInterface $em): void
+  /**
+   * Create a new publisher.
+   *
+   * @param Publisher $publisher The publisher object to persist
+   * @return Publisher The persisted publisher object
+   * @throws Exception If the publisher already exists
+   */
+  public function createPublisher(Publisher $publisher): Publisher
   {
-    $publisherUpdate = $em->getRepository(Publisher::class)->find($publisher->getId());
-    $publisherUpdate->setName($publisher->getName());
-    $publisherUpdate->setPublisherNumber($publisher->getPublisherNumber());
-    $em->flush();
+    $temp = $this->findPublisherByNumber($publisher->getPublisherNumber());
+
+    if ($temp != null) {
+      throw new Exception("Publisher with name " . $publisher->getName() . " already exists.");
+    }
+
+    $this->entityManager->persist($publisher);
+    $this->entityManager->flush();
+    return $publisher;
   }
 
-  public function dropPublisher($id, EntityManagerInterface $em): void
+  /**
+   * Update a publisher.
+   *
+   * @param Publisher $publisher The publisher object to update
+   * @return Publisher The updated publisher object
+   */
+  public function updatePublisher(Publisher $publisher): Publisher
   {
-    $publisher = $em->getRepository(Publisher::class)->find($id);
-    $em->remove($publisher);
-    $em->flush();
+    $oldPublisher = $this->findPublisherById($publisher->getId());
+
+    if ($oldPublisher) {
+      $oldPublisher->updateFrom($publisher);
+      $this->entityManager->persist($oldPublisher);
+      $this->entityManager->flush();
+    }
+
+    return $oldPublisher;
   }
 
-  public function getPublishers(PublisherRepository $publisherRepository): array
+  /**
+   * Get all publishers.
+   *
+   * @return array|null The list of all publishers
+   */
+  public function getPublishers(): array|null
   {
-    return $publisherRepository->findAll();
+    return $this->publisherRepository->findAll();
   }
 
-  public function getPublisherById($id, PublisherRepository $publisherRepository): Publisher
+  /**
+   * Find a publisher by its id.
+   *
+   * @param int $id The id of the publisher to get
+   * @return Publisher|null The publisher object with the given id or null if not found
+   */
+  public function findPublisherById(int $id): Publisher|null
   {
-    return $publisherRepository->find($id);
+    return $this->publisherRepository->find($id);
   }
 
-  public function updatePublisherName($publisher, EntityManagerInterface $em): void
+  /**
+   * Find a publisher by its number (VNR).
+   *
+   * @param int $publisherNumber The number of the publisher to find
+   * @return Publisher|null The publisher object with the given number or null if not found
+   */
+  public function findPublisherByNumber(int $publisherNumber): Publisher|null
   {
-    $publisherName = $em->getRepository(Publisher::class)->find($publisher->getId());
-    $publisherName->setName($publisher->getName());
-    $em->flush();
+    return $this->publisherRepository->findOneBy(['publisherNumber' => $publisherNumber]);
   }
-
-  public function updatePublisherPublisherNumber($publisher, EntityManagerInterface $em): void
-  {
-    $publisherPublisherNumber = $em->getRepository(Publisher::class)->find($publisher->getId());
-    $publisherPublisherNumber->setPublisherNumber($publisher->getPublisherNumber());
-    $em->flush();
-  }
-
 }

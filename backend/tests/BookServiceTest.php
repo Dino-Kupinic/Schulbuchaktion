@@ -14,16 +14,18 @@ class BookServiceTest extends KernelTestCase
   /**
    * @throws Exception
    */
-  public function testSomething(): void
+  public function testPersistBook(): void
   {
     $kernel = self::bootKernel();
 
     $this->assertSame('test', $kernel->getEnvironment());
-    // $routerService = static::getContainer()->get('router');
+
+    $entityManager = $this->createMock(EntityManagerInterface::class);
+    $bookRepository = $this->createMock(BookRepository::class);
 
     $book1 = ObjectFactory::createBook();
     try {
-      $bookService = new BookService();
+      $bookService = new BookService($entityManager, $bookRepository);
 
       $em = $this->createMock(EntityManagerInterface::class);
 
@@ -34,7 +36,11 @@ class BookServiceTest extends KernelTestCase
       $em->expects($this->once())
         ->method('flush');
 
-      $bookService->createBook($book1, $em);
+      $bookService->createBook($book1);
+    } catch (Exception $e) {
+      $this->fail($e->getMessage());
+    } catch (\Exception $e) {
+      $this->fail($e->getMessage());
     } finally {
       restore_exception_handler();
     }
@@ -45,17 +51,41 @@ class BookServiceTest extends KernelTestCase
    */
   public function testGetBook(): void
   {
-    $bookService = new BookService();
+    $entityManager = $this->createMock(EntityManagerInterface::class);
     $bookRepository = $this->createMock(BookRepository::class);
     $expectedResult = [new Book(), new Book()];
+
 
     $bookRepository->expects($this->once())
       ->method('findAll')
       ->willReturn($expectedResult);
 
-    $result = $bookService->getBooks($bookRepository);
+    $bookService = new BookService($entityManager, $bookRepository);
+    $result = $bookService->getBooks();
 
     $this->assertSame($expectedResult, $result);
   }
+
+  // add test for getting a single book by id
+
+  /**
+   * @throws Exception
+   */
+  public function testGetBookById(): void
+  {
+    $entityManager = $this->createMock(EntityManagerInterface::class);
+    $bookRepository = $this->createMock(BookRepository::class);
+    $expectedResult = new Book();
+
+    $bookRepository->expects($this->once())
+      ->method('find')
+      ->willReturn($expectedResult);
+
+    $bookService = new BookService($entityManager, $bookRepository);
+    $result = $bookService->findBookById(1);
+
+    $this->assertSame($expectedResult, $result);
+  }
+
 }
 

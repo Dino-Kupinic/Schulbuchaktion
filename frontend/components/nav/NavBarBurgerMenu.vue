@@ -14,6 +14,11 @@ function openMenu() {
   emit("burgerMenuVisible", revealMenu.value)
 }
 
+function closeMenu() {
+  revealMenu.value = false
+  emit("burgerMenuVisible", revealMenu.value)
+}
+
 watch(revealMenu, () => {
   if (revealMenu.value) icon.value = "i-heroicons-x-mark"
   else icon.value = "i-heroicons-bars-3-solid"
@@ -43,7 +48,7 @@ watch(revealMenu, () => {
         :key="link.link"
         class="w-full border-inherit"
       >
-        <NavLink :title="link.title" :link="link.link" />
+        <NavLink :title="link.title" :link="link.link" @click="closeMenu()" />
         <NavBurgerMenuDivider />
       </UContainer>
 

@@ -16,10 +16,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Book::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Book::class);
+  }
+
+  public function deleteBooksByIds(array $bookIds)
+  {
+    return $this->createQueryBuilder('b')
+      ->delete()
+      ->where('b.id IN (:ids)')
+      ->setParameter('ids', $bookIds)
+      ->getQuery()
+      ->execute();
+  }
 
 //    /**
 //     * @return Book[] Returns an array of Book objects

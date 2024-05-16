@@ -2,6 +2,47 @@
 import type { Book } from "~/types/book"
 import type { APIResponsePaginated } from "~/types/response"
 
+const columnsBackup = ref([
+  {
+    key: "orderNumber",
+    label: "Order Number",
+    sortable: true,
+  },
+  {
+    key: "title",
+    label: "Title",
+    sortable: true,
+  },
+  {
+    key: "publisher",
+    label: "Publisher",
+  },
+  {
+    key: "subject",
+    label: "Subject",
+  },
+  {
+    key: "grade",
+    label: "Grade",
+  },
+  {
+    key: "ebook",
+    label: "E-book",
+  },
+  {
+    key: "ebookPlus",
+    label: "E-book plus",
+  },
+  {
+    key: "bookPrice",
+    label: "Price",
+    sortable: true,
+  },
+  {
+    key: "actions",
+  },
+])
+
 const columns = ref([
   {
     key: "orderNumber",
@@ -46,15 +87,16 @@ const columns = ref([
 const config = useRuntimeConfig()
 
 const page = ref(1)
-const pageCount = ref(20)
+const pageCount = ref(3)
 const { data: books, pending } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
     params: {
-      perPage: pageCount.value,
-      page: page.value,
+      perPage: pageCount,
+      page: page,
     },
     baseURL: config.public.baseURL,
+    watch: [page, pageCount],
   },
 )
 
@@ -63,7 +105,7 @@ const pageTo = computed(() => {
   if (!books.value?.data?.pages) {
     return 0
   } else {
-    return Math.min(page.value * pageCount.value, books.value?.data?.pages)
+    return page.value * pageCount.value
   }
 })
 
@@ -81,7 +123,7 @@ const items = (row: Book) =>
     ],
   ])
 
-const selectedColumns = ref(columns)
+const selectedColumns = columns
 const columnsTable = computed(() =>
   columns.value.filter((column) => selectedColumns.value.includes(column)),
 )
@@ -90,23 +132,16 @@ const sort = ref({ column: "id", direction: "asc" as const })
 const selectedRows = ref<Book[]>([])
 const query = ref("")
 
-const selectedStatus = ref([])
-
-const resetFilters = () => {
-  query.value = ""
-  selectedStatus.value = []
-}
-
 const filteredRows = computed(() => {
-  if (!query.value) {
-    return books.value
-  }
-
   if (!books.value) {
     return []
   }
 
-  return books.value?.data?.books.filter((book: Book) => {
+  if (!query.value) {
+    return books.value.data?.books
+  }
+
+  return books.value.data?.books.filter((book: Book) => {
     return Object.values(book).some((value) => {
       return (
         String(value).toLowerCase().includes(query.value.toLowerCase()) ||
@@ -183,6 +218,11 @@ function select(row: Book) {
     selectedRows.value.splice(index, 1)
   }
 }
+
+function resetFilters() {
+  query.value = ""
+  selectedColumns.value = columnsBackup.value
+}
 </script>
 
 <template>
@@ -236,10 +276,7 @@ function select(row: Book) {
             icon="i-heroicons-funnel"
             color="gray"
             size="md"
-            :disabled="
-              selectedColumns.length === columns.length && query === ''
-            "
-            @click="resetFilters"
+            @click="resetFilters()"
           >
             Reset
           </UButton>
@@ -250,7 +287,7 @@ function select(row: Book) {
     <UTable
       v-model="selectedRows"
       v-model:sort="sort"
-      :rows="books?.data?.books"
+      :rows="filteredRows"
       :loading-state="{
         icon: 'i-heroicons-arrow-path-20-solid',
         label: 'Loading...',
@@ -289,6 +326,11 @@ function select(row: Book) {
               currency: "EUR",
             }).format(row.bookPrice / 100)
           }}
+        </span>
+      </template>
+      <template #grade-data="{ row }">
+        <span>
+          {{ row.grade.replaceAll("=", ", ") }}
         </span>
       </template>
       <template #ebook-data="{ row }">
@@ -345,7 +387,7 @@ function select(row: Book) {
             {{ $t("pagination.showing") }}
             <span class="font-medium">{{ pageFrom }}</span>
             {{ $t("pagination.to") }}
-            <span class="font-medium">{{ books?.data?.perPage }}</span>
+            <span class="font-medium">{{ pageTo }}</span>
             {{ $t("pagination.of") }}
             <span class="font-medium">{{ books?.data?.total }}</span>
             {{ $t("pagination.results") }}
@@ -355,7 +397,7 @@ function select(row: Book) {
         <UPagination
           v-model="page"
           :page-count="pageCount"
-          :total="books?.data?.pages"
+          :total="books?.data?.pages || 0"
           :ui="{
             wrapper: 'flex items-center',
             default: {

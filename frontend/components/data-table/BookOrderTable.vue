@@ -28,7 +28,6 @@ const columns = ref([
     label: "Grade",
     sortable: true,
   },
-
   {
     key: "bookPrice",
     label: "Price",
@@ -61,7 +60,7 @@ const items = (row: BookOrder) => [
     {
       label: "Delete",
       icon: "i-heroicons-trash-20-solid",
-      click: () => console.log("Edit", row.id),
+      click: () => console.log("Delete", row.id),
     },
   ],
 ]
@@ -97,7 +96,7 @@ const query = ref("")
 
 const filteredRows = computed(() => {
   if (!query.value) {
-    return bookOrders
+    return bookOrders.value?.data
   }
 
   return bookOrders.value?.data?.filter((bookOrder) => {
@@ -138,7 +137,6 @@ watch(
         label: t("book.grade"),
         sortable: true,
       },
-
       {
         key: "bookPrice",
         label: t("book.price"),
@@ -154,16 +152,13 @@ watch(
 </script>
 
 <template>
-  <PageTitle>{{ $t("tableTitles.orderTable") }}</PageTitle>
+  <PageTitle>{{ $t("orderList.title") }}</PageTitle>
   <UCard
     class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
     :ui="{ shadow: 'shadow-none', ring: '', body: 'p-0' }"
   >
     <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput
-        v-model="query"
-        :placeholder="$t('tableSearch.searchForOrders')"
-      />
+      <UInput v-model="query" :placeholder="$t('orderList.searchForOrders')" />
     </div>
     <UTable
       v-model="selectedRows"

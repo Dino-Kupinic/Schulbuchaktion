@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { jwtDecode } from "jwt-decode"
+
 const config = useRuntimeConfig()
+const toast = useToast()
+const { t } = useI18n()
 
 const username = ref<string>("")
 const password = ref<string>("")
@@ -22,7 +26,16 @@ async function submitData() {
 
     // @ts-ignore
     createCookie(response.token)
-    navigateTo("/")
+    //@ts-ignore
+    if (!jwtDecode(response.token).authenticated) {
+      toast.add({
+        title: t("login.failure"),
+        description: t("login.notAuthenticated"),
+        color: "red",
+        icon: "i-material-symbols-error-circle-rounded-outline-sharp",
+      })
+    }
+    await navigateTo("/")
   } catch (error) {
     console.error("Error submitting data:", error)
   }

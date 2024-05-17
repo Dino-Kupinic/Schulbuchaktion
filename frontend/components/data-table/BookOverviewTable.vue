@@ -2,51 +2,10 @@
 import type { Book } from "~/types/book"
 import type { APIResponsePaginated } from "~/types/response"
 
-const columnsBackup = ref([
-  {
-    key: "orderNumber",
-    label: "Order Number",
-    sortable: true,
-  },
-  {
-    key: "title",
-    label: "Title",
-    sortable: true,
-  },
-  {
-    key: "publisher",
-    label: "Publisher",
-  },
-  {
-    key: "subject",
-    label: "Subject",
-  },
-  {
-    key: "grade",
-    label: "Grade",
-  },
-  {
-    key: "ebook",
-    label: "E-book",
-  },
-  {
-    key: "ebookPlus",
-    label: "E-book plus",
-  },
-  {
-    key: "bookPrice",
-    label: "Price",
-    sortable: true,
-  },
-  {
-    key: "actions",
-  },
-])
-
 const columns = ref([
   {
     key: "orderNumber",
-    label: "Order Number",
+    label: "BNR",
     sortable: true,
   },
   {
@@ -83,11 +42,17 @@ const columns = ref([
     key: "actions",
   },
 ])
-
+const columnsBackup = ref(columns.value)
 const config = useRuntimeConfig()
 
-const page = ref(1)
-const pageCount = ref(3)
+const options = [5, 10, 15, 20, 30, 40]
+
+const DEFAULT_PAGE = 1
+const DEFAULT_PAGE_COUNT = options[2]
+
+const page = ref<number>(DEFAULT_PAGE)
+const pageCount = ref<number>(DEFAULT_PAGE_COUNT)
+
 const { data: books, pending } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
@@ -154,6 +119,23 @@ const filteredRows = computed(() => {
   })
 })
 
+function select(row: Book) {
+  const index = selectedRows.value.findIndex(
+    (item) => item.orderNumber === row.orderNumber,
+  )
+  if (index === -1) {
+    selectedRows.value.push(row)
+  } else {
+    selectedRows.value.splice(index, 1)
+  }
+}
+
+function resetFilters() {
+  pageCount.value = DEFAULT_PAGE_COUNT
+  query.value = ""
+  selectedColumns.value = columnsBackup.value
+}
+
 const { t, locale } = useI18n()
 
 watch(
@@ -207,22 +189,6 @@ watch(
   },
   { immediate: true },
 )
-
-function select(row: Book) {
-  const index = selectedRows.value.findIndex(
-    (item) => item.orderNumber === row.orderNumber,
-  )
-  if (index === -1) {
-    selectedRows.value.push(row)
-  } else {
-    selectedRows.value.splice(index, 1)
-  }
-}
-
-function resetFilters() {
-  query.value = ""
-  selectedColumns.value = columnsBackup.value
-}
 </script>
 
 <template>
@@ -252,14 +218,12 @@ function resetFilters() {
         </div>
 
         <div class="flex items-center gap-2">
-          <USelectMenu
+          <USelect
             v-model="pageCount"
-            :options="['3', '5', '10', '20', '30', '40']"
-          >
-            <UButton icon="i-mingcute-rows-4-line" color="gray" size="md">
-              Rows
-            </UButton>
-          </USelectMenu>
+            size="md"
+            :options="options"
+            @update:model-value="(value) => (pageCount = Number(value))"
+          />
 
           <USelectMenu
             v-model="selectedColumns"
@@ -330,7 +294,7 @@ function resetFilters() {
       </template>
       <template #grade-data="{ row }">
         <span>
-          {{ row.grade.replaceAll("=", ", ") }}
+          {{ row.grade.replaceAll("=", ",") }}
         </span>
       </template>
       <template #ebook-data="{ row }">
@@ -370,7 +334,7 @@ function resetFilters() {
         </div>
       </template>
       <template #actions-data="{ row }">
-        <UDropdown :items="items(row).value">
+        <UDropdown :items="items(row).value" :ui="{ width: 'w-auto' }">
           <UButton
             color="gray"
             variant="ghost"

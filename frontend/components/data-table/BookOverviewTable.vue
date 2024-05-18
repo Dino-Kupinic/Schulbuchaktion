@@ -361,7 +361,7 @@ watch(
         <UPagination
           v-model="page"
           :page-count="pageCount"
-          :total="books?.data?.pages || 0"
+          :total="books?.data?.total || 0"
           :ui="{
             wrapper: 'flex items-center',
             default: {

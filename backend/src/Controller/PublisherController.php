@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/publishers")
  */
-#[Route("api/v1/publishers")]
+#[Route("api/v1/publishers", name: "publisher.")]
 class PublisherController extends AbstractController
 {
 
@@ -38,7 +38,7 @@ class PublisherController extends AbstractController
    *     )
    * )
    */
-  #[Route("/", methods: ["GET"])]
+  #[Route("/", name: "index", methods: ["GET"])]
   public function getPublishers(PublisherService $publisherService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -69,7 +69,7 @@ class PublisherController extends AbstractController
    *     )
    * )
    */
-  #[Route("/{id}", methods: ["GET"])]
+  #[Route("/{id}", name: "index", methods: ["GET"])]
   public function getPublisher(PublisherService $publisherService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

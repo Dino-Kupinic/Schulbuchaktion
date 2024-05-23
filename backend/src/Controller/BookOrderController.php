@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/bookOrders")
  */
-#[Route("api/v1/bookOrders")]
+#[Route("api/v1/bookOrders", name: "bookOrder.")]
 class BookOrderController extends AbstractController
 {
 
@@ -41,7 +41,7 @@ class BookOrderController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getBooks(BookOrderService $bookOrderService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -83,7 +83,7 @@ class BookOrderController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getBook(BookOrderService $bookOrderService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -121,7 +121,7 @@ class BookOrderController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/create", methods: ["POST"])]
+  #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createBook(BookOrderService $bookOrderService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -160,7 +160,7 @@ class BookOrderController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/delete/{id}", methods: ["DELETE"])]
+  #[Route(path: "/delete/{id}", name: "delete", methods: ["DELETE"])]
   public function deleteBook(BookOrderService $bookOrderService, int $id): Response
   {
     try {
@@ -198,7 +198,7 @@ class BookOrderController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/update/{id}", methods: ["PUT"])]
+  #[Route(path: "/update/{id}", name: "update", methods: ["PUT"])]
   public function updateBook(BookOrderService $bookOrderService, Request $request, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

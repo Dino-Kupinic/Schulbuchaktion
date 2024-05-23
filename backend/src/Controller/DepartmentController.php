@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/departments")
  */
-#[Route("/api/v1/departments")]
+#[Route("/api/v1/departments", name: "department.")]
 class DepartmentController extends AbstractController
 {
 
@@ -40,7 +40,7 @@ class DepartmentController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getDepartments(DepartmentService $departmentService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -82,7 +82,7 @@ class DepartmentController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getDepartment(DepartmentService $departmentService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -120,7 +120,7 @@ class DepartmentController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/create", methods: ["POST"])]
+  #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createDepartment(DepartmentService $departmentService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -163,7 +163,7 @@ class DepartmentController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/update/{id}", methods: ["PUT"])]
+  #[Route(path: "/update/{id}", name: "update", methods: ["PUT"])]
   public function updateDepartment(DepartmentService $departmentService, Request $request, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

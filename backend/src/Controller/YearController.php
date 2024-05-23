@@ -18,11 +18,10 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see YearRepository
  * @see YearService
  */
-
 /**
  * @Route("/api/years")
  */
-#[Route("api/v1/years")]
+#[Route("api/v1/years", name: "year.")]
 class YearController extends AbstractController
 {
 
@@ -39,7 +38,7 @@ class YearController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getYears(YearService $yearsService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -81,7 +80,7 @@ class YearController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getYear(YearService $yearsService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -119,7 +118,7 @@ class YearController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/create", methods: ["POST"])]
+  #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createYear(YearService $yearsService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

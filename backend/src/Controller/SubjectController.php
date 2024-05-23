@@ -21,11 +21,10 @@ use function PHPUnit\Framework\isEmpty;
  * @see SubjectRepository
  * @see SubjectService
  */
-
 /**
  * @Route("/api/subjects")
  */
-#[Route("api/v1/subjects")]
+#[Route("api/v1/subjects", name: "subject.")]
 class SubjectController extends AbstractController
 {
 
@@ -42,7 +41,7 @@ class SubjectController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getSubjects(SubjectService $subjectService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -84,7 +83,7 @@ class SubjectController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getSubject(SubjectService $subjectService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

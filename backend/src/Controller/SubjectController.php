@@ -24,7 +24,7 @@ use function PHPUnit\Framework\isEmpty;
 #[Route("api/v1/subjects", name: "subject.")]
 class SubjectController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getSubjects(SubjectService $subjectService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

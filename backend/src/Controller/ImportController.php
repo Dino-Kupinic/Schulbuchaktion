@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route("api/v1", name: 'import')]
+#[Route("api/v1", name: 'import.')]
 class ImportController extends AbstractController
 {
   #[Route("/importXLSX", name:'xlsx', methods: "POST")]

@@ -65,7 +65,7 @@ async function submitData() {
         class="flex w-full justify-center dark:bg-blue-500 dark:text-white"
         @click="submitData()"
       >
-        Sign in
+        {{ $t("login.signIn") }}
       </UButton>
     </UContainer>
   </div>

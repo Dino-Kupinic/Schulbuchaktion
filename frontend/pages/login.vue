@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "noNavBar",
+  layout: "no-nav-bar",
 })
 </script>
 

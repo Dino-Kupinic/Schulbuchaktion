@@ -16,20 +16,22 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DepartmentServiceTest extends KernelTestCase
 {
-  public function testSomething(): void
+  /**
+   * @throws Exception
+   */
+  public function testPersistDepartment(): void
   {
     $kernel = self::bootKernel();
 
     $this->assertSame('test', $kernel->getEnvironment());
-    // $routerService = static::getContainer()->get('router');
-    // $myCustomService = static::getContainer()->get(CustomService::class);
-
-    $department1 = ObjectFactory::createDepartment();
 
     try {
-      $departmentService = new DepartmentService();
+      $department1 = ObjectFactory::createDepartment();
 
+      $departmentRepository = $this->createMock(DepartmentRepository::class);
       $em = $this->createMock(EntityManagerInterface::class);
+
+      $departmentService = new DepartmentService($em, $departmentRepository);
 
       $em->expects($this->once())
         ->method('persist')
@@ -38,28 +40,51 @@ class DepartmentServiceTest extends KernelTestCase
       $em->expects($this->once())
         ->method('flush');
 
-      $departmentService->createDepartment($department1, $em);
+      $departmentService->createDepartment($department1);
+    } catch (Exception $e) {
+      $this->fail($e->getMessage());
+    } catch (\Exception $e) {
+      $this->fail($e->getMessage());
     } finally {
       restore_exception_handler();
     }
   }
 
+  /**
+   * @throws Exception
+   */
+  public function testGetDepartments(): void
+  {
+    $entityManager = $this->createMock(EntityManagerInterface::class);
+    $departmentRepository = $this->createMock(DepartmentRepository::class);
+    $expectedResult = [new Department(), new Department()];
 
-    /**
-     * @throws Exception
-     */
-    public function testGetDepartment(): void
-    {
-      $departmentService = new DepartmentService();
-      $departmentRepository = $this->createMock(DepartmentRepository::class);
-      $expectedResult = [new Department(), new Department()];
+    $departmentRepository->expects($this->once())
+      ->method('findAll')
+      ->willReturn($expectedResult);
 
-      $departmentRepository->expects($this->once())
-        ->method('findAll')
-        ->willReturn($expectedResult);
+    $departmentService = new DepartmentService($entityManager, $departmentRepository);
+    $result = $departmentService->getDepartments();
 
-      $result = $departmentService->getDepartments($departmentRepository);
+    $this->assertSame($expectedResult, $result);
+  }
 
-      $this->assertSame($expectedResult, $result);
-    }
+  /**
+   * @throws Exception
+   */
+  public function testGetDepartmentById(): void
+  {
+    $entityManager = $this->createMock(EntityManagerInterface::class);
+    $departmentRepository = $this->createMock(DepartmentRepository::class);
+    $expectedResult = new Department();
+
+    $departmentRepository->expects($this->once())
+      ->method('find')
+      ->willReturn($expectedResult);
+
+    $departmentService = new DepartmentService($entityManager, $departmentRepository);
+    $result = $departmentService->findDepartmentById(1);
+
+    $this->assertSame($expectedResult, $result);
+  }
 }

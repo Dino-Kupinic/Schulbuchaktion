@@ -43,5 +43,10 @@
     "yearLabel": "Year",
     "yearSelect": "Select a year",
     "fileLabel": "File"
+  },
+  "login": {
+    "signIn": "Sign in",
+    "failure": "Failure",
+    "notAuthenticated": "The username or the password are wrong!"
   }
 }

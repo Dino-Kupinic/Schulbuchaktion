@@ -17,6 +17,7 @@
     "settingName": "Einstellungen"
   },
   "nav": {
+    "bookList": "Buch Liste",
     "orderList": "Bestellliste",
     "classManagement": "Klassenverwaltung",
     "budgetOverview": "Budget Übersicht",
@@ -42,7 +43,51 @@
     "alertDescription": "Bei einem erneuten Import im selben Jahr werden die aktuellen Daten überschrieben. Stellen Sie sicher, dass Sie ein Backup haben.",
     "yearLabel": "Jahr",
     "yearSelect": "Wählen ein Jahr",
-    "fileLabel": "Datei"
+    "fileLabel": "Datei",
+    "import": "Import"
+  },
+  "tableTitles": {
+    "orderTable": "Bestellliste",
+    "bookOverview": "Bücherübersicht"
+  },
+  "tableSearch": {
+  },
+  "orderList": {
+    "title": "Bestellliste",
+    "subtitle": "Zur Kasse gehen",
+    "searchForOrders": "Nach Bestellungen suchen..."
+  },
+  "bookList":{
+    "title": "Bücherübersicht",
+    "subtitle": "Wählen Sie Bücher zum Bestellen aus",
+    "searchForBooks": "Nach Büchern suchen..."
+  },
+  "book": {
+    "orderNumber": "BNR",
+    "title": "Titel",
+    "publisher": "Verlag",
+    "subject": "Thema",
+    "department": "Abteilung",
+    "grade": "Schulstufe",
+    "schoolYear": "Schuljahr",
+    "ebookPlus": "E-Book+",
+    "ebook": "E-Book",
+    "price": "Preis"
+  },
+  "pagination": {
+    "showing": "Zeigt",
+    "to": "bis",
+    "of": "von",
+    "results": "Ergebnissen"
+  },
+  "actions": {
+    "edit": "Bearbeiten",
+    "info": "Info",
+    "delete": "Löschen"
+  },
+  "bool": {
+    "yes": "Ja",
+    "no": "Nein"
   },
   "login": {
     "signIn": "Einloggen",

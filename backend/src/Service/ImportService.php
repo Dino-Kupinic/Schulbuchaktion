@@ -131,7 +131,7 @@ class ImportService
         $year->clearBooks();
       }
 
-      $chunkSize = 200;
+      $chunkSize = 50;
       $chunks = array_chunk($data, $chunkSize);
 
       foreach ($chunks as $chunk) {

@@ -20,7 +20,7 @@ class SubjectService
   private SubjectRepository $subjectRepository;
   private EntityManagerInterface $entityManager;
 
-  public function __construct(SubjectRepository $subjectRepository, EntityManagerInterface $entityManager)
+  public function __construct(EntityManagerInterface $entityManager, SubjectRepository $subjectRepository)
   {
     $this->subjectRepository = $subjectRepository;
     $this->entityManager = $entityManager;

@@ -18,10 +18,10 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see BookRepository
  * @see BookService
  */
-#[Route("api/v1/books")]
+#[Route("api/v1/books", name: "book.")]
 class BookController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getBooks(BookService $bookService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -42,7 +42,7 @@ class BookController extends AbstractController
     }
   }
 
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getBook(BookService $bookService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

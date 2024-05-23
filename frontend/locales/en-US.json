@@ -17,6 +17,7 @@
     "settingName": "Settings"
   },
   "nav": {
+    "bookList": "Book List",
     "orderList": "Order List",
     "classManagement": "Class Management",
     "budgetOverview": "Budget Overview",
@@ -43,6 +44,43 @@
     "yearLabel": "Year",
     "yearSelect": "Select a year",
     "fileLabel": "File"
+  },
+  "orderList": {
+    "title": "Order Table",
+    "subtitle": "Proceed to checkout",
+    "searchForOrders": "Search for book orders..."
+  },
+  "bookList":{
+    "title": "Book Overview",
+    "subtitle": "Choose books to order",
+    "searchForBooks": "Search for books..."
+  },
+  "book": {
+    "orderNumber": "BNR",
+    "title": "Title",
+    "publisher": "Publisher",
+    "subject": "Subject",
+    "department": "Department",
+    "grade": "Grade",
+    "schoolYear": "School Year",
+    "ebookPlus": "E-book+",
+    "ebook": "E-book",
+    "price": "Price"
+  },
+  "pagination": {
+    "showing": "Shows",
+    "to": "to",
+    "of": "of",
+    "results": "Results"
+  },
+  "actions": {
+    "edit": "Edit",
+    "info": "Info",
+    "delete": "Delete"
+  },
+  "bool": {
+    "yes": "Yes",
+    "no": "No"
   },
   "login": {
     "signIn": "Sign in",

@@ -18,9 +18,27 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see BookRepository
  * @see BookService
  */
+
+/**
+ * @Route("/api/books")
+ */
 #[Route("api/v1/books")]
 class BookController extends AbstractController
 {
+
+  /**
+   * @OA\Get(
+   *     path="/api/books",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of books",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Book::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
   #[Route(path: "/", methods: ["GET"])]
   public function getBooks(BookService $bookService): Response
   {
@@ -42,6 +60,23 @@ class BookController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Get(
+   *     path="/api/books/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         description="The ID of the book",
+   *         required=true,
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the book details",
+   *         @OA\JsonContent(ref=@Model(type=Book::class, groups={"read"}))
+   *     )
+   * )
+   */
   #[Route(path: "/{id}", methods: ["GET"])]
   public function getBook(BookService $bookService, int $id): Response
   {

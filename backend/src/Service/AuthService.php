@@ -59,10 +59,12 @@ class AuthService
         if ($success) {
           if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_ADMIN"])) {
             $role = "SBA_ADMIN";
-          } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_USER"])) {
-            $role = "SBA_USER";
+          } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_LEHRER"])) {
+            $role = "SBA_LEHRER";
           } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_GUEST"])){
             $role = "SBA_GUEST";
+          } else {
+            $role = "NOT_PERMITTED";
           }
         }
 
@@ -146,6 +148,11 @@ class AuthService
     } catch (Exception) {
       return false;
     }
+  }
+
+  function checkRoutePermission(string $routeName)
+  {
+
   }
 }
 

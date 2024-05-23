@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone='yes' encoding="UTF-8"  ?>
+<groups>
+  <SBA_ADMIN>
+    <routes>
+      <schoolClass>
+        <function>index</function>
+      </schoolClass>
+    </routes>
+  </SBA_ADMIN>
+
+  <SBA_AV>
+
+  </SBA_AV>
+
+  <SBA_FV>
+
+  </SBA_FV>
+
+  <SBA_LEHRER>
+    <routes>
+      <route>schoolClass.index</route>
+    </routes>
+  </SBA_LEHRER>
+</groups>

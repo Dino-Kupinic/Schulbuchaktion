@@ -20,10 +20,10 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see SchoolClassRepository
  * @see SchoolClassService
  */
-#[Route("api/v1/schoolClasses")]
+#[Route("api/v1/schoolClasses", name: 'schoolClass.')]
 class SchoolClassController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
+  #[Route(path: "/", name: 'index', methods: ["GET"])]
   public function getSchoolClasses(SchoolClassService $schoolClassService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -65,7 +65,7 @@ class SchoolClassController extends AbstractController
     }
   }
 
-  #[Route(path: "/create", methods: ["POST"])]
+  #[Route(path: "/create", name:'create', methods: ["POST"])]
   public function createSchoolClass(SchoolClass $schoolClass, SchoolClassService $schoolClassService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

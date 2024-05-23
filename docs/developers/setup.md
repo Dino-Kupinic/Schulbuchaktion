@@ -33,7 +33,7 @@ the following fields with your own. You may edit some existing fields aswell.
 
 | Field         | Description                                                                  |
 |---------------|------------------------------------------------------------------------------|
-| `BACKEND_URL` | URL to the Symfony Backend server (e.g. http://localhost:8000/api/v1 in dev) |
+| `BACKEND_URL` | URL to the Symfony Backend server (e.g. `http://localhost:8000/api/v1` in dev) |
 
 Make sure to include the `/api/v1` suffix at the end of the URL. This environment variable is used for the Base URL for
 fetch requests.

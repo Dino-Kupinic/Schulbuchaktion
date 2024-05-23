@@ -32,9 +32,9 @@ zu installieren.
 Erstellen Sie eine `.env` Datei und schauen Sie sich die `.env.example` an. Kopiere Sie den Inhalt in ihre `.env` und
 ersetzen Sie die folgenden Felder durch Ihre eigenen. Sie können auch einige bestehende Felder bearbeiten.
 
-| Feld          | Beschreibung                                                              |
-|---------------|---------------------------------------------------------------------------|
-| `BACKEND_URL` | URL zum Symfony Backend Server (z.B. http://localhost:8000/api/v1 in dev) |
+| Feld          | Beschreibung                                                                |
+|---------------|-----------------------------------------------------------------------------|
+| `BACKEND_URL` | URL zum Symfony Backend Server (z.B. `http://localhost:8000/api/v1` in dev) |
 
 Achten Sie darauf, dass das Suffix `/api/v1` am Ende der URL enthalten ist. Diese Umgebungsvariable wird für die
 Basis-URL für Fetch-Requests verwendet.

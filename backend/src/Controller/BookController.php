@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Service\BookService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
@@ -22,15 +23,18 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 class BookController extends AbstractController
 {
   #[Route(path: "/", methods: ["GET"])]
-  public function getBooks(BookService $bookService): Response
+  public function getBooks(BookService $bookService, Request $request): Response
   {
+    $page = $request->query->getInt('page', 1);
+    $perPage = $request->query->getInt('perPage', 10);
+
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("book:read")
       ->toArray();
 
     try {
-      $books = $bookService->getBooks();
-      if (count($books) > 0) {
+      $books = $bookService->getPaginatedBooks($page, $perPage);
+      if (count($books['books']) > 0) {
         return $this->json(["success" => true, "data" => $books], status: Response::HTTP_OK, context: $context);
       }
       return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
@@ -41,6 +45,7 @@ class BookController extends AbstractController
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
+
 
   #[Route(path: "/{id}", methods: ["GET"])]
   public function getBook(BookService $bookService, int $id): Response

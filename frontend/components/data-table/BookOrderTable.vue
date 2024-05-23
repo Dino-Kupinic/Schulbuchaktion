@@ -48,19 +48,26 @@ const { data: bookOrders } = await useLazyFetch<APIResponseArray<BookOrder[]>>(
   },
 )
 
+const isDisplayed = ref<boolean>(false)
+function reverseDisplay() {
+  isDisplayed.value = !isDisplayed.value
+  console.log(isDisplayed.value)
+}
+
 const items = (row: BookOrder) => [
   [
     {
       label: "Edit",
+      slot: "edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      click: () => console.log("Edit", row.id),
+      click: () => reverseDisplay(),
     },
   ],
   [
     {
       label: "Delete",
+      slot: "delete",
       icon: "i-heroicons-trash-20-solid",
-      click: () => console.log("Delete", row.id),
     },
   ],
 ]
@@ -153,6 +160,7 @@ watch(
 
 <template>
   <PageTitle>{{ $t("orderList.title") }}</PageTitle>
+
   <UCard
     class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
     :ui="{ shadow: 'shadow-none', ring: '', body: 'p-0' }"
@@ -168,17 +176,36 @@ watch(
       class="m-0 w-full"
       @select="select"
     >
-      <template #subject-data="{ row }">
-        <span> {{ row.subject.name }}</span>
+      <template #bookTitle-data="{ row }">
+        <span> {{ row.book.title }}</span>
       </template>
-      <template #publisher-data="{ row }">
-        <span> {{ row.publisher.name }}</span>
+      <template #department-data="{ row }">
+        <span> {{ row.schoolClass.department.name }}</span>
+      </template>
+      <template #bookSubject-data="{ row }">
+        <span> {{ row.book.subject.name }}</span>
+      </template>
+      <template #year-data="{ row }">
+        <span> {{ row.year.year }}</span>
+      </template>
+      <template #grade-data="{ row }">
+        <span> {{ row.schoolClass.grade }}</span>
       </template>
       <template #bookPrice-data="{ row }">
-        <span> {{ row.bookPrice / 100 }} €</span>
+        <span> {{ row.book.bookPrice / 100 }} €</span>
       </template>
       <template #actions-data="{ row }">
         <UDropdown :items="items(row)">
+          <template #edit="{ item }">
+            <BookOrderEditModal v-model="isDisplayed" :book-order="row">
+              {{ item.label }}
+            </BookOrderEditModal>
+          </template>
+          <template #delete="{ item }">
+            <UButton color="gray" variant="ghost" :icon="item.icon"
+              >{{ item.label }}
+            </UButton>
+          </template>
           <UButton
             color="gray"
             variant="ghost"

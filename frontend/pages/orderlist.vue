@@ -2,9 +2,9 @@
 
 <template>
   <div
-    class="h-full w-full rounded-lg border p-3 shadow-sm dark:border-gray-700"
+    class="mb-4 h-full w-full rounded-lg border p-3 shadow-sm dark:border-gray-700"
   >
-    <BookOrderTable class="mt-4" />
+    <BookOrderTable />
   </div>
 </template>
 

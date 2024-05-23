@@ -45,7 +45,7 @@ class SubjectController extends AbstractController
     }
   }
 
-  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "select", methods: ["GET"])]
   public function getSubject(SubjectService $subjectService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

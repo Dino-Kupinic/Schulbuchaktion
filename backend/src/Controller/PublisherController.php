@@ -41,7 +41,7 @@ class PublisherController extends AbstractController
     }
   }
 
-  #[Route("/{id}", name: "index", methods: ["GET"])]
+  #[Route("/{id}", name: "select", methods: ["GET"])]
   public function getPublisher(PublisherService $publisherService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

@@ -19,11 +19,11 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see BookRepository
  * @see BookService
  */
-#[Route("api/v1/books")]
+#[Route("api/v1/books", name: "book.")]
 class BookController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
-  public function getBooks(BookService $bookService, Request $request): Response
+  #[Route(path: "/", name: "index", methods: ["GET"])]
+  public function getBooks(BookService $bookService): Response
   {
     $page = $request->query->getInt('page', 1);
     $perPage = $request->query->getInt('perPage', 10);
@@ -45,9 +45,7 @@ class BookController extends AbstractController
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
-
-
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getBook(BookService $bookService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

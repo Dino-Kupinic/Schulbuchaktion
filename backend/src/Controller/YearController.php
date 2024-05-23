@@ -42,6 +42,27 @@ class YearController extends AbstractController
     }
   }
 
+  #[Route(path: "/import", methods: ["GET"])]
+  public function getYearsForImport(YearService $yearsService): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("year:read")
+      ->toArray();
+
+    try {
+      $years = $yearsService->getYearsForImport();
+      if (count($years) > 0) {
+        return $this->json(["success" => true, "data" => $years], status: Response::HTTP_OK, context: $context);
+      }
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get years: " . $e->getMessage(),
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
   #[Route(path: "/{id}", methods: ["GET"])]
   public function getYear(YearService $yearsService, int $id): Response
   {

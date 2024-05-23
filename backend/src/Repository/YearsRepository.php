@@ -21,20 +21,20 @@ class YearsRepository extends ServiceEntityRepository
     parent::__construct($registry, Year::class);
   }
 
-//    /**
-//     * @return Years[] Returns an array of Years objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('y')
-//            ->andWhere('y.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('y.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Year[] Returns years ranging two years back and one year forward
+     */
+    public function findAllForImport($value): array
+    {
+        return $this->createQueryBuilder('y')
+            ->andWhere('y.year >= :val')
+            ->setParameter('val', $value - 2)
+            ->orderBy('y.id', 'ASC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Years
 //    {

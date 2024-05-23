@@ -7,12 +7,25 @@ const config = useRuntimeConfig()
 const { t } = useI18n()
 
 const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
-  "/years",
+  "/years/import",
   {
     baseURL: config.public.baseURL,
     pick: ["data"],
   },
 )
+
+watch(pending, () => {
+  if (pending) {
+    if (years.value !== null && years.value.data !== undefined) {
+      if (
+        years.value.data.some((year) => year.year === new Date().getFullYear())
+      ) {
+        // Make post for create year
+        console.log("aktuelles Jahr ist vorhanden")
+      }
+    }
+  }
+})
 
 const file = ref<File>()
 const year = ref<number>()

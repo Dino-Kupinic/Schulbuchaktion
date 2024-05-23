@@ -20,9 +20,26 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see SchoolClassRepository
  * @see SchoolClassService
  */
+/**
+ * @Route("/api/schoolClasses")
+ */
 #[Route("api/v1/schoolClasses", name: "schoolClass.")]
 class SchoolClassController extends AbstractController
 {
+
+  /**
+   * @OA\Get(
+   *     path="/api/schoolClasses",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of schoolClasses",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=SchoolClass::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
   #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getSchoolClasses(SchoolClassService $schoolClassService): Response
   {
@@ -44,6 +61,16 @@ class SchoolClassController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Get(
+   *     path="/api/schoolClasses/{id}",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the schoolClass with the given id",
+   *         @OA\JsonContent(ref=@Model(type=SchoolClass::class, groups={"read"}))
+   *     )
+   * )
+   */
   #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getSchoolClass(SchoolClassService $schoolClassService, int $id): Response
   {
@@ -65,6 +92,16 @@ class SchoolClassController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Post(
+   *     path="/api/schoolClasses/create",
+   *     @OA\Response(
+   *         response=201,
+   *         description="Creates a new schoolClass",
+   *         @OA\JsonContent(ref=@Model(type=SchoolClass::class, groups={"read"}))
+   *     )
+   * )
+   */
   #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createSchoolClass(SchoolClass $schoolClass, SchoolClassService $schoolClassService): Response
   {
@@ -83,6 +120,16 @@ class SchoolClassController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Put(
+   *     path="/api/schoolClasses/update/{id}",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Updates the schoolClass with the given id",
+   *         @OA\JsonContent(ref=@Model(type=SchoolClass::class, groups={"read"}))
+   *     )
+   * )
+   */
   #[Route(path: "/delete/{id}", name: "delete", methods: ["DELETE"])]
   public function deleteSchoolClass(SchoolClassService $schoolClassService, int $id): Response
   {

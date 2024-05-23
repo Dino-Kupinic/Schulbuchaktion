@@ -19,11 +19,27 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see BookRepository
  * @see BookService
  */
+/**
+ * @Route("/api/books")
+ */
 #[Route("api/v1/books", name: "book.")]
 class BookController extends AbstractController
 {
+  /**
+   * @OA\Get(
+   *     path="/api/books",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of books",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Book::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
   #[Route(path: "/", name: "index", methods: ["GET"])]
-  public function getBooks(BookService $bookService): Response
+  public function getBooks(BookService $bookService, Request $request): Response
   {
     $page = $request->query->getInt('page', 1);
     $perPage = $request->query->getInt('perPage', 10);
@@ -45,6 +61,24 @@ class BookController extends AbstractController
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
+
+  /**
+   * @OA\Get(
+   *     path="/api/books/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         description="The ID of the book",
+   *         required=true,
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the book details",
+   *         @OA\JsonContent(ref=@Model(type=Book::class, groups={"read"}))
+   *     )
+   * )
+   */
   #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getBook(BookService $bookService, int $id): Response
   {

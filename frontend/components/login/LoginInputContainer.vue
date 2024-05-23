@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { jwtDecode } from "jwt-decode"
+import type { JwtAuthPayload, LoginResponse } from "~/types/auth"
 
 const config = useRuntimeConfig()
 const toast = useToast()
@@ -15,7 +16,7 @@ function createCookie(tokenValue: string) {
 
 async function submitData() {
   try {
-    const response = await $fetch("/login", {
+    const response = await $fetch<LoginResponse>("/login", {
       method: "POST",
       params: {
         usr: username.value,
@@ -24,10 +25,9 @@ async function submitData() {
       baseURL: config.public.baseURL,
     })
 
-    // @ts-ignore
     createCookie(response.token)
-    //@ts-ignore
-    if (!jwtDecode(response.token).authenticated) {
+    const decodedToken = jwtDecode<JwtAuthPayload>(response.token)
+    if (!decodedToken.authenticated) {
       toast.add({
         title: t("login.failure"),
         description: t("login.notAuthenticated"),
@@ -37,7 +37,10 @@ async function submitData() {
     }
     await navigateTo("/")
   } catch (error) {
-    console.error("Error submitting data:", error)
+    const err = error as Error
+    throw createError({
+      statusMessage: err.message,
+    })
   }
 }
 </script>
@@ -48,24 +51,22 @@ async function submitData() {
       class="w-full p-0 sm:w-[425px] sm:rounded-lg sm:border sm:border-solid sm:border-gray-200 sm:p-8 sm:shadow-md sm:shadow-gray-300 sm:dark:border-gray-700 sm:dark:shadow-none"
     >
       <LoginInput label="Username">
-        <template v-slot:input>
-          <UInput class="mb-4" v-model="username"></UInput>
+        <template #input>
+          <UInput v-model="username" class="mb-4"></UInput>
         </template>
       </LoginInput>
 
       <LoginInput label="Password">
-        <template v-slot:input>
-          <UInput type="Password" class="mb-4" v-model="password"></UInput>
+        <template #input>
+          <UInput v-model="password" type="Password" class="mb-4"></UInput>
         </template>
       </LoginInput>
       <UButton
-        @click="submitData()"
         class="flex w-full justify-center dark:bg-blue-500 dark:text-white"
+        @click="submitData()"
       >
         Sign in
       </UButton>
     </UContainer>
   </div>
 </template>
-
-<style scoped></style>

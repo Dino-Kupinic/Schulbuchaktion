@@ -26,3 +26,16 @@ export interface APIResponseArray<T> extends APIResponse<T[]> {}
  * @property {T} data - API response data
  */
 export interface APIResponseObject<T> extends APIResponse<T> {}
+
+/**
+ * API response type for primitive
+ * @type APIPrimitiveResponse
+ * @property {K} key - API response key
+ * @property {T} value - API response value
+ * @template K - API response key type
+ * @template T - API response value type
+ * @example APIPrimitiveResponse<"token", string>
+ */
+export type APIPrimitiveResponse<K extends string, T = unknown> = {
+  [P in K]: T
+}

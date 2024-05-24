@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use mysql_xdevapi\Exception;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 

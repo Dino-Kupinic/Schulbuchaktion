@@ -1,24 +1,178 @@
-<?xml version="1.0" standalone='yes' encoding="UTF-8"  ?>
+<?xml version="1.0" encoding="UTF-8"  ?>
 <groups>
   <SBA_ADMIN>
     <routes>
+      <book>
+        <function>index</function>
+        <function>select</function>
+      </book>
+      <bookOrder>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+        <function>update</function>
+      </bookOrder>
+      <department>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>update</function>
+      </department>
+      <import>
+        <function>xlsx</function>
+      </import>
+      <publisher>
+        <function>index</function>
+        <function>select</function>
+      </publisher>
       <schoolClass>
         <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
       </schoolClass>
+      <subject>
+        <function>index</function>
+        <function>select</function>
+      </subject>
+      <year>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+      </year>
     </routes>
   </SBA_ADMIN>
 
   <SBA_AV>
-
+    <routes>
+      <book>
+        <function>index</function>
+        <function>select</function>
+      </book>
+      <bookOrder>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+        <function>update</function>
+      </bookOrder>
+      <department>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>update</function>
+      </department>
+      <import>
+        <function>xlsx</function>
+      </import>
+      <publisher>
+        <function>index</function>
+        <function>select</function>
+      </publisher>
+      <schoolClass>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+      </schoolClass>
+      <subject>
+        <function>index</function>
+        <function>select</function>
+      </subject>
+      <year>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+      </year>
+    </routes>
   </SBA_AV>
 
   <SBA_FV>
-
+    <routes>
+      <book>
+        <function>index</function>
+        <function>select</function>
+      </book>
+      <bookOrder>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+        <function>update</function>
+      </bookOrder>
+      <department>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>update</function>
+      </department>
+      <import>
+        <function>xlsx</function>
+      </import>
+      <publisher>
+        <function>index</function>
+        <function>select</function>
+      </publisher>
+      <schoolClass>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+      </schoolClass>
+      <subject>
+        <function>index</function>
+        <function>select</function>
+      </subject>
+      <year>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+      </year>
+    </routes>
   </SBA_FV>
 
   <SBA_LEHRER>
     <routes>
-      <route>schoolClass.index</route>
+      <book>
+        <function>index</function>
+        <function>select</function>
+      </book>
+      <bookOrder>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+        <function>update</function>
+      </bookOrder>
+      <department>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>update</function>
+      </department>
+      <import>
+        <function>xlsx</function>
+      </import>
+      <publisher>
+        <function>index</function>
+        <function>select</function>
+      </publisher>
+      <schoolClass>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+        <function>delete</function>
+      </schoolClass>
+      <subject>
+        <function>index</function>
+        <function>select</function>
+      </subject>
+      <year>
+        <function>index</function>
+        <function>select</function>
+        <function>create</function>
+      </year>
     </routes>
   </SBA_LEHRER>
 </groups>

@@ -6,6 +6,7 @@ use App\Entity\AuthToken;
 use App\Repository\AuthTokenRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 /**
@@ -20,15 +21,18 @@ class AuthService
 {
   private EntityManagerInterface $em;
   private AuthTokenRepository $authTokenRepository;
+  private ParameterBagInterface $parameters;
 
   /**
    * @param EntityManagerInterface $em
    * @param AuthTokenRepository $authTokenRepository
+   * @param ParameterBagInterface $parameters
    */
-  public function __construct(EntityManagerInterface $em, AuthTokenRepository $authTokenRepository)
+  public function __construct(EntityManagerInterface $em, AuthTokenRepository $authTokenRepository, ParameterBagInterface $parameters)
   {
     $this->em = $em;
     $this->authTokenRepository = $authTokenRepository;
+    $this->parameters = $parameters;
   }
 
 
@@ -56,16 +60,16 @@ class AuthService
 
         $success = @ldap_bind($ds, $userDN, $password) or throw new Exception("Error trying to bind: " . ldap_error($ds));
 
-        if ($success) {
-          if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_ADMIN"])) {
-            $role = "SBA_ADMIN";
-          } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_LEHRER"])) {
-            $role = "SBA_LEHRER";
-          } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_GUEST"])){
-            $role = "SBA_GUEST";
-          } else {
-            $role = "NOT_PERMITTED";
-          }
+        if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_ADMIN"])) {
+          $role = "SBA_ADMIN";
+        } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_LEHRER"])) {
+          $role = "SBA_LEHRER";
+        } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_AV"])){
+          $role = "SBA_AV";
+        } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_FV"])){
+          $role = "SBA_FV";
+        } else {
+          $role = "NOT_PERMITTED";
         }
 
         ldap_close($ds);
@@ -150,9 +154,28 @@ class AuthService
     }
   }
 
-  function checkRoutePermission(string $routeName)
+  function checkRoutePermission(string $routeName, string $JWTString): bool
   {
+    try {
+      $path = $this->parameters->get('security_file');
+      $xml = simplexml_load_file($path);
+      $xmlArray = json_decode(json_encode($xml), true);
 
+      $token = new AuthToken();
+      $token->setJwtString($JWTString);
+
+      $routesOfRole = $xmlArray[$token->getRole()]["routes"];
+      $pos = strpos($routeName, '.');
+      $controller = substr($routeName, 0, $pos);
+      $function = substr($routeName, $pos + 1);
+
+
+      if (array_key_exists($controller, $routesOfRole) && in_array($function, $routesOfRole[$controller]["function"])) {
+        return true;
+      }
+    } catch (Exception){}
+
+    return false;
   }
 }
 

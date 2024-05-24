@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use mysql_xdevapi\Exception;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
 class RouteMatcherService
@@ -15,7 +17,11 @@ class RouteMatcherService
 
   public function getRouteNameFromUrl(string $url): string
   {
-    $parameters = $this->router->match($url);
+    try {
+      $parameters = $this->router->match($url);
+    } catch (ResourceNotFoundException) {
+      $parameters['_route'] = 'null';
+    }
     return $parameters['_route'];
   }
 }

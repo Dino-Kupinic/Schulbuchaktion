@@ -14,14 +14,28 @@ const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
   },
 )
 
-watch(pending, () => {
+watch(pending, async () => {
   if (pending) {
     if (years.value !== null && years.value.data !== undefined) {
-      if (
-        years.value.data.some((year) => year.year === new Date().getFullYear())
-      ) {
-        // Make post for create year
-        console.log("aktuelles Jahr ist vorhanden")
+      const currentYear = (year: Year) => year.year === new Date().getFullYear()
+      const nextYear = (year: Year) =>
+        year.year === new Date().getFullYear() + 1
+
+      if (years.value.data.some(currentYear)) {
+        const response = await $fetch("/years/create", {
+          method: "POST",
+          baseURL: config.public.baseURL,
+          body: { year: new Date().getFullYear() },
+        })
+        console.log(response)
+      }
+
+      if (years.value.data.some(nextYear)) {
+        const response = await $fetch("/years/create", {
+          method: "POST",
+          baseURL: config.public.baseURL,
+          body: { year: new Date().getFullYear() + 1 },
+        })
       }
     }
   }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
 const items = [
   [
     {
@@ -26,6 +27,12 @@ const items = [
     },
   ],
 ]
+
+async function logoutUser() {
+  const bearerToken = useCookie("BearerToken")
+  bearerToken.value = null
+  await navigateTo("/login")
+}
 </script>
 
 <template>
@@ -55,7 +62,7 @@ const items = [
       <ULink v-if="item.label != 'logout'" class="truncate" :to="item.link">
         {{ $t("avatar." + item.label) }}
       </ULink>
-      <UButton v-else variant="outline" color="red">
+      <UButton v-else variant="outline" @click="logoutUser" color="red">
         {{ $t("avatar." + item.label) }}
       </UButton>
     </template>

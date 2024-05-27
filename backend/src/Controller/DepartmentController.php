@@ -19,10 +19,28 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see DepartmentService
  * @see DepartmentRepository
  */
-#[Route("/api/v1/departments")]
+
+/**
+ * @Route("/api/departments")
+ */
+#[Route("/api/v1/departments", name: "department.")]
 class DepartmentController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
+
+/**
+   * @OA\Get(
+   *     path="/api/departments",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of departments",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Department::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getDepartments(DepartmentService $departmentService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -43,7 +61,28 @@ class DepartmentController extends AbstractController
     }
   }
 
-  #[Route(path: "/{id}", methods: ["GET"])]
+  /**
+   * @OA\Get(
+   *     path="/api/departments/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         required=true,
+   *         description="ID of the department",
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the department with the given ID",
+   *         @OA\JsonContent(ref=@Model(type=Department::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=404,
+   *         description="Department not found"
+   *     )
+   * )
+   */
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getDepartment(DepartmentService $departmentService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -64,7 +103,24 @@ class DepartmentController extends AbstractController
     }
   }
 
-  #[Route(path: "/create", methods: ["POST"])]
+  /**
+   * @OA\Post(
+   *     path="/api/departments/create",
+   *     @OA\RequestBody(
+   *         @OA\JsonContent(ref=@Model(type=Department::class, groups={"write"}))
+   *     ),
+   *     @OA\Response(
+   *         response=201,
+   *         description="Department created successfully",
+   *         @OA\JsonContent(ref=@Model(type=Department::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=500,
+   *         description="Failed to create department"
+   *     )
+   * )
+   */
+  #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createDepartment(DepartmentService $departmentService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -83,7 +139,31 @@ class DepartmentController extends AbstractController
     }
   }
 
-  #[Route(path: "/update/{id}", methods: ["PUT"])]
+  /**
+   * @OA\Put(
+   *     path="/api/departments/update/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         required=true,
+   *         description="ID of the department",
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\RequestBody(
+   *         @OA\JsonContent(ref=@Model(type=Department::class, groups={"write"}))
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Department updated successfully",
+   *         @OA\JsonContent(ref=@Model(type=Department::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=500,
+   *         description="Failed to update department"
+   *     )
+   * )
+   */
+  #[Route(path: "/update/{id}", name: "update", methods: ["PUT"])]
   public function updateDepartment(DepartmentService $departmentService, Request $request, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

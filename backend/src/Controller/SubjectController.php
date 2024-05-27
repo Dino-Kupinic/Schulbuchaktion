@@ -21,10 +21,27 @@ use function PHPUnit\Framework\isEmpty;
  * @see SubjectRepository
  * @see SubjectService
  */
-#[Route("api/v1/subjects")]
+/**
+ * @Route("/api/subjects")
+ */
+#[Route("api/v1/subjects", name: "subject.")]
 class SubjectController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
+
+  /**
+   * @OA\Get(
+   *     path="/api/subjects",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of subjects",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Subject::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getSubjects(SubjectService $subjectService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -45,7 +62,28 @@ class SubjectController extends AbstractController
     }
   }
 
-  #[Route(path: "/{id}", methods: ["GET"])]
+  /**
+   * @OA\Get(
+   *     path="/api/subjects/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         required=true,
+   *         description="ID of the subject",
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the subject with the given ID",
+   *         @OA\JsonContent(ref=@Model(type=Subject::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=404,
+   *         description="Subject not found"
+   *     )
+   * )
+   */
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getSubject(SubjectService $subjectService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

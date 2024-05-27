@@ -17,10 +17,28 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see PublisherRepository
  * @see PublisherService
  */
-#[Route("api/v1/publishers")]
+
+/**
+ * @Route("/api/publishers")
+ */
+#[Route("api/v1/publishers", name: "publisher.")]
 class PublisherController extends AbstractController
 {
-  #[Route("/", methods: ["GET"])]
+
+  /**
+   * @OA\Get(
+   *     path="/api/publishers",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of publishers",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Publisher::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
+  #[Route("/", name: "index", methods: ["GET"])]
   public function getPublishers(PublisherService $publisherService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -41,7 +59,17 @@ class PublisherController extends AbstractController
     }
   }
 
-  #[Route("/{id}", methods: ["GET"])]
+  /**
+   * @OA\Get(
+   *     path="/api/publishers/{id}",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the publisher with the given ID",
+   *         @OA\JsonContent(ref=@Model(type=Publisher::class, groups={"read"}))
+   *     )
+   * )
+   */
+  #[Route("/{id}", name: "index", methods: ["GET"])]
   public function getPublisher(PublisherService $publisherService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

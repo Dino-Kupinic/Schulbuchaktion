@@ -15,35 +15,30 @@ const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
 )
 
 watch(pending, async () => {
-  const currentYearExisted = false
-  const nextYearExisted = false
-
   if (pending) {
     if (years.value !== null && years.value.data !== undefined) {
-      const currentYear = (year: Year) => year.year !== new Date().getFullYear()
-      const nextYear = (year: Year) =>
-        year.year !== new Date().getFullYear() + 1
+      const currentYearExisting = (year: Year) =>
+        year.year === new Date().getFullYear()
+      const nextYearExisting = (year: Year) =>
+        year.year === new Date().getFullYear() + 1
 
-      if (years.value.data.some(currentYear)) {
+      if (!years.value.data.some(currentYearExisting)) {
+        console.log(years.value.data.some(currentYearExisting))
         const response = await $fetch("/years/create", {
           method: "POST",
-          params: { year: new Date().getFullYear() },
+          body: { year: new Date().getFullYear() },
           baseURL: config.public.baseURL,
         })
         console.log(response)
       }
 
-      if (years.value.data.some(nextYear)) {
+      if (!years.value.data.some(nextYearExisting)) {
         const response = await $fetch("/years/create", {
           method: "POST",
-          params: { year: new Date().getFullYear() + 1 },
+          body: { year: new Date().getFullYear() + 1 },
           baseURL: config.public.baseURL,
         })
       }
-    }
-
-    if (currentYearExisted && nextYearExisted) {
-      // Another get request for years
     }
   }
 })

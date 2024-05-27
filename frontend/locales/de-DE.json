@@ -74,6 +74,10 @@
     "ebook": "E-Book",
     "price": "Preis"
   },
+  "classes": {
+    "title": "Klassenverwaltung",
+    "subtitle": "Verwalten Sie Ihre Schulklassen"
+  },
   "pagination": {
     "showing": "Zeigt",
     "to": "bis",

@@ -67,6 +67,10 @@
     "ebook": "E-book",
     "price": "Price"
   },
+  "classes": {
+    "title": "Class Management",
+    "subtitle": "Manage your school classes"
+  },
   "pagination": {
     "showing": "Shows",
     "to": "to",

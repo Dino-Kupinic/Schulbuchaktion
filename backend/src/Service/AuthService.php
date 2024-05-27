@@ -64,9 +64,9 @@ class AuthService
           $role = "SBA_ADMIN";
         } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_LEHRER"])) {
           $role = "SBA_LEHRER";
-        } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_AV"])){
+        } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_AV"])) {
           $role = "SBA_AV";
-        } else if($this->checkGroupEx($ds, $userDN, $_ENV["SBA_FV"])){
+        } else if ($this->checkGroupEx($ds, $userDN, $_ENV["SBA_FV"])) {
           $role = "SBA_FV";
         } else {
           $role = "NOT_PERMITTED";
@@ -83,7 +83,7 @@ class AuthService
   public function createToken(string $user, string $password): string
   {
     $status = $this->authenticateUser($user, $password);
-    return new AuthToken($user,$status["role"], $status["success"], $this->em);
+    return new AuthToken($user, $status["role"], $status["success"], $this->em);
   }
 
   public function checkToken(string $JWTString): bool
@@ -141,7 +141,7 @@ class AuthService
         return FALSE;
       } else {
         for ($i = 0; $i < $entries[0]['gidnumber']['count']; $i++) {
-          if ( $entries[0]['gidnumber'][$i] == $groupdn) {
+          if ($entries[0]['gidnumber'][$i] == $groupdn) {
             return TRUE;
           } elseif ($this->checkGroupEx($ad, $entries[0]['gidnumber'][$i], $groupdn)) {
             return TRUE;
@@ -169,11 +169,12 @@ class AuthService
       $controller = substr($routeName, 0, $pos);
       $function = substr($routeName, $pos + 1);
 
-
-      if (array_key_exists($controller, $routesOfRole) && in_array($function, $routesOfRole[$controller]["function"])) {
-        return true;
+      if (array_key_exists($controller, $routesOfRole)) {
+        if (is_array($routesOfRole[$controller]["function"])
+          && in_array($function, $routesOfRole[$controller]["function"])) return true;
+        else if (strcmp($function, $routesOfRole[$controller]["function"]) == 0) return true;
       }
-    } catch (Exception){}
+    } catch (Exception) {}
 
     return false;
   }

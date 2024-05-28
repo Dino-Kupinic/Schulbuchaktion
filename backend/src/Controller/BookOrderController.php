@@ -83,7 +83,7 @@ class BookOrderController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "select", methods: ["GET"])]
   public function getBook(BookOrderService $bookOrderService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

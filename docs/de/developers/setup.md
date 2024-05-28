@@ -80,23 +80,25 @@ Erstellen Sie eine `.env` Datei und schauen Sie sich das `.env.example` an. Kopi
 ersetze
 Sie die folgenden Felder durch Ihre eigenen. Sie können auch einige bestehende Felder bearbeiten.
 
-| Feld                      | Beschreibung                                                                                  |
-|---------------------------|-----------------------------------------------------------------------------------------------|
-| `APP_SECRET`              | Ein geheimer Schlüssel, der verwendet wird, um die Dienste Ihrer Anwendung zu sichern.        |
-| `SECRET_PASSWORD`         | Datenbank-Passwort                                                                            |
-| `USERNAME`                | Datenbank-Benutzer                                                                            |
-| `BIND_PORT`               | Datenbank-Port                                                                                |
-| `DATABASE_URL`            | Der URL-String zu Ihrer Datenbank. Es werden die oben genannten Umgebungsvariablen verwendet. |
-| `LDAP_PORT`               | Der Port Ihres LDAP-Servers.                                                                  |
-| `LDAP_URL`                | Die URL Ihres LDAP-Servers.                                                                   |
-| `LDAP_BASE`               | Die Basis Ihres LDAP-Servers. (`dc=schulbuchaktion,dc=env`)                                   |
-| `SBA_ADMIN`               | Gruppennummer der Admin-Gruppe. (Standard `500`)                                              |
-| `SBA_GUEST`               | Gruppennummer der Gastgruppe. (Voreinstellung `501`)                                          |
-| `SBA_USER`                | Gruppennummer der Benutzergruppe. (Voreinstellung `502`)                                      |
-| `TOKEN_TIMEOUT`           | Wie lange ein Token gültig ist. (Voreinstellung `1800`)                                       |
-| `HOURS_AHEAD`             | Zeitzone (Voreinstellung `2`)                                                                 |
-| `JWT_SECRET_ABSOLUT_PATH` | Der absolute Pfad zum privaten Schlüssel für das JWT.                                         |
-| `CORS_ALLOW_ORIGIN`       | Die Herkunft, die auf die API zugreifen darf. (Standardwert `localhost`)                      |
+| Feld                      | Beschreibung                                                                                       |
+|---------------------------|----------------------------------------------------------------------------------------------------|
+| `APP_SECRET`              | Ein geheimer Schlüssel, der verwendet wird, um die Dienste Ihrer Anwendung zu sichern.             |
+| `SECRET_PASSWORD`         | Datenbank-Passwort                                                                                 |
+| `USERNAME`                | Datenbank-Benutzer                                                                                 |
+| `BIND_PORT`               | Datenbank-Port                                                                                     |
+| `DATABASE_URL`            | Der URL-String zu Ihrer Datenbank. Es werden die oben genannten Umgebungsvariablen verwendet.      |
+| `LDAP_PORT`               | Der Port Ihres LDAP-Servers.                                                                       |
+| `LDAP_URL`                | Die URL Ihres LDAP-Servers.                                                                        |
+| `LDAP_BASE`               | Die Basis Ihres LDAP-Servers. (`dc=schulbuchaktion,dc=env`)                                        |
+| `ROLES`                   | Zeichenkette getrennt mit Komma von allen Rollen (Standard `'SBA_ADMIN,SBA_LEHRER,SBA_FV,SBA_AV'`) |
+| `SBA_ADMIN`               | Gruppennummer der Admin-Gruppe. (Standard `500`)                                                   |
+| `SBA_LEHRER`              | Gruppennummer der Lehrergruppe. (Voreinstellung `501`)                                             |
+| `SBA_FV`                  | Gruppennummer der Fachverantwortlichen-Gruppe. (Voreinstellung `502`)                              |
+| `SBA_AV`                  | Gruppennummer der Abteilungsvorstands-Gruppe. (Voreinstellung `503`)                               |
+| `TOKEN_TIMEOUT`           | Wie lange ein Token gültig ist. (Voreinstellung `1800`)                                            |
+| `HOURS_AHEAD`             | Zeitzone (Voreinstellung `2`)                                                                      |
+| `JWT_SECRET_ABSOLUT_PATH` | Der absolute Pfad zum privaten Schlüssel für das JWT.                                              |
+| `CORS_ALLOW_ORIGIN`       | Die Herkunft, die auf die API zugreifen darf. (Standardwert `localhost`)                           |
 
 ::: danger GEFAHR
 Für das `APP_SECRET` schauen Sie bitte

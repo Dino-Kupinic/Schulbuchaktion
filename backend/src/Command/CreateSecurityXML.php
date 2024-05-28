@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use DOMDocument;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-#[AsCommand(name: 'security:create-security-xml', description: 'Creates security.xml for permission handling')]
+#[AsCommand(name: 'security:create-xml', description: 'Creates security.xml for permission handling')]
 class CreateSecurityXML extends Command
 {
   public function __construct(private RouterInterface $router, private ParameterBagInterface $parameters, ?string $name = null)
@@ -26,15 +27,20 @@ class CreateSecurityXML extends Command
   {
     $io = new SymfonyStyle($input, $output);
     $fileSystem = new Filesystem();
+    try {
 
-    $routes = $this->router->getRouteCollection();
-    $xml = $this->generateXml($routes);
-    $filePath = $this->parameters->get('security_path') . '/security.generated.xml';
-    $fileSystem->dumpFile($filePath, $xml);
-    $io->success('Security file created successfully in ' . $filePath);
-    $io->warning('Now you have to rename or copy the generated file to "security.xml" in the same path!');
-    $io->caution('Be aware of the fact, that this file contains all rights for all roles.' . "\n" . 'You have to delete controller or function tags to deny access for specific roles!');
-    return Command::SUCCESS;
+      $routes = $this->router->getRouteCollection();
+      $xml = $this->generateXml($routes);
+      $filePath = $this->parameters->get('security_path') . '/security.generated.xml';
+      $fileSystem->dumpFile($filePath, $xml);
+      $io->success('Security file created successfully in ' . $filePath);
+      $io->warning('Now you have to rename or copy the generated file to "security.xml" in the same path!');
+      $io->caution('Be aware of the fact, that this file contains all rights for all roles.' . "\n" . 'You have to delete controller or function tags to deny access for specific roles!');
+      return Command::SUCCESS;
+    } catch (Exception $e) {
+      $io->error($e->getMessage());
+      return Command::FAILURE;
+    }
   }
 
   public function generateXml(RouteCollection $routes): string

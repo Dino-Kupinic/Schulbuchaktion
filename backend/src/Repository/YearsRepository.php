@@ -24,11 +24,13 @@ class YearsRepository extends ServiceEntityRepository
     /**
      * @return Year[] Returns years ranging two years back and one year forward
      */
-    public function findAllForImport($value): array
+    public function findAllForImport($currentYear): array
     {
+      $pastYears = 2;
+
         return $this->createQueryBuilder('y')
             ->andWhere('y.year >= :val')
-            ->setParameter('val', $value - 2)
+            ->setParameter('val', $currentYear - $pastYears)
             ->orderBy('y.year', 'ASC')
             ->setMaxResults(4)
             ->getQuery()

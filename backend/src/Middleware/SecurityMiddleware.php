@@ -12,10 +12,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SecurityMiddleware implements EventSubscriberInterface
 {
-
-  private AuthService $authService;
-
-  public function __construct(AuthService $authService, private RouteMatcherService $routerService)
+  public function __construct(private AuthService $authService, private RouteMatcherService $routerService)
   {
     $this->authService = $authService;
   }
@@ -42,9 +39,7 @@ class SecurityMiddleware implements EventSubscriberInterface
       if (!$this->authService->checkToken($bearer)) {
         $response = new Response('Token not valid', Response::HTTP_UNAUTHORIZED);
         $event->setResponse($response);
-      }
-
-      if (!$this->authService->checkRoutePermission($parameter, $bearer)){
+      } else if (!$this->authService->checkRoutePermission($parameter, $bearer)){
         $response = new Response('Not permitted for this Action', Response::HTTP_UNAUTHORIZED);
         $event->setResponse($response);
       }

@@ -16,7 +16,6 @@ const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
 
 watch(pending, async () => {
   if (pending) {
-    // if (years.value !== null && years.value.data?.length === 0) {
     if (years.value !== null) {
       const currentDate = new Date()
       const currentYearExisting = (year: Year) =>

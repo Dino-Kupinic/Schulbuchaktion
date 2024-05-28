@@ -50,7 +50,7 @@ class YearController extends AbstractController
       if (count($years) > 0) {
         return $this->json(["success" => true, "data" => $years], status: Response::HTTP_OK, context: $context);
       }
-      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NO_CONTENT);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
@@ -59,7 +59,7 @@ class YearController extends AbstractController
     }
   }
 
-  #[Route(path: "/import", methods: ["GET"])]
+  #[Route(path: "/import", name: "import", methods: ["GET"])]
   public function getYearsForImport(YearService $yearsService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -71,7 +71,7 @@ class YearController extends AbstractController
       if (count($years) > 0) {
         return $this->json(["success" => true, "data" => $years], status: Response::HTTP_OK, context: $context);
       }
-      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NO_CONTENT);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,

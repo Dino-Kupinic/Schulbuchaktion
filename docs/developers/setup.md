@@ -78,23 +78,25 @@ cd backend
 Create a `.env` file and checkout the `.env.example`. Copy the content into your `.env` and replace
 the following fields with your own. You may edit some existing fields aswell.
 
-| Field                     | Description                                                           |
-|---------------------------|-----------------------------------------------------------------------|
-| `APP_SECRET`              | A secret key that's used to secure your application's services.       |
-| `SECRET_PASSWORD`         | Database password                                                     |
-| `USERNAME`                | Database user                                                         |
-| `BIND_PORT`               | Database port                                                         |
-| `DATABASE_URL`            | The URL String to your database. It will use the env variables above. |
-| `LDAP_PORT`               | The port of your LDAP server.                                         |
-| `LDAP_URL`                | The URL of your LDAP server.                                          |
-| `LDAP_BASE`               | The base of your LDAP server. (`dc=schulbuchaktion,dc=env`)           |
-| `SBA_ADMIN`               | Group number of the admin group. (default `500`)                      |
-| `SBA_GUEST`               | Group number of the guest group. (default `501`)                      |
-| `SBA_USER`                | Group number of the user group. (default `502`)                       |
-| `TOKEN_TIMEOUT`           | How long a token is valid. (default `1800`)                           |
-| `HOURS_AHEAD`             | Timezone (default `2`)                                                |
-| `JWT_SECRET_ABSOLUT_PATH` | The absolute path to the private key for the JWT.                     |
-| `CORS_ALLOW_ORIGIN`       | The origin that is allowed to access the API. (default `localhost`)   |
+| Field                     | Description                                                                                |
+|---------------------------|--------------------------------------------------------------------------------------------|
+| `APP_SECRET`              | A secret key that's used to secure your application's services.                            |
+| `SECRET_PASSWORD`         | Database password                                                                          |
+| `USERNAME`                | Database user                                                                              |
+| `BIND_PORT`               | Database port                                                                              |
+| `DATABASE_URL`            | The URL String to your database. It will use the env variables above.                      |
+| `LDAP_PORT`               | The port of your LDAP server.                                                              |
+| `LDAP_URL`                | The URL of your LDAP server.                                                               |
+| `LDAP_BASE`               | The base of your LDAP server. (`dc=schulbuchaktion,dc=env`)                                |
+| `ROLES`                   | String of all roles seperated with commas (default `'SBA_ADMIN,SBA_LEHRER,SBA_FV,SBA_AV'`) |
+| `SBA_ADMIN`               | Group number of the admin group. (default `500`)                                           |
+| `SBA_LEHRER`              | Group number of the teacher group. (default `501`)                                         |
+| `SBA_FV`                  | Group number of the subject responsible group. (default `502`)                             |
+| `SBA_AV`                  | Group number of the head of department group. (default `503`)                              |
+| `TOKEN_TIMEOUT`           | How long a token is valid. (default `1800`)                                                |
+| `HOURS_AHEAD`             | Timezone (default `2`)                                                                     |
+| `JWT_SECRET_ABSOLUT_PATH` | The absolute path to the private key for the JWT.                                          |
+| `CORS_ALLOW_ORIGIN`       | The origin that is allowed to access the API. (default `localhost`)                        |
 
 ::: danger
 For the `APP_SECRET` checkout https://symfony.com/doc/current/reference/configuration/framework.html#secret to see the

@@ -21,6 +21,31 @@ unset($data[0]); // remove header
 $importService->persist($data, $year);
 ```
 
+
+## Year for Import
+While Importing, the user can choose which year the import is designated to.
+Viable options for this year range 2 years back and 1 year forward from the current year.
+If the next year is not inserted into the database already, it gets inserted.
+The logic for this process is executed everytime the user visits the `/import` page.
+
+You can change the range of years which a user can select in the `YearsRepository`
+by changing the `$pastYears` variable or the `setMaxResults` parameter:
+```php
+public function findAllForImport($currentYear): array
+    {
+      $pastYears = 2;
+
+        return $this->createQueryBuilder('y')
+            ->andWhere('y.year >= :val')
+            ->setParameter('val', $currentYear - $pastYears)
+            ->orderBy('y.year', 'ASC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+```
+
 ## Re-Importing
 
 If the selected year already has data, all book data is deleted.

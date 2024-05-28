@@ -18,9 +18,26 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see YearRepository
  * @see YearService
  */
+/**
+ * @Route("/api/years")
+ */
 #[Route("api/v1/years", name: "year.")]
 class YearController extends AbstractController
 {
+
+  /**
+   * @OA\Get(
+   *     path="/api/years",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of years",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Year::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
   #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getYears(YearService $yearsService): Response
   {
@@ -42,6 +59,27 @@ class YearController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Get(
+   *     path="/api/years/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         required=true,
+   *         description="ID of the year",
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the year with the given ID",
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=404,
+   *         description="Year with the given ID not found"
+   *     )
+   * )
+   */
   #[Route(path: "/{id}", name: "select", methods: ["GET"])]
   public function getYear(YearService $yearsService, int $id): Response
   {
@@ -63,6 +101,23 @@ class YearController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Post(
+   *     path="/api/years/create",
+   *     @OA\RequestBody(
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"write"}))
+   *     ),
+   *     @OA\Response(
+   *         response=201,
+   *         description="Year created successfully",
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=400,
+   *         description="Invalid input"
+   *     )
+   * )
+   */
   #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createYear(YearService $yearsService, Request $request): Response
   {

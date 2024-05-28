@@ -29,7 +29,7 @@ class YearsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('y')
             ->andWhere('y.year >= :val')
             ->setParameter('val', $value - 2)
-            ->orderBy('y.id', 'ASC')
+            ->orderBy('y.year', 'ASC')
             ->setMaxResults(4)
             ->getQuery()
             ->getResult()

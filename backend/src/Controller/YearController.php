@@ -50,7 +50,7 @@ class YearController extends AbstractController
       if (count($years) > 0) {
         return $this->json(["success" => true, "data" => $years], status: Response::HTTP_OK, context: $context);
       }
-      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NO_CONTENT);
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_OK);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,

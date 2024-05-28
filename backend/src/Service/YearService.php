@@ -86,6 +86,17 @@ class YearService
   }
 
   /**
+   * Get all years relevant for import.
+   *
+   * @return array|null An array of year objects
+   */
+  public function getYearsForImport(): array|null
+  {
+    $currentYear = date("Y");
+    return $this->yearsRepository->findAllForImport($currentYear);
+  }
+
+  /**
    * Get all years.
    *
    * @return array|null An array of year objects

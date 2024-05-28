@@ -59,7 +59,7 @@ class YearsServiceTest extends KernelTestCase
       ->willReturn($expectedResult);
 
     $yearsService = new YearService($entityManager, $yearsRepository);
-    $result = $yearsService->getYears();
+    $result = $yearsService->getYearsForImport();
 
     $this->assertSame($expectedResult, $result);
   }

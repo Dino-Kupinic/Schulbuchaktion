@@ -3,31 +3,36 @@ import pkg from "./package.json"
 import { execaSync } from "execa"
 
 export default defineNuxtConfig({
+  hooks: {
+    "prerender:routes"({ routes }) {
+      routes.clear()
+    },
+  },
+  ssr: false,
+  spaLoadingTemplate: true,
+  devtools: {
+    enabled: true,
+  },
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BACKEND_API,
+      buildTime: Date.now(),
+      // gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
+      clientVersion: pkg.version,
+    },
+  },
   app: {
     head: {
       title: "Schulbuchaktion",
     },
   },
   css: ["~/assets/styles/main.css"],
-  devtools: {
-    enabled: true,
-  },
-  ssr: false,
-  spaLoadingTemplate: true,
   components: [
     {
       path: "~/components",
       pathPrefix: false,
     },
   ],
-  runtimeConfig: {
-    public: {
-      baseURL: process.env.BACKEND_API,
-      buildTime: Date.now(),
-      gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
-      clientVersion: pkg.version,
-    },
-  },
   colorMode: {
     classSuffix: "",
     preference: "system",

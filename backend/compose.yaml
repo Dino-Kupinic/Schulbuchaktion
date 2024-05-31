@@ -13,6 +13,17 @@ services:
       MYSQL_USER: ${USERNAME}
       MYSQL_PASSWORD: ${SECRET_PASSWORD}
 
+  nuxt-nginx:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: nuxt-nginx
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_API=http://localhost:8000/api/v1
+
   openldap:
     image: osixia/openldap:latest
     container_name: openldap

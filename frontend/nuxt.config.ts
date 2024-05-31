@@ -2,6 +2,14 @@ import { currentLocales } from "./config/i18n"
 import pkg from "./package.json"
 import { execaSync } from "execa"
 
+function getGitHeadSha() {
+  try {
+    return execaSync("git", ["rev-parse", "HEAD"]).stdout.trim()
+  } catch {
+    return undefined
+  }
+}
+
 export default defineNuxtConfig({
   hooks: {
     "prerender:routes"({ routes }) {
@@ -17,7 +25,7 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.BACKEND_API,
       buildTime: Date.now(),
-      // gitHeadSha: execaSync("git", ["rev-parse", "HEAD"]).stdout.trim(),
+      gitHeadSha: getGitHeadSha(),
       clientVersion: pkg.version,
     },
   },

@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import type { APIResponseArray } from "~/types/response"
+import type {
+  APIResponse,
+  APIResponseArray,
+  APIResponsePaginated,
+} from "~/types/response"
 import type { BookOrder } from "~/types/bookorder"
+import type { Book } from "~/types/book"
+import type { Department } from "~/types/department"
 
 const columns = ref([
   {
@@ -39,7 +45,7 @@ const columns = ref([
 ])
 
 const config = useRuntimeConfig()
-
+const isVisible = ref(false)
 const { data: bookOrders } = await useLazyFetch<APIResponseArray<BookOrder[]>>(
   "/bookOrders",
   {
@@ -48,11 +54,7 @@ const { data: bookOrders } = await useLazyFetch<APIResponseArray<BookOrder[]>>(
   },
 )
 
-const isDisplayed = ref<boolean>(false)
-function reverseDisplay() {
-  isDisplayed.value = !isDisplayed.value
-  console.log(isDisplayed.value)
-}
+const changedBookOrder = ref()
 
 const items = (row: BookOrder) => [
   [
@@ -60,7 +62,11 @@ const items = (row: BookOrder) => [
       label: "Edit",
       slot: "edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      click: () => reverseDisplay(),
+      click: () => {
+        changedBookOrder.value = row
+        isVisible.value = true
+        console.log(changedBookOrder.value)
+      },
     },
   ],
   [
@@ -156,6 +162,63 @@ watch(
   },
   { immediate: true },
 )
+
+async function updateOrder() {
+  if (schoolClassId.value) {
+    changedBookOrder.value.schoolClass = getSchoolClassById(
+      schoolClassId.value.value,
+    )
+  }
+
+  if (bookId.value) {
+    changedBookOrder.value.book = getBookById(bookId.value.value)
+  }
+
+  await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
+    method: "PUT",
+    body: changedBookOrder.value,
+  })
+
+  const toast = useToast()
+
+  toast.add({
+    title: t("bookList.updateOrder.success"),
+    description: t("bookList.updateOrder.successDescription"),
+    icon: "i-heroicons-check-circle",
+  })
+
+  isVisible.value = false
+}
+
+const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
+  "/books",
+  {
+    baseURL: config.public.baseURL,
+  },
+)
+
+console.log(books.value)
+
+const { data: schoolClasses } = await useLazyFetch<APIResponse<Department[]>>(
+  "/schoolClasses",
+  {
+    baseURL: config.public.baseURL,
+    watch: [page, pageCount],
+  },
+)
+
+function getSchoolClassById(id: number) {
+  return schoolClasses?.value?.data?.find(
+    (schoolClass) => schoolClass.id === id,
+  )
+}
+
+function getBookById(id: number) {
+  return books?.value?.data?.books.find((book) => book.id === id)
+}
+
+const bookId = ref()
+const schoolClassId = ref()
 </script>
 
 <template>
@@ -196,16 +259,6 @@ watch(
       </template>
       <template #actions-data="{ row }">
         <UDropdown :items="items(row)">
-          <template #edit="{ item }">
-            <BookOrderEditModal v-model="isDisplayed" :book-order="row">
-              {{ item.label }}
-            </BookOrderEditModal>
-          </template>
-          <template #delete="{ item }">
-            <UButton color="gray" variant="ghost" :icon="item.icon"
-              >{{ item.label }}
-            </UButton>
-          </template>
           <UButton
             color="gray"
             variant="ghost"
@@ -214,6 +267,54 @@ watch(
         </UDropdown>
       </template>
     </UTable>
+
+    <UModal v-model="isVisible" class="bg-opacity-0">
+      <UCard>
+        <template #header>
+          <div class="flex items-center justify-between">
+            <p
+              class="text-base font-semibold leading-6 text-red-600 dark:text-white"
+            >
+              Editing book order for "{{ changedBookOrder.book.title }}"
+            </p>
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              class="-my-1"
+              @click="isVisible = false"
+            />
+          </div>
+        </template>
+        <p>Book</p>
+        <USelectMenu
+          v-model="bookId"
+          :placeholder="changedBookOrder.book.title"
+          :options="
+            books?.data?.books.map((book) => ({
+              label: book.title,
+              value: book.id,
+            }))
+          "
+          searchable
+        />
+
+        <p class="mt-4">Class</p>
+        <USelectMenu
+          v-model="schoolClassId"
+          :placeholder="changedBookOrder.schoolClass.name"
+          :options="
+            schoolClasses?.data?.map((schoolClass) => ({
+              label: schoolClass.name,
+              value: schoolClass.id,
+            }))
+          "
+          searchable
+        />
+
+        <UButton class="mt-4" @click="updateOrder">Submit</UButton>
+      </UCard>
+    </UModal>
 
     <template #footer>
       <div class="flex flex-wrap items-center justify-between">

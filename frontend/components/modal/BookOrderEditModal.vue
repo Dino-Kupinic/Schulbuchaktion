@@ -3,6 +3,7 @@ import type { BookOrder } from "~/types/bookorder"
 
 const props = defineProps<{
   bookOrder: BookOrder
+  isVisible: boolean
 }>()
 
 const config = useRuntimeConfig()
@@ -18,12 +19,11 @@ async function onSubmit() {
   })
 }
 
-const model = defineModel<boolean>()
+const isVisible = props.isVisible
 </script>
 
 <template>
-  <slot />
-  <UModal v-model="model">
+  <UModal v-model="isVisible">
     <UCard>
       <template #header>
         <div class="flex items-center justify-between">
@@ -40,37 +40,6 @@ const model = defineModel<boolean>()
           />
         </div>
       </template>
-      <UForm :state="bookOrder" class="mb-5" @submit="onSubmit">
-        <UFormGroup label="Name" name="name">
-          <UInput
-            :v-model="changedBookOrder.count"
-            :value="bookOrder.count"
-            size="sm"
-            color="primary"
-            variant="outline"
-            placeholder="count"
-          />
-          <UInput
-            :v-model="changedBookOrder.creationUser"
-            :value="bookOrder.creationUser"
-            size="sm"
-            color="primary"
-            variant="outline"
-            placeholder="created by"
-          />
-          <UInput
-            :v-model="changedBookOrder.schoolClass"
-            :value="bookOrder.schoolClass.grade"
-            size="sm"
-            color="primary"
-            variant="outline"
-            placeholder="schoolClass"
-          />
-        </UFormGroup>
-        <UButton class="mt-3 w-full justify-center sm:w-24" type="submit">
-          Submit
-        </UButton>
-      </UForm>
     </UCard>
   </UModal>
 </template>

@@ -183,7 +183,7 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "security",
         },
         {
-          text: "Login / Logout",
+          text: "An-/Abmeldung",
           link: "authentication"
         }
       ],

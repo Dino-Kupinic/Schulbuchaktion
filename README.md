@@ -192,7 +192,7 @@ Build each service seperately and deploy yourself without docker.
 
 #### Frontend
 
-> [!INFO]
+> [!NOTE]
 > The frontend operates as a "Single Page
 > Application" [SPA](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering).
 

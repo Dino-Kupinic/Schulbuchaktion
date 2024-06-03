@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0c229b5cc3098e59205efe7a06a270e",
+    "content-hash": "16f6fcc98e652b30eec4e9785b063efc",
     "packages": [
         {
             "name": "composer/semver",
@@ -5128,16 +5128,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v7.0.7",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "2439e5a1d15b28d56f78e70d4e6f6d00faa9d183"
+                "reference": "4fd7d8cacbc7fd04c77c72aa339e9f5e32dcbf08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/2439e5a1d15b28d56f78e70d4e6f6d00faa9d183",
-                "reference": "2439e5a1d15b28d56f78e70d4e6f6d00faa9d183",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/4fd7d8cacbc7fd04c77c72aa339e9f5e32dcbf08",
+                "reference": "4fd7d8cacbc7fd04c77c72aa339e9f5e32dcbf08",
                 "shasum": ""
             },
             "require": {
@@ -5183,7 +5183,7 @@
                 "ldap"
             ],
             "support": {
-                "source": "https://github.com/symfony/ldap/tree/v7.0.7"
+                "source": "https://github.com/symfony/ldap/tree/v7.1.0"
             },
             "funding": [
                 {
@@ -5199,7 +5199,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-18T09:29:19+00:00"
+            "time": "2024-05-13T15:35:37+00:00"
         },
         {
             "name": "symfony/mailer",
@@ -5690,16 +5690,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v7.0.7",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "23cc173858776ad451e31f053b1c9f47840b2cfa"
+                "reference": "9564f64c16f99e29f252eafc642965e8fcb755ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/23cc173858776ad451e31f053b1c9f47840b2cfa",
-                "reference": "23cc173858776ad451e31f053b1c9f47840b2cfa",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/9564f64c16f99e29f252eafc642965e8fcb755ce",
+                "reference": "9564f64c16f99e29f252eafc642965e8fcb755ce",
                 "shasum": ""
             },
             "require": {
@@ -5737,7 +5737,7 @@
                 "options"
             ],
             "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/v7.0.7"
+                "source": "https://github.com/symfony/options-resolver/tree/v7.1.0"
             },
             "funding": [
                 {
@@ -5753,7 +5753,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-18T09:29:19+00:00"
+            "time": "2024-04-18T09:32:20+00:00"
         },
         {
             "name": "symfony/password-hasher",

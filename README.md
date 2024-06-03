@@ -169,20 +169,41 @@ pnpm run docs:dev
 
 ## 🚀 Deployment
 
-> [!NOTE]
-> The frontend operates as a "Single Page
-> Application" [SPA](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering), requiring the client to
-> handle all rendering tasks. It's essential to acknowledge that due to this architecture, there may be limitations in
-> terms of SEO optimization. However, it's worth noting that the application's primary use case doesn't heavily rely on
-> search engine visibility, since it is meant to be used as an internal tool.
+### Docker
 
-### Frontend
+1. configure each `.env` in `/frontend` and `/backend` properly
 
-1. run build
+2. check (and adjust) each **nginx** configuration
+
+3. run docker compose
 
 ```bash
-pnpm run build
+docker compose up -d
 ```
+
+> [!TIP]
+> If you don't have docker installed, checkout https://www.docker.com/.
+
+4. deploy in the cloud or your container infrastructure :tada:
+
+### Classic
+
+Build each service seperately and deploy yourself without docker.
+
+#### Frontend
+
+> [!INFO]
+> The frontend operates as a "Single Page
+> Application" [SPA](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering).
+
+1. run generate
+
+```bash
+pnpm run generate
+```
+
+> [!TIP]
+> If you don't have pnpm installed, checkout https://pnpm.io/installation to install for your operating system.
 
 2. check if everything works as it should
 
@@ -191,17 +212,17 @@ pnpm run preview
 ```
 
 3. Head to http://localhost:3000/
-4. All generated assets can be found in `./output`
+4. All generated assets can be found in `./output/public`
 
 > [!TIP]
 > Further information regarding deployment can be found on https://nuxt.com/deploy
 
-### Backend
+#### Backend
 
 The latest information regarding deploying symfony can be found
 here: https://symfony.com/doc/current/deployment.html#symfony-deployment-basics
 
-### Docs
+#### Docs
 
 > [!NOTE]
 > The documentation uses the same principle as the frontend. More
@@ -212,6 +233,9 @@ here: https://symfony.com/doc/current/deployment.html#symfony-deployment-basics
 ```bash
 pnpm run docs:build
 ```
+
+> [!TIP]
+> If you don't have pnpm installed, checkout https://pnpm.io/installation to install for your operating system.
 
 2. check if everything works as it should
 

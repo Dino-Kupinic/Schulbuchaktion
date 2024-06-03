@@ -8,8 +8,8 @@ const appVersion = useAppVersion()
 const buildTime = new Date(runtime.public.buildTime as number)
 const timeSinceBuild = useTimeAgo(buildTime)
 
-const gitSha = runtime.public.gitHeadSha as string
-const gitShaFormatted = gitSha.slice(0, 10)
+const gitSha = runtime.public.gitHeadSha
+const gitShaFormatted = computed(() => (gitSha ? gitSha.slice(0, 10) : ""))
 const vueVersion = versionVue
 const nuxtVersion = versionNuxt
 </script>
@@ -24,14 +24,16 @@ const nuxtVersion = versionNuxt
       <div
         class="grid grid-cols-[max-content_1fr] items-center gap-x-2 gap-y-3 p-3"
       >
-        <UIcon class="h-5 w-5" name="i-heroicons-cube-20-solid"></UIcon>
-        <time
-          :datetime="buildTime.toISOString()"
-          :title="buildTime.toLocaleString()"
-        >
-          built {{ timeSinceBuild }} (<code>{{ gitShaFormatted }}</code
-          >)
-        </time>
+        <template v-if="gitSha">
+          <UIcon class="h-5 w-5" name="i-heroicons-cube-20-solid"></UIcon>
+          <time
+            :datetime="buildTime.toISOString()"
+            :title="buildTime.toLocaleString()"
+          >
+            built {{ timeSinceBuild }} (<code>{{ gitShaFormatted }}</code
+            >)
+          </time>
+        </template>
 
         <UIcon class="h-5 w-5" name="i-material-symbols-book-2" />
         <p v-if="appVersion">

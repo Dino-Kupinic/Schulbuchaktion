@@ -1,22 +1,45 @@
 # Deployment
 
-::: info
-The frontend operates as a "Single Page
-Application" [SPA](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering), requiring the client to
-handle all rendering tasks. It's essential to acknowledge that due to this architecture, there may be limitations in
-terms of SEO optimization.
+[[toc]]
 
-However, it's worth noting that the application's primary use case doesn't heavily rely on
-search engine visibility, since it is meant to be used as an internal tool.
-:::
+## Docker
 
-## Frontend
+1. configure each `.env` in `/frontend` and `/backend` properly
 
-1. run build
+2. check (and adjust) each **nginx** configuration
+
+3. run docker compose
 
 ```bash
-pnpm run build
+docker compose up -d
 ```
+
+::: tip
+If you don't have docker installed, checkout https://www.docker.com/.
+:::
+
+4. deploy in the cloud or your container infrastructure :tada:
+
+## Classic
+
+Build each service seperately and deploy yourself without docker.
+
+### Frontend
+
+::: info
+The frontend operates as a "Single Page
+Application" [SPA](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering).
+:::
+
+1. run generate
+
+```bash
+pnpm run generate
+```
+
+::: tip
+If you don't have pnpm installed, checkout https://pnpm.io/installation to install for your operating system.
+:::
 
 2. check if everything works as it should
 
@@ -25,29 +48,28 @@ pnpm run preview
 ```
 
 3. Head to `http://localhost:3000/`
-4. All generated assets can be found in `./output`
+4. All generated static assets can be found in `./output/public`
 
 ::: tip
 Further information regarding deployment can be found on https://nuxt.com/deploy
 :::
 
-## Backend
+### Backend
 
 The latest information regarding deploying symfony can be found
 here: https://symfony.com/doc/current/deployment.html#symfony-deployment-basics
 
-## Docs
-
-::: tip
-The documentation uses the same principle as the frontend. More
-info: https://vitepress.dev/guide/what-is-vitepress#performance
-:::
+### Docs
 
 1. run build
 
 ```bash
 pnpm run docs:build
 ```
+
+::: tip
+If you don't have pnpm installed, checkout https://pnpm.io/installation to install for your operating system.
+:::
 
 2. check if everything works as it should
 

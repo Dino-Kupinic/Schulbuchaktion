@@ -4,20 +4,18 @@ namespace App\Middleware;
 
 use App\Service\AuthService;
 use App\Service\RouteMatcherService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
 
+#[WithMonologChannel('security')]
 class SecurityMiddleware implements EventSubscriberInterface
 {
-  public function __construct(private AuthService $authService, private RouteMatcherService $routerService)
-  {
-    $this->authService = $authService;
-  }
+  public function __construct(private AuthService $authService, private RouteMatcherService $routerService, private LoggerInterface $logger)
+  {}
 
   public static function getSubscribedEvents()
   {
@@ -41,11 +39,15 @@ class SecurityMiddleware implements EventSubscriberInterface
         $bearer = $request->cookies->get('bearer');
 
         if (!$this->authService->checkToken($bearer)) {
+          $this->logger->alert('Token invalid!', ["token"=>$bearer, "ip"=>$request->getClientIp()]);
           $response = new Response('Token not valid', Response::HTTP_UNAUTHORIZED);
           $event->setResponse($response);
         } else if (!$this->authService->checkRoutePermission($parameter, $bearer)) {
+          $this->logger->warning('Permission denied!', ["token"=>$bearer, "ip"=>$request->getClientIp(), "route"=>$request->getRequestUri()]);
           $response = new Response('Not permitted for this Action', Response::HTTP_UNAUTHORIZED);
           $event->setResponse($response);
+        } else if (str_ends_with($request->getRequestUri(), "/")) {
+          $this->logger->alert("Accessing Route: " . $request->getRequestUri(), ["token"=>$bearer, "ip"=>"$requestUri"]);
         }
       }
     }

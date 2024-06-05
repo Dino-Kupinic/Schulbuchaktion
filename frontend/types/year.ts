@@ -13,6 +13,7 @@ export type Year = {
  * Type for YearDTO
  * @type YearDTO
  * @property {number} year - Year
+ * @see Year
  */
 export type YearDTO = {
   year: number

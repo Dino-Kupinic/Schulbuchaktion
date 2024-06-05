@@ -37,10 +37,15 @@ const people = [
   },
   {
     id: 6,
-    name: "Floyd Miles",
-    title: "Principal Designer",
-    email: "floyd.miles@example.com",
-    role: "Member",
+    name: "Vincent Green",
+    title: "Senior Designer",
+    email: "",
+  },
+  {
+    id: 7,
+    name: "Charlene Reed",
+    title: "Front-end Developer",
+    email: "",
   },
 ]
 </script>
@@ -64,11 +69,12 @@ const people = [
       }"
     >
       <div class="flex flex-col sm:flex-row">
-        <div class="w-96 sm:border-r">a</div>
+        <div class="w-96 p-3 dark:border-r-neutral-800 sm:border-r">
+          <p class="font-semibold">Create new</p>
+          <UFormGroup> </UFormGroup>
+        </div>
         <UTable :rows="people" class="w-full" />
       </div>
     </UCard>
   </div>
 </template>
-
-<style scoped></style>

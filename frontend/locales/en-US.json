@@ -53,7 +53,15 @@
   "bookList":{
     "title": "Book Overview",
     "subtitle": "Choose books to order",
-    "searchForBooks": "Search for books..."
+    "searchForBooks": "Search for books...",
+    "updateOrder": {
+      "success": "Success",
+      "successDescription": "The order was successfully updated.",
+      "failure": "Failure",
+      "failureDescription": "An error occurred while updating the order. Please try again.",
+      "submit": "Submit",
+      "cancel": "Cancel"
+    }
   },
   "book": {
     "orderNumber": "BNR",

@@ -63,6 +63,14 @@
       "failureDescription": "Beim Aktualisieren der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
       "submit": "Senden",
       "cancel": "Abbrechen"
+    },
+    "deleteOrder": {
+      "success": "Erfolgreich",
+      "successDescription": "Die Bestellung wurde erfolgreich gelöscht.",
+      "failure": "Fehlschlag",
+      "failureDescription": "Beim Löschen der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "delete": "Löschen",
+      "cancel": "Abbrechen"
     }
   },
   "bookList":{

@@ -61,6 +61,14 @@
       "failureDescription": "An error occurred while updating the order. Please try again.",
       "submit": "Submit",
       "cancel": "Cancel"
+    },
+    "deleteOrder": {
+      "success": "Success",
+      "successDescription": "The order was successfully deleted.",
+      "failure": "Failure",
+      "failureDescription": "An error occurred while deleting the order. Please try again.",
+      "delete": "Delete",
+      "cancel": "Cancel"
     }
   },
   "book": {

@@ -45,7 +45,8 @@ const columns = ref([
 ])
 
 const config = useRuntimeConfig()
-const isVisible = ref(false)
+const editModalVisible = ref(false)
+const deleteModalVisible = ref(false)
 const { data: bookOrders, pending } = await useLazyFetch<
   APIResponseArray<BookOrder[]>
 >("/bookOrders", {
@@ -63,7 +64,7 @@ const items = (row: BookOrder) => [
       icon: "i-heroicons-pencil-square-20-solid",
       click: () => {
         changedBookOrder.value = row
-        isVisible.value = true
+        editModalVisible.value = true
         console.log(changedBookOrder.value)
       },
     },
@@ -73,6 +74,11 @@ const items = (row: BookOrder) => [
       label: "Delete",
       slot: "delete",
       icon: "i-heroicons-trash-20-solid",
+      click: () => {
+        console.log("Delete", row.id)
+        changedBookOrder.value = row
+        deleteModalVisible.value = true
+      },
     },
   ],
 ]
@@ -178,6 +184,7 @@ async function updateOrder() {
   }
 
   await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
+    baseURL: config.public.baseURL,
     method: "PUT",
     body: changedBookOrder.value,
   })
@@ -190,7 +197,23 @@ async function updateOrder() {
     icon: "i-heroicons-check-circle",
   })
 
-  isVisible.value = false
+  editModalVisible.value = false
+}
+
+async function deleteOrder() {
+  await $fetch("/bookOrders/delete/" + changedBookOrder.value.id, {
+    baseURL: config.public.baseURL,
+    method: "DELETE",
+  })
+  const toast = useToast()
+
+  toast.add({
+    title: t("bookList.deleteOrder.success"),
+    description: t("bookList.deleteOrder.successDescription"),
+    icon: "i-heroicons-check-circle",
+  })
+
+  deleteModalVisible.value = false
 }
 
 const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
@@ -338,7 +361,7 @@ function resetFilters() {
       </template>
     </UTable>
 
-    <UModal v-model="isVisible" class="bg-opacity-0">
+    <UModal v-model="editModalVisible" class="bg-opacity-0">
       <UCard>
         <template #header>
           <div class="flex items-center justify-between">
@@ -352,7 +375,7 @@ function resetFilters() {
               variant="ghost"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
-              @click="isVisible = false"
+              @click="editModalVisible = false"
             />
           </div>
         </template>
@@ -383,6 +406,37 @@ function resetFilters() {
         />
 
         <UButton class="mt-4" @click="updateOrder">Submit</UButton>
+      </UCard>
+    </UModal>
+
+    <UModal v-model="deleteModalVisible" class="bg-opacity-0">
+      <UCard>
+        <div class="flex items-center justify-between">
+          <p
+            class="text-base font-semibold leading-6 text-red-600 dark:text-white"
+          >
+            Do you really want to delete the book order for "{{
+              changedBookOrder.book.title
+            }}" ?
+          </p>
+        </div>
+        <div class="mt-4 flex space-x-2.5">
+          <UButton
+            @click="deleteOrder"
+            trailing
+            color="red"
+            icon="i-heroicons-trash"
+            >{{ $t("bookList.deleteOrder.delete") }}</UButton
+          >
+          <UButton
+            trailing
+            label="Cancel"
+            color="gray"
+            icon="i-heroicons-x-mark-20-solid"
+            @click="deleteModalVisible = false"
+            >{{ $t("bookList.deleteOrder.cancel") }}</UButton
+          >
+        </div>
       </UCard>
     </UModal>
 

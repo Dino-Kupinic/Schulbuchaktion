@@ -36,7 +36,7 @@ class SecurityMiddleware implements EventSubscriberInterface
       $parameter = $this->routerService->getRouteNameFromUrl($requestUri);
 
       if (!(strcmp($requestUri, '/api/v1/login') == 0)) {
-        $bearer = $request->cookies->get('bearer');
+        $bearer = $request->cookies->get($_ENV['TOKEN_NAME']);
 
         if (!$this->authService->checkToken($bearer)) {
           $this->logger->alert('Token invalid!', ["token"=>$bearer, "ip"=>$request->getClientIp()]);
@@ -47,7 +47,7 @@ class SecurityMiddleware implements EventSubscriberInterface
           $response = new Response('Not permitted for this Action', Response::HTTP_UNAUTHORIZED);
           $event->setResponse($response);
         } else if (str_ends_with($request->getRequestUri(), "/")) {
-          $this->logger->alert("Accessing Route: " . $request->getRequestUri(), ["token"=>$bearer, "ip"=>"$requestUri"]);
+          $this->logger->alert("Accessing Route: " . $request->getRequestUri(), ["token"=>$bearer, "route"=>"$requestUri"]);
         }
       }
     }

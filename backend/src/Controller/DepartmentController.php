@@ -136,7 +136,7 @@ class DepartmentController extends AbstractController
     try {
       $temp = $departmentService->parseRequestData($request);
       $department = $departmentService->createDepartment($temp);
-      $this->logger->info("Department ". $department->getId() . " successfully created!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME'])]);
+      $this->logger->info("Department ". $department->getId() . " successfully created!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'departmentID'=>$department->getId()]);
       return $this->json(["success" => true, "data" => $department], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
       $this->logger->error("Failed to create department!", $e->getTrace());
@@ -181,7 +181,7 @@ class DepartmentController extends AbstractController
     try {
       $temp = $departmentService->parseRequestData($request);
       $department = $departmentService->updateDepartment($id, $temp);
-      $this->logger->info("Book order $id successfully updated!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME'])]);
+      $this->logger->info("Book order $id successfully updated!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'departmentID'=>$department->getId()]);
       return $this->json(["success" => true, "data" => $department], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
       $this->logger->error("Failed to update book order $id!", $e->getTrace());

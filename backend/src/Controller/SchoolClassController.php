@@ -119,7 +119,7 @@ class SchoolClassController extends AbstractController
 
     try {
       $schoolClass = $schoolClassService->createSchoolClass($schoolClass);
-      $this->logger->info("Successfully created school class ". $schoolClass->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME'])]);
+      $this->logger->info("Successfully created school class ". $schoolClass->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$schoolClass->getId()]);
       return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
       $this->logger->error("Failed to create school class!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME'], ), 'ex'=>$e->getTrace()]);
@@ -145,7 +145,7 @@ class SchoolClassController extends AbstractController
   {
     try {
       $schoolClassService->deleteSchoolClass($id);
-      $this->logger->info("Successfully deleted school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME'])]);
+      $this->logger->info("Successfully deleted school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$id]);
       return $this->json(["success" => true, "data" => "SchoolClass with id $id deleted"], status: Response::HTTP_OK);
     } catch (Exception $e) {
       $this->logger->error("Failed to delete school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex' => $e->getTrace()]);

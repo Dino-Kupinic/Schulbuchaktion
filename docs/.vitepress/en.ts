@@ -179,7 +179,7 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           link: "security",
         },
         {
-          text: "Login / Logout",
+          text: "Sign in/out",
           link: "authentication"
         }
       ],

@@ -6,7 +6,7 @@ If you find yourself needing assistance, this wiki is here to guide you through 
 
 Interesting topics:
 - [Authentication](./auth)
-- [Q&A](./q&a.md)
+- [Q&A](./q&a)
 
 <style>
 .dark {

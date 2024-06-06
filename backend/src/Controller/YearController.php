@@ -156,7 +156,7 @@ class YearController extends AbstractController
     try {
       $temp = $yearsService->parseRequestData($request);
       $year = $yearsService->createYear($temp);
-      $this->logger->info("Successfully created year ". $year->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME'])]);
+      $this->logger->info("Successfully created year ". $year->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), "yearId"=>$year->getId()]);
       return $this->json(["success" => true, "data" => $year], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
       $this->logger->info("Failed to create year!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex'=> $e->getTrace()]);

@@ -1,53 +1,10 @@
 <script setup lang="ts">
-const people = [
-  {
-    id: 1,
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member",
-  },
-  {
-    id: 2,
-    name: "Courtney Henry",
-    title: "Designer",
-    email: "courtney.henry@example.com",
-    role: "Admin",
-  },
-  {
-    id: 3,
-    name: "Tom Cook",
-    title: "Director of Product",
-    email: "tom.cook@example.com",
-    role: "Member",
-  },
-  {
-    id: 4,
-    name: "Whitney Francis",
-    title: "Copywriter",
-    email: "whitney.francis@example.com",
-    role: "Admin",
-  },
-  {
-    id: 5,
-    name: "Leonard Krasner",
-    title: "Senior Designer",
-    email: "leonard.krasner@example.com",
-    role: "Owner",
-  },
-  {
-    id: 6,
-    name: "Vincent Green",
-    title: "Senior Designer",
-    email: "",
-  },
-  {
-    id: 7,
-    name: "Charlene Reed",
-    title: "Front-end Developer",
-    email: "",
-  },
-]
+import type { SchoolClass } from "~/types/schoolclass"
+
+const { schoolClasses, fetchSchoolClasses } = useSchoolClasses()
+await fetchSchoolClasses()
+
+const classes = ref<SchoolClass[]>(schoolClasses.value)
 </script>
 
 <template>
@@ -73,7 +30,7 @@ const people = [
           <p class="font-semibold">Create new</p>
           <UFormGroup> </UFormGroup>
         </div>
-        <UTable :rows="people" class="w-full" />
+        <UTable :rows="classes" class="w-full" />
       </div>
     </UCard>
   </div>

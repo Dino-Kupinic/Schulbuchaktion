@@ -27,6 +27,11 @@ when@dev:
         type: stream
         path: '%kernel.logs_dir%/security.log'
         channels: [ security ]
+      action:
+        level: debug
+        type: stream
+        path: '%kernel.logs_dir%/action.log'
+        channels: [ action ]
 
 when@test:
   monolog:

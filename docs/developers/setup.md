@@ -97,6 +97,7 @@ the following fields with your own. You may edit some existing fields aswell.
 | `HOURS_AHEAD`             | Timezone (default `2`)                                                                     |
 | `JWT_SECRET_ABSOLUT_PATH` | The absolute path to the private key for the JWT.                                          |
 | `CORS_ALLOW_ORIGIN`       | The origin that is allowed to access the API. (default `localhost`)                        |
+| `TOKEN_NAME`              | Name of Cookie which contains bearer token (default `bearer`)                              |
 
 ::: danger
 For the `APP_SECRET` checkout https://symfony.com/doc/current/reference/configuration/framework.html#secret to see the

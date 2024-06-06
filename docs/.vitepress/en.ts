@@ -130,6 +130,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Editing Documentation",
           link: "documentation",
         },
+        {
+          text: "Logs",
+          link: "logging",
+        },
       ],
     },
     {

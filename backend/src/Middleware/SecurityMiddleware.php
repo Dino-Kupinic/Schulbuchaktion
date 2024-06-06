@@ -36,7 +36,7 @@ class SecurityMiddleware implements EventSubscriberInterface
       $parameter = $this->routerService->getRouteNameFromUrl($requestUri);
 
       if (!(strcmp($requestUri, '/api/v1/login') == 0)) {
-        $bearer = $request->cookies->get($_ENV['TOKEN_NAME']);
+        $bearer = $request->cookies->get($_ENV['TOKEN_NAME'], '');
 
         if (!$this->authService->checkToken($bearer)) {
           $this->logger->alert('Token invalid!', ["token"=>$bearer, "ip"=>$request->getClientIp()]);

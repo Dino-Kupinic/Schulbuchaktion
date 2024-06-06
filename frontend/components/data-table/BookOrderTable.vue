@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import type { APIResponseArray } from "~/types/response"
+import type {
+  APIResponse,
+  APIResponseArray,
+  APIResponsePaginated,
+} from "~/types/response"
 import type { BookOrder } from "~/types/bookorder"
+import type { Book } from "~/types/book"
+import type { Department } from "~/types/department"
 
 const columns = ref([
   {
@@ -39,31 +45,41 @@ const columns = ref([
 ])
 
 const config = useRuntimeConfig()
+const isVisible = ref(false)
+const { data: bookOrders, pending } = await useLazyFetch<
+  APIResponseArray<BookOrder[]>
+>("/bookOrders", {
+  baseURL: config.public.baseURL,
+  pick: ["data"],
+})
 
-const { data: bookOrders } = await useLazyFetch<APIResponseArray<BookOrder[]>>(
-  "/bookOrders",
-  {
-    baseURL: config.public.baseURL,
-    pick: ["data"],
-  },
-)
+const changedBookOrder = ref()
 
 const items = (row: BookOrder) => [
   [
     {
       label: "Edit",
+      slot: "edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      click: () => console.log("Edit", row.id),
+      click: () => {
+        changedBookOrder.value = row
+        isVisible.value = true
+        console.log(changedBookOrder.value)
+      },
     },
   ],
   [
     {
       label: "Delete",
+      slot: "delete",
       icon: "i-heroicons-trash-20-solid",
-      click: () => console.log("Delete", row.id),
     },
   ],
 ]
+
+const options = [5, 10, 15, 20, 30, 40]
+
+const DEFAULT_PAGE_COUNT = options[2]
 
 const page = ref(1)
 const pageCount = ref(5)
@@ -149,36 +165,170 @@ watch(
   },
   { immediate: true },
 )
+
+async function updateOrder() {
+  if (schoolClassId.value) {
+    changedBookOrder.value.schoolClass = getSchoolClassById(
+      schoolClassId.value.value,
+    )
+  }
+
+  if (bookId.value) {
+    changedBookOrder.value.book = getBookById(bookId.value.value)
+  }
+
+  await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
+    method: "PUT",
+    body: changedBookOrder.value,
+  })
+
+  const toast = useToast()
+
+  toast.add({
+    title: t("bookList.updateOrder.success"),
+    description: t("bookList.updateOrder.successDescription"),
+    icon: "i-heroicons-check-circle",
+  })
+
+  isVisible.value = false
+}
+
+const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
+  "/books",
+  {
+    baseURL: config.public.baseURL,
+  },
+)
+
+console.log(books.value)
+
+const { data: schoolClasses } = await useLazyFetch<APIResponse<Department[]>>(
+  "/schoolClasses",
+  {
+    baseURL: config.public.baseURL,
+    watch: [page, pageCount],
+  },
+)
+
+function getSchoolClassById(id: number) {
+  return schoolClasses?.value?.data?.find(
+    (schoolClass) => schoolClass.id === id,
+  )
+}
+
+function getBookById(id: number) {
+  return books?.value?.data?.books.find((book) => book.id === id)
+}
+
+const bookId = ref()
+const schoolClassId = ref()
+
+const columnsBackup = ref(columns.value)
+
+function resetFilters() {
+  pageCount.value = DEFAULT_PAGE_COUNT
+  query.value = ""
+  selectedColumns.value = columnsBackup.value
+}
 </script>
 
 <template>
   <PageTitle>{{ $t("orderList.title") }}</PageTitle>
+
   <UCard
-    class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
-    :ui="{ shadow: 'shadow-none', ring: '', body: 'p-0' }"
+    class="h-auto w-full rounded-lg"
+    :ui="{
+      body: {
+        padding: '',
+      },
+      header: {
+        padding: 'sm:px-4 py-3',
+      },
+    }"
   >
-    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput v-model="query" :placeholder="$t('orderList.searchForOrders')" />
-    </div>
+    <template #header>
+      <div
+        class="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row"
+      >
+        <div class="flex w-full sm:w-[300px]">
+          <UInput
+            v-model="query"
+            size="md"
+            class="w-full"
+            icon="i-heroicons-magnifying-glass-20-solid"
+            :placeholder="$t('bookList.searchForBooks')"
+          />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <USelect
+            v-model="pageCount"
+            size="md"
+            :options="options"
+            @update:model-value="(value) => (pageCount = Number(value))"
+          />
+
+          <USelectMenu
+            v-model="selectedColumns"
+            :options="columns.slice(0, columns.length - 1)"
+            multiple
+            :ui-menu="{ base: 'w-40' }"
+          >
+            <UButton icon="i-heroicons-view-columns" color="gray" size="md">
+              Columns
+            </UButton>
+          </USelectMenu>
+
+          <UButton
+            icon="i-heroicons-funnel"
+            color="gray"
+            size="md"
+            @click="resetFilters()"
+          >
+            Reset
+          </UButton>
+        </div>
+      </div>
+    </template>
     <UTable
       v-model="selectedRows"
       v-model:sort="sort"
       :rows="filteredRows"
+      :loading-state="{
+        icon: 'i-heroicons-arrow-path-20-solid',
+        label: 'Loading...',
+      }"
+      :loading="pending"
+      :progress="{ color: 'primary', animation: 'carousel' }"
       :columns="columnsTable"
-      class="m-0 w-full"
+      :ui="{
+        wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
+        td: {
+          padding: 'py-1',
+        },
+      }"
       @select="select"
     >
-      <template #subject-data="{ row }">
-        <span> {{ row.subject.name }}</span>
+      <template #bookTitle-data="{ row }">
+        <span> {{ row.book.title }}</span>
       </template>
-      <template #publisher-data="{ row }">
-        <span> {{ row.publisher.name }}</span>
+      <template #department-data="{ row }">
+        <span> {{ row.schoolClass.department.name }}</span>
+      </template>
+      <template #bookSubject-data="{ row }">
+        <span> {{ row.book.subject.name }}</span>
+      </template>
+      <template #year-data="{ row }">
+        <span> {{ row.year.year }}</span>
+      </template>
+      <template #grade-data="{ row }">
+        <span> {{ row.schoolClass.grade }}</span>
       </template>
       <template #bookPrice-data="{ row }">
-        <span> {{ row.bookPrice / 100 }} €</span>
+        <span> {{ row.book.bookPrice / 100 }} €</span>
       </template>
       <template #actions-data="{ row }">
-        <UDropdown :items="items(row)">
+        <UDropdown :items="items(row)" :ui="{ width: 'w-auto' }">
           <UButton
             color="gray"
             variant="ghost"
@@ -187,6 +337,54 @@ watch(
         </UDropdown>
       </template>
     </UTable>
+
+    <UModal v-model="isVisible" class="bg-opacity-0">
+      <UCard>
+        <template #header>
+          <div class="flex items-center justify-between">
+            <p
+              class="text-base font-semibold leading-6 text-red-600 dark:text-white"
+            >
+              Editing book order for "{{ changedBookOrder.book.title }}"
+            </p>
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              class="-my-1"
+              @click="isVisible = false"
+            />
+          </div>
+        </template>
+        <p>Book</p>
+        <USelectMenu
+          v-model="bookId"
+          :placeholder="changedBookOrder.book.title"
+          :options="
+            books?.data?.books.map((book) => ({
+              label: book.title,
+              value: book.id,
+            }))
+          "
+          searchable
+        />
+
+        <p class="mt-4">Class</p>
+        <USelectMenu
+          v-model="schoolClassId"
+          :placeholder="changedBookOrder.schoolClass.name"
+          :options="
+            schoolClasses?.data?.map((schoolClass) => ({
+              label: schoolClass.name,
+              value: schoolClass.id,
+            }))
+          "
+          searchable
+        />
+
+        <UButton class="mt-4" @click="updateOrder">Submit</UButton>
+      </UCard>
+    </UModal>
 
     <template #footer>
       <div class="flex flex-wrap items-center justify-between">

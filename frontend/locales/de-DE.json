@@ -70,7 +70,8 @@
       "failure": "Fehlschlag",
       "failureDescription": "Beim Löschen der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
       "delete": "Löschen",
-      "cancel": "Abbrechen"
+      "cancel": "Abbrechen",
+      "confirmation": "Möchten Sie wirklich die Bestellung folgenden Buches löschen: "
     }
   },
   "bookList":{

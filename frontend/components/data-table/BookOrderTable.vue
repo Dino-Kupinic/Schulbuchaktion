@@ -71,7 +71,7 @@ const items = (row: BookOrder) => [
   ],
   [
     {
-      label: "Delete",
+      label: t("orderList.deleteOrder.delete"),
       slot: "delete",
       icon: "i-heroicons-trash-20-solid",
       click: () => {
@@ -208,8 +208,8 @@ async function deleteOrder() {
   const toast = useToast()
 
   toast.add({
-    title: t("bookList.deleteOrder.success"),
-    description: t("bookList.deleteOrder.successDescription"),
+    title: t("orderList.deleteOrder.success"),
+    description: t("orderList.deleteOrder.successDescription"),
     icon: "i-heroicons-check-circle",
   })
 
@@ -415,7 +415,7 @@ function resetFilters() {
           <p
             class="text-base font-semibold leading-6 text-red-600 dark:text-white"
           >
-            Do you really want to delete the book order for "{{
+            {{ $t("orderList.deleteOrder.confirmation") }}"{{
               changedBookOrder.book.title
             }}" ?
           </p>
@@ -426,7 +426,7 @@ function resetFilters() {
             trailing
             color="red"
             icon="i-heroicons-trash"
-            >{{ $t("bookList.deleteOrder.delete") }}</UButton
+            >{{ $t("orderList.deleteOrder.delete") }}</UButton
           >
           <UButton
             trailing
@@ -434,7 +434,7 @@ function resetFilters() {
             color="gray"
             icon="i-heroicons-x-mark-20-solid"
             @click="deleteModalVisible = false"
-            >{{ $t("bookList.deleteOrder.cancel") }}</UButton
+            >{{ $t("orderList.deleteOrder.cancel") }}</UButton
           >
         </div>
       </UCard>

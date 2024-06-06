@@ -6,8 +6,9 @@ const config = useRuntimeConfig()
 const toast = useToast()
 const { t } = useI18n()
 
-const username = ref<string>("")
-const password = ref<string>("")
+// TODO: Remove preinput later
+const username = ref<string>("testuser")
+const password = ref<string>("aaaAAA123")
 
 function createCookie(tokenValue: string) {
   const token = useCookie("BearerToken")

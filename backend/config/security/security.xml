@@ -4,7 +4,6 @@
     <routes>
       <book>
         <function>index</function>
-        <function>select</function>
       </book>
       <bookOrder>
         <function>index</function>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 defineProps<{
   label: string
-  margin: string
 }>()
 </script>
 
@@ -10,7 +9,7 @@ defineProps<{
     <p class="mb-3">{{ label }}</p>
     <slot />
   </UContainer>
-  <UInput :class="margin"></UInput>
+  <slot name="input"></slot>
 </template>
 
 <style scoped></style>

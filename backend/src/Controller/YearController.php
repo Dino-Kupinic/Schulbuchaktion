@@ -18,10 +18,27 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see YearRepository
  * @see YearService
  */
-#[Route("api/v1/years")]
+/**
+ * @Route("/api/years")
+ */
+#[Route("api/v1/years", name: "year.")]
 class YearController extends AbstractController
 {
-  #[Route(path: "/", methods: ["GET"])]
+
+  /**
+   * @OA\Get(
+   *     path="/api/years",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of years",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Year::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
+  #[Route(path: "/", name: "index", methods: ["GET"])]
   public function getYears(YearService $yearsService): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -33,7 +50,7 @@ class YearController extends AbstractController
       if (count($years) > 0) {
         return $this->json(["success" => true, "data" => $years], status: Response::HTTP_OK, context: $context);
       }
-      return $this->json(["success" => true, "data" => []], status: Response::HTTP_NOT_FOUND);
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_OK);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
@@ -42,7 +59,50 @@ class YearController extends AbstractController
     }
   }
 
-  #[Route(path: "/{id}", methods: ["GET"])]
+  #[Route(path: "/import", name: "import", methods: ["GET"])]
+  public function getYearsForImport(YearService $yearsService): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("year:read")
+      ->toArray();
+
+    try {
+      $years = $yearsService->getYearsForImport();
+      if (count($years) > 0) {
+        return $this->json(["success" => true, "data" => $years], status: Response::HTTP_OK, context: $context);
+      }
+      return $this->json(["success" => true, "data" => []], status: Response::HTTP_OK);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get years: " . $e->getMessage(),
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+  /**
+   * @OA\Get(
+   *     path="/api/years/{id}",
+   *     @OA\Parameter(
+   *         name="id",
+   *         in="path",
+   *         required=true,
+   *         description="ID of the year",
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the year with the given ID",
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=404,
+   *         description="Year with the given ID not found"
+   *     )
+   * )
+   */
+  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
   public function getYear(YearService $yearsService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -63,7 +123,24 @@ class YearController extends AbstractController
     }
   }
 
-  #[Route(path: "/create", methods: ["POST"])]
+  /**
+   * @OA\Post(
+   *     path="/api/years/create",
+   *     @OA\RequestBody(
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"write"}))
+   *     ),
+   *     @OA\Response(
+   *         response=201,
+   *         description="Year created successfully",
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=400,
+   *         description="Invalid input"
+   *     )
+   * )
+   */
+  #[Route(path: "/create", name: "create", methods: ["POST"])]
   public function createYear(YearService $yearsService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

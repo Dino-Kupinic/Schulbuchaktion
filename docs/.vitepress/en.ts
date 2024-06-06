@@ -174,6 +174,14 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "LDAP",
           link: "ldap",
         },
+        {
+          text: "Security",
+          link: "security",
+        },
+        {
+          text: "Sign in/out",
+          link: "authentication"
+        }
       ],
     },
     {

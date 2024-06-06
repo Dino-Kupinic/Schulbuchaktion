@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: "no-nav-bar",
+})
+</script>
 
 <template>
   <LoginCard />

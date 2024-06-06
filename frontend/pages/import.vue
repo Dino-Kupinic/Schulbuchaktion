@@ -7,12 +7,40 @@ const config = useRuntimeConfig()
 const { t } = useI18n()
 
 const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
-  "/years",
+  "/years/import",
   {
     baseURL: config.public.baseURL,
     pick: ["data"],
   },
 )
+
+watch(pending, async () => {
+  if (pending) {
+    if (years.value !== null) {
+      const currentDate = new Date()
+      const currentYearExisting = (year: Year) =>
+        year.year === currentDate.getFullYear()
+      const nextYearExisting = (year: Year) =>
+        year.year === currentDate.getFullYear() + 1
+
+      if (!years.value.data?.some(currentYearExisting)) {
+        await $fetch("/years/create", {
+          method: "POST",
+          body: { year: new Date().getFullYear() },
+          baseURL: config.public.baseURL,
+        })
+      }
+
+      if (!years.value.data?.some(nextYearExisting)) {
+        await $fetch("/years/create", {
+          method: "POST",
+          body: { year: new Date().getFullYear() + 1 },
+          baseURL: config.public.baseURL,
+        })
+      }
+    }
+  }
+})
 
 const file = ref<File>()
 const year = ref<number>()

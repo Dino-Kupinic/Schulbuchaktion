@@ -96,5 +96,10 @@
   "bool": {
     "yes": "Ja",
     "no": "Nein"
+  },
+  "login": {
+    "signIn": "Einloggen",
+    "failure": "Fehlgeschlagen",
+    "notAuthenticated": "Der Benutzername oder das Passwort ist falsch!"
   }
 }

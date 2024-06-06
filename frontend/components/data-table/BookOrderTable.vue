@@ -46,13 +46,12 @@ const columns = ref([
 
 const config = useRuntimeConfig()
 const isVisible = ref(false)
-const { data: bookOrders } = await useLazyFetch<APIResponseArray<BookOrder[]>>(
-  "/bookOrders",
-  {
-    baseURL: config.public.baseURL,
-    pick: ["data"],
-  },
-)
+const { data: bookOrders, pending } = await useLazyFetch<
+  APIResponseArray<BookOrder[]>
+>("/bookOrders", {
+  baseURL: config.public.baseURL,
+  pick: ["data"],
+})
 
 const changedBookOrder = ref()
 
@@ -77,6 +76,10 @@ const items = (row: BookOrder) => [
     },
   ],
 ]
+
+const options = [5, 10, 15, 20, 30, 40]
+
+const DEFAULT_PAGE_COUNT = options[2]
 
 const page = ref(1)
 const pageCount = ref(5)
@@ -219,24 +222,91 @@ function getBookById(id: number) {
 
 const bookId = ref()
 const schoolClassId = ref()
+
+const columnsBackup = ref(columns.value)
+
+function resetFilters() {
+  pageCount.value = DEFAULT_PAGE_COUNT
+  query.value = ""
+  selectedColumns.value = columnsBackup.value
+}
 </script>
 
 <template>
   <PageTitle>{{ $t("orderList.title") }}</PageTitle>
 
   <UCard
-    class="m-auto h-full w-full rounded-lg border border-neutral-300 p-0 underline-offset-1 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:h-auto sm:min-h-28"
-    :ui="{ shadow: 'shadow-none', ring: '', body: 'p-0' }"
+    class="h-auto w-full rounded-lg"
+    :ui="{
+      body: {
+        padding: '',
+      },
+      header: {
+        padding: 'sm:px-4 py-3',
+      },
+    }"
   >
-    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput v-model="query" :placeholder="$t('orderList.searchForOrders')" />
-    </div>
+    <template #header>
+      <div
+        class="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row"
+      >
+        <div class="flex w-full sm:w-[300px]">
+          <UInput
+            v-model="query"
+            size="md"
+            class="w-full"
+            icon="i-heroicons-magnifying-glass-20-solid"
+            :placeholder="$t('bookList.searchForBooks')"
+          />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <USelect
+            v-model="pageCount"
+            size="md"
+            :options="options"
+            @update:model-value="(value) => (pageCount = Number(value))"
+          />
+
+          <USelectMenu
+            v-model="selectedColumns"
+            :options="columns.slice(0, columns.length - 1)"
+            multiple
+            :ui-menu="{ base: 'w-40' }"
+          >
+            <UButton icon="i-heroicons-view-columns" color="gray" size="md">
+              Columns
+            </UButton>
+          </USelectMenu>
+
+          <UButton
+            icon="i-heroicons-funnel"
+            color="gray"
+            size="md"
+            @click="resetFilters()"
+          >
+            Reset
+          </UButton>
+        </div>
+      </div>
+    </template>
     <UTable
       v-model="selectedRows"
       v-model:sort="sort"
       :rows="filteredRows"
+      :loading-state="{
+        icon: 'i-heroicons-arrow-path-20-solid',
+        label: 'Loading...',
+      }"
+      :loading="pending"
+      :progress="{ color: 'primary', animation: 'carousel' }"
       :columns="columnsTable"
-      class="m-0 w-full"
+      :ui="{
+        wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
+        td: {
+          padding: 'py-1',
+        },
+      }"
       @select="select"
     >
       <template #bookTitle-data="{ row }">
@@ -258,7 +328,7 @@ const schoolClassId = ref()
         <span> {{ row.book.bookPrice / 100 }} €</span>
       </template>
       <template #actions-data="{ row }">
-        <UDropdown :items="items(row)">
+        <UDropdown :items="items(row)" :ui="{ width: 'w-auto' }">
           <UButton
             color="gray"
             variant="ghost"

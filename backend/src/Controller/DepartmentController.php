@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Department;
 use App\Service\DepartmentService;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,11 +25,15 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/departments")
  */
-#[Route("/api/v1/departments", name: "department.")]
+#[Route("/api/v1/departments", name: "department."), WithMonologChannel('action')]
 class DepartmentController extends AbstractController
 {
+  public function __construct(private LoggerInterface $logger)
+  {
+  }
 
-/**
+
+  /**
    * @OA\Get(
    *     path="/api/departments",
    *     @OA\Response(
@@ -130,8 +136,10 @@ class DepartmentController extends AbstractController
     try {
       $temp = $departmentService->parseRequestData($request);
       $department = $departmentService->createDepartment($temp);
+      $this->logger->info("Department ". $department->getId() . " successfully created!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'departmentID'=>$department->getId()]);
       return $this->json(["success" => true, "data" => $department], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
+      $this->logger->error("Failed to create department!", $e->getTrace());
       return $this->json([
         "success" => false,
         "error" => "Failed to create department: " . $e->getMessage(),
@@ -173,8 +181,10 @@ class DepartmentController extends AbstractController
     try {
       $temp = $departmentService->parseRequestData($request);
       $department = $departmentService->updateDepartment($id, $temp);
+      $this->logger->info("Book order $id successfully updated!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'departmentID'=>$department->getId()]);
       return $this->json(["success" => true, "data" => $department], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
+      $this->logger->error("Failed to update book order $id!", $e->getTrace());
       return $this->json([
         "success" => false,
         "error" => "Failed to update department: " . $e->getMessage(),

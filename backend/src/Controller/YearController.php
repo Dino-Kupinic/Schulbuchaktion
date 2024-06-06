@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Service\YearService;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +23,13 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/years")
  */
-#[Route("api/v1/years", name: "year.")]
+#[Route("api/v1/years", name: "year."), WithMonologChannel('action')]
 class YearController extends AbstractController
 {
+  public function __construct(private LoggerInterface $logger)
+  {
+  }
+
 
   /**
    * @OA\Get(
@@ -150,8 +156,10 @@ class YearController extends AbstractController
     try {
       $temp = $yearsService->parseRequestData($request);
       $year = $yearsService->createYear($temp);
+      $this->logger->info("Successfully created year ". $year->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), "yearId"=>$year->getId()]);
       return $this->json(["success" => true, "data" => $year], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
+      $this->logger->info("Failed to create year!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex'=> $e->getTrace()]);
       return $this->json([
         "success" => false,
         "error" => "Failed to create year: " . $e->getMessage(),

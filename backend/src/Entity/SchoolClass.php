@@ -191,4 +191,16 @@ class SchoolClass
 
     return $this;
   }
+
+  public function updateFrom(SchoolClass $schoolClass): void
+  {
+    $this->setName($schoolClass->getName());
+    $this->setGrade($schoolClass->getGrade());
+    $this->setStudents($schoolClass->getStudents());
+    $this->setRepetents($schoolClass->getRepetents());
+    $this->setBudget($schoolClass->getBudget());
+    $this->setUsedBudget($schoolClass->getUsedBudget());
+    $this->setDepartment($schoolClass->getDepartment());
+    $this->setYear($schoolClass->getYear());
+  }
 }

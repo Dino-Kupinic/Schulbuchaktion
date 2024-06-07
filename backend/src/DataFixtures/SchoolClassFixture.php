@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Book;
 use App\Entity\SchoolClass;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -10,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 class SchoolClassFixture extends Fixture
 {
   /**
-   * @throws \Exception
+   * Load data fixtures with the passed EntityManager
    */
   public function load(ObjectManager $manager): void
   {
@@ -21,6 +20,7 @@ class SchoolClassFixture extends Fixture
       $schoolClass->setDepartment($this->getReference('department ' . $i));
       $schoolClass->setYear($this->getReference('year ' . $i));
       $schoolClass->setStudents(20);
+      $schoolClass->setRepetents(2);
       $schoolClass->setBudget(500);
       $schoolClass->setUsedBudget(250);
       $manager->persist($schoolClass);

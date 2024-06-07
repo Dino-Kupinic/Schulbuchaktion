@@ -194,9 +194,7 @@ class BookOrderService
   public function parseRequestData(Request $request): BookOrder
   {
     $data = json_decode($request->getContent(), true);
-
     $this->validateRequestData($data);
-
     return $this->setBookOrderProperties($data);
   }
 }

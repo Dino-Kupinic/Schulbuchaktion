@@ -7,6 +7,7 @@ use App\Repository\BookOrderRepository;
 use App\Service\BookOrderService;
 use Exception;
 use Monolog\Attribute\WithMonologChannel;
+use OpenApi\Annotations as OA;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,7 +138,7 @@ class BookOrderController extends AbstractController
     try {
       $temp = $bookOrderService->parseRequestData($request);
       $bookOrder = $bookOrderService->createBookOrder($temp);
-      $this->logger->info("Book order ". $bookOrder->getId() . " successfully created!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID'=>$bookOrder->getId()]);
+      $this->logger->info("Book order " . $bookOrder->getId() . " successfully created!", ["token" => $request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID' => $bookOrder->getId()]);
       return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
       $this->logger->error("Failed to create book order!", $e->getTrace());
@@ -174,7 +175,7 @@ class BookOrderController extends AbstractController
     try {
       $bookOrder = $bookOrderService->findBookOrderById($id);
       $bookOrderService->deleteBookOrder($id);
-      $this->logger->info("Book order successfully deleted!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID'=>$bookOrder->getId()]);
+      $this->logger->info("Book order successfully deleted!", ["token" => $request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID' => $bookOrder->getId()]);
       return $this->json(["success" => true, "message" => "Book Order was successfully deleted"], status: Response::HTTP_OK);
     } catch (Exception $e) {
       $this->logger->error("Failed to delete book order $id!", $e->getTrace());
@@ -219,7 +220,7 @@ class BookOrderController extends AbstractController
     try {
       $temp = $bookOrderService->parseRequestData($request);
       $bookOrder = $bookOrderService->updateBookOrder($id, $temp);
-      $this->logger->info("Book order $id successfully updated!", ["token"=>$request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID'=>$bookOrder->getId()]);
+      $this->logger->info("Book order $id successfully updated!", ["token" => $request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID' => $bookOrder->getId()]);
       return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
       $this->logger->error("Failed to update book order $id!", $e->getTrace());

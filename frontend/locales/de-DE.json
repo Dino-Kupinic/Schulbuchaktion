@@ -65,6 +65,7 @@
       "cancel": "Abbrechen"
     },
     "deleteOrder": {
+      "title": "Bestellung löschen",
       "success": "Erfolgreich",
       "successDescription": "Die Bestellung wurde erfolgreich gelöscht.",
       "failure": "Fehlschlag",

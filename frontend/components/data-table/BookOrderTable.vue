@@ -45,13 +45,14 @@ const columns = ref([
 ])
 
 const config = useRuntimeConfig()
-const editModalVisible = ref(false)
-const deleteModalVisible = ref(false)
+const editModalVisible = ref<boolean>(false)
+const deleteModalVisible = ref<boolean>(false)
 const { data: bookOrders, pending } = await useLazyFetch<
   APIResponseArray<BookOrder[]>
 >("/bookOrders", {
   baseURL: config.public.baseURL,
   pick: ["data"],
+  watch: [editModalVisible, deleteModalVisible],
 })
 
 const changedBookOrder = ref()
@@ -65,7 +66,6 @@ const items = (row: BookOrder) => [
       click: () => {
         changedBookOrder.value = row
         editModalVisible.value = true
-        console.log(changedBookOrder.value)
       },
     },
   ],
@@ -75,7 +75,6 @@ const items = (row: BookOrder) => [
       slot: "delete",
       icon: "i-heroicons-trash-20-solid",
       click: () => {
-        console.log("Delete", row.id)
         changedBookOrder.value = row
         deleteModalVisible.value = true
       },
@@ -101,8 +100,6 @@ const columnsTable = computed(() =>
 )
 
 const sort = ref({ column: "id", direction: "asc" as const })
-
-// Selected Rows
 const selectedRows = ref<BookOrder[]>([])
 
 function select(row: BookOrder) {
@@ -223,8 +220,6 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
   },
 )
 
-console.log(books.value)
-
 const { data: schoolClasses } = await useLazyFetch<APIResponse<Department[]>>(
   "/schoolClasses",
   {
@@ -256,8 +251,6 @@ function resetFilters() {
 </script>
 
 <template>
-  <PageTitle>{{ $t("orderList.title") }}</PageTitle>
-
   <UCard
     class="h-auto w-full rounded-lg"
     :ui="{
@@ -411,32 +404,32 @@ function resetFilters() {
 
     <UModal v-model="deleteModalVisible" class="bg-opacity-0">
       <UCard>
-        <div class="flex items-center justify-between">
-          <p
-            class="text-base font-semibold leading-6 text-red-600 dark:text-white"
-          >
-            {{ $t("orderList.deleteOrder.confirmation") }}"{{
-              changedBookOrder.book.title
-            }}" ?
-          </p>
-        </div>
-        <div class="mt-4 flex space-x-2.5">
-          <UButton
-            @click="deleteOrder"
-            trailing
-            color="red"
+        <template #header>
+          <ModalHeader
+            :title="$t('orderList.deleteOrder.title')"
             icon="i-heroicons-trash"
-            >{{ $t("orderList.deleteOrder.delete") }}</UButton
-          >
-          <UButton
-            trailing
-            label="Cancel"
-            color="gray"
-            icon="i-heroicons-x-mark-20-solid"
-            @click="deleteModalVisible = false"
-            >{{ $t("orderList.deleteOrder.cancel") }}</UButton
-          >
-        </div>
+          />
+        </template>
+        <p class="text-base leading-6">
+          {{ $t("orderList.deleteOrder.confirmation") }} "{{
+            changedBookOrder.book.title
+          }}"?
+        </p>
+        <template #footer>
+          <div class="flex w-full justify-end space-x-2">
+            <UButton color="red" icon="i-heroicons-trash" @click="deleteOrder">
+              {{ $t("orderList.deleteOrder.delete") }}
+            </UButton>
+            <UButton
+              label="Cancel"
+              color="gray"
+              icon="i-heroicons-x-mark-20-solid"
+              @click="deleteModalVisible = false"
+            >
+              {{ $t("orderList.deleteOrder.cancel") }}
+            </UButton>
+          </div>
+        </template>
       </UCard>
     </UModal>
 

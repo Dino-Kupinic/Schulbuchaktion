@@ -45,12 +45,14 @@ const columns = ref([
 ])
 
 const config = useRuntimeConfig()
-const isVisible = ref(false)
+const editModalVisible = ref<boolean>(false)
+const deleteModalVisible = ref<boolean>(false)
 const { data: bookOrders, pending } = await useLazyFetch<
   APIResponseArray<BookOrder[]>
 >("/bookOrders", {
   baseURL: config.public.baseURL,
   pick: ["data"],
+  watch: [editModalVisible, deleteModalVisible],
 })
 
 const changedBookOrder = ref()
@@ -63,16 +65,19 @@ const items = (row: BookOrder) => [
       icon: "i-heroicons-pencil-square-20-solid",
       click: () => {
         changedBookOrder.value = row
-        isVisible.value = true
-        console.log(changedBookOrder.value)
+        editModalVisible.value = true
       },
     },
   ],
   [
     {
-      label: "Delete",
+      label: t("orderList.deleteOrder.delete"),
       slot: "delete",
       icon: "i-heroicons-trash-20-solid",
+      click: () => {
+        changedBookOrder.value = row
+        deleteModalVisible.value = true
+      },
     },
   ],
 ]
@@ -95,8 +100,6 @@ const columnsTable = computed(() =>
 )
 
 const sort = ref({ column: "id", direction: "asc" as const })
-
-// Selected Rows
 const selectedRows = ref<BookOrder[]>([])
 
 function select(row: BookOrder) {
@@ -178,6 +181,7 @@ async function updateOrder() {
   }
 
   await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
+    baseURL: config.public.baseURL,
     method: "PUT",
     body: changedBookOrder.value,
   })
@@ -190,7 +194,23 @@ async function updateOrder() {
     icon: "i-heroicons-check-circle",
   })
 
-  isVisible.value = false
+  editModalVisible.value = false
+}
+
+async function deleteOrder() {
+  await $fetch("/bookOrders/delete/" + changedBookOrder.value.id, {
+    baseURL: config.public.baseURL,
+    method: "DELETE",
+  })
+  const toast = useToast()
+
+  toast.add({
+    title: t("orderList.deleteOrder.success"),
+    description: t("orderList.deleteOrder.successDescription"),
+    icon: "i-heroicons-check-circle",
+  })
+
+  deleteModalVisible.value = false
 }
 
 const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
@@ -199,8 +219,6 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
     baseURL: config.public.baseURL,
   },
 )
-
-console.log(books.value)
 
 const { data: schoolClasses } = await useLazyFetch<APIResponse<Department[]>>(
   "/schoolClasses",
@@ -233,8 +251,6 @@ function resetFilters() {
 </script>
 
 <template>
-  <PageTitle>{{ $t("orderList.title") }}</PageTitle>
-
   <UCard
     class="h-auto w-full rounded-lg"
     :ui="{
@@ -338,7 +354,7 @@ function resetFilters() {
       </template>
     </UTable>
 
-    <UModal v-model="isVisible" class="bg-opacity-0">
+    <UModal v-model="editModalVisible" class="bg-opacity-0">
       <UCard>
         <template #header>
           <div class="flex items-center justify-between">
@@ -352,7 +368,7 @@ function resetFilters() {
               variant="ghost"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
-              @click="isVisible = false"
+              @click="editModalVisible = false"
             />
           </div>
         </template>
@@ -383,6 +399,37 @@ function resetFilters() {
         />
 
         <UButton class="mt-4" @click="updateOrder">Submit</UButton>
+      </UCard>
+    </UModal>
+
+    <UModal v-model="deleteModalVisible" class="bg-opacity-0">
+      <UCard>
+        <template #header>
+          <ModalHeader
+            :title="$t('orderList.deleteOrder.title')"
+            icon="i-heroicons-trash"
+          />
+        </template>
+        <p class="text-base leading-6">
+          {{ $t("orderList.deleteOrder.confirmation") }} "{{
+            changedBookOrder.book.title
+          }}"?
+        </p>
+        <template #footer>
+          <div class="flex w-full justify-end space-x-2">
+            <UButton color="red" icon="i-heroicons-trash" @click="deleteOrder">
+              {{ $t("orderList.deleteOrder.delete") }}
+            </UButton>
+            <UButton
+              label="Cancel"
+              color="gray"
+              icon="i-heroicons-x-mark-20-solid"
+              @click="deleteModalVisible = false"
+            >
+              {{ $t("orderList.deleteOrder.cancel") }}
+            </UButton>
+          </div>
+        </template>
       </UCard>
     </UModal>
 

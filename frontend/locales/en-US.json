@@ -48,7 +48,17 @@
   "orderList": {
     "title": "Order Table",
     "subtitle": "Proceed to checkout",
-    "searchForOrders": "Search for book orders..."
+    "searchForOrders": "Search for book orders...",
+    "deleteOrder": {
+      "title": "Delete Order",
+      "success": "Success",
+      "successDescription": "The order was successfully deleted.",
+      "failure": "Failure",
+      "failureDescription": "An error occurred while deleting the order. Please try again.",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "confirmation": "Do you really want to delete"
+    }
   },
   "bookList":{
     "title": "Book Overview",

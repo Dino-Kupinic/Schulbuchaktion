@@ -5,13 +5,12 @@ namespace App\Controller;
 use App\Entity\Subject;
 use App\Repository\SubjectRepository;
 use App\Service\SubjectService;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
-use function PHPUnit\Framework\isEmpty;
 
 /**
  * Controller class for handling subject data.

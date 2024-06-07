@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\YearService;
 use Exception;
 use Monolog\Attribute\WithMonologChannel;
+use OpenApi\Annotations as OA;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,6 @@ class YearController extends AbstractController
   public function __construct(private LoggerInterface $logger)
   {
   }
-
 
   /**
    * @OA\Get(
@@ -65,6 +65,19 @@ class YearController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Get(
+   *     path="/api/years/import",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of years that can be imported",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Year::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
   #[Route(path: "/import", name: "import", methods: ["GET"])]
   public function getYearsForImport(YearService $yearsService): Response
   {

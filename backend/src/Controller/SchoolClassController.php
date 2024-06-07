@@ -7,6 +7,7 @@ use App\Repository\SchoolClassRepository;
 use App\Service\SchoolClassService;
 use Exception;
 use Monolog\Attribute\WithMonologChannel;
+use OpenApi\Annotations as OA;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,6 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see SchoolClassRepository
  * @see SchoolClassService
  */
-
 /**
  * @Route("/api/schoolClasses")
  */
@@ -33,7 +33,6 @@ class SchoolClassController extends AbstractController
   public function __construct(private LoggerInterface $logger)
   {
   }
-
 
   /**
    * @OA\Get(
@@ -111,14 +110,15 @@ class SchoolClassController extends AbstractController
    * )
    */
   #[Route(path: "/create", name: "create", methods: ["POST"])]
-  public function createSchoolClass(SchoolClass $schoolClass, SchoolClassService $schoolClassService, Request $request): Response
+  public function createSchoolClass(SchoolClassService $schoolClassService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("schoolClass:read")
       ->toArray();
 
     try {
-      $schoolClass = $schoolClassService->createSchoolClass($schoolClass);
+      $temp = $schoolClassService->parseRequestData($request);
+      $schoolClass = $schoolClassService->createSchoolClass($temp);
       $this->logger->info("Successfully created school class ". $schoolClass->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$schoolClass->getId()]);
       return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {

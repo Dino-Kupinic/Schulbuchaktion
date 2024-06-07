@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Service\YearService;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
+use OpenApi\Annotations as OA;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +24,12 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/years")
  */
-#[Route("api/v1/years", name: "year.")]
+#[Route("api/v1/years", name: "year."), WithMonologChannel('action')]
 class YearController extends AbstractController
 {
+  public function __construct(private LoggerInterface $logger)
+  {
+  }
 
   /**
    * @OA\Get(
@@ -59,6 +65,19 @@ class YearController extends AbstractController
     }
   }
 
+  /**
+   * @OA\Get(
+   *     path="/api/years/import",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the list of years that can be imported",
+   *         @OA\JsonContent(
+   *             type="array",
+   *             @OA\Items(ref=@Model(type=Year::class, groups={"read"}))
+   *         )
+   *     )
+   * )
+   */
   #[Route(path: "/import", name: "import", methods: ["GET"])]
   public function getYearsForImport(YearService $yearsService): Response
   {
@@ -150,8 +169,10 @@ class YearController extends AbstractController
     try {
       $temp = $yearsService->parseRequestData($request);
       $year = $yearsService->createYear($temp);
+      $this->logger->info("Successfully created year ". $year->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), "yearId"=>$year->getId()]);
       return $this->json(["success" => true, "data" => $year], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
+      $this->logger->info("Failed to create year!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex'=> $e->getTrace()]);
       return $this->json([
         "success" => false,
         "error" => "Failed to create year: " . $e->getMessage(),

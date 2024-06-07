@@ -1,10 +1,13 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div
-    class="h-full w-full rounded-lg border p-3 shadow-sm dark:border-gray-700"
-  >
-    <BookOrderTable class="mt-4" />
+  <div class="flex h-full w-full flex-col">
+    <PageHeader
+      class="grow-0"
+      :title="$t('orderList.title')"
+      :subtitle="$t('orderList.subtitle')"
+    />
+    <BookOrderTable class="grow" />
   </div>
 </template>
 

@@ -55,7 +55,25 @@
   "orderList": {
     "title": "Bestellliste",
     "subtitle": "Zur Kasse gehen",
-    "searchForOrders": "Nach Bestellungen suchen..."
+    "searchForOrders": "Nach Bestellungen suchen...",
+    "updateOrder": {
+      "success": "Erfolgreich",
+      "successDescription": "Die Bestellung wurde erfolgreich aktualisiert.",
+      "failure": "Fehlschlag",
+      "failureDescription": "Beim Aktualisieren der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "submit": "Senden",
+      "cancel": "Abbrechen"
+    },
+    "deleteOrder": {
+      "title": "Bestellung löschen",
+      "success": "Erfolgreich",
+      "successDescription": "Die Bestellung wurde erfolgreich gelöscht.",
+      "failure": "Fehlschlag",
+      "failureDescription": "Beim Löschen der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "delete": "Löschen",
+      "cancel": "Abbrechen",
+      "confirmation": "Möchten Sie wirklich die Bestellung folgenden Buches löschen: "
+    }
   },
   "bookList":{
     "title": "Bücherübersicht",

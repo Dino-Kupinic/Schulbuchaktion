@@ -134,6 +134,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
           text: "Dokumentation ändern",
           link: "documentation",
         },
+        {
+          text: "Protokolle",
+          link: "logging",
+        },
       ],
     },
     {

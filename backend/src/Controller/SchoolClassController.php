@@ -6,7 +6,11 @@ use App\Entity\SchoolClass;
 use App\Repository\SchoolClassRepository;
 use App\Service\SchoolClassService;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
+use OpenApi\Annotations as OA;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
@@ -23,9 +27,12 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/schoolClasses")
  */
-#[Route("api/v1/schoolClasses", name: "schoolClass.")]
+#[Route("api/v1/schoolClasses", name: "schoolClass."), WithMonologChannel('action')]
 class SchoolClassController extends AbstractController
 {
+  public function __construct(private LoggerInterface $logger)
+  {
+  }
 
   /**
    * @OA\Get(
@@ -103,16 +110,19 @@ class SchoolClassController extends AbstractController
    * )
    */
   #[Route(path: "/create", name: "create", methods: ["POST"])]
-  public function createSchoolClass(SchoolClass $schoolClass, SchoolClassService $schoolClassService): Response
+  public function createSchoolClass(SchoolClassService $schoolClassService, Request $request): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
       ->withGroups("schoolClass:read")
       ->toArray();
 
     try {
-      $schoolClass = $schoolClassService->createSchoolClass($schoolClass);
+      $temp = $schoolClassService->parseRequestData($request);
+      $schoolClass = $schoolClassService->createSchoolClass($temp);
+      $this->logger->info("Successfully created school class ". $schoolClass->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$schoolClass->getId()]);
       return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
+      $this->logger->error("Failed to create school class!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME'], ), 'ex'=>$e->getTrace()]);
       return $this->json([
         "success" => false,
         "error" => "Failed to create schoolClass: " . $e->getMessage()
@@ -131,12 +141,14 @@ class SchoolClassController extends AbstractController
    * )
    */
   #[Route(path: "/delete/{id}", name: "delete", methods: ["DELETE"])]
-  public function deleteSchoolClass(SchoolClassService $schoolClassService, int $id): Response
+  public function deleteSchoolClass(SchoolClassService $schoolClassService, int $id, Request $request): Response
   {
     try {
       $schoolClassService->deleteSchoolClass($id);
+      $this->logger->info("Successfully deleted school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$id]);
       return $this->json(["success" => true, "data" => "SchoolClass with id $id deleted"], status: Response::HTTP_OK);
     } catch (Exception $e) {
+      $this->logger->error("Failed to delete school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex' => $e->getTrace()]);
       return $this->json([
         "success" => false,
         "error" => "Failed to delete schoolClass: " . $e->getMessage()

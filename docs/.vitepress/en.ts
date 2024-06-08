@@ -1,5 +1,6 @@
 import {DefaultTheme, defineConfig} from "vitepress"
 
+// @ts-ignore
 export const en = defineConfig({
   lang: "en-US",
   description: "Official Schulbuchaktion Documentation",
@@ -14,6 +15,13 @@ export const en = defineConfig({
         base: "/developers/",
         items: sidebarDevelopers(),
       },
+    },
+    editLink: {
+      pattern: 'https://github.com/Dino-Kupinic/Schulbuchaktion/edit/main/docs/:path',
+      text: 'Edit this page on GitHub'
+    },
+    lastUpdated: {
+      text: 'Updated at',
     },
     footer: {
       message: "Released under the MIT License.",

@@ -25,6 +25,9 @@ export const shared = defineConfig({
         link: "https://github.com/Dino-Kupinic/Schulbuchaktion.git",
       },
     ],
+    lastUpdated: {
+      text: 'Updated at',
+    },
     search: {
       provider: "local",
       options: {

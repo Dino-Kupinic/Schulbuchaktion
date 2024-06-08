@@ -101,18 +101,34 @@ const partners = [
     avatar: "https://github.com/mrohrweck.png",
     name: "Monika Rohrweck",
     title: "Project Owner",
+    org: "HTL Steyr",
+    orgLink: "https://www.htl-steyr.ac.at/",
     links: [
       { icon: "github", link: "https://github.com/mrohrweck" },
     ]
   },
   {
+    avatar: "https://github.com/prathgeb.png",
+    name: "Peter Rathgeb",
+    title: "Technical Advisor",
+    org: "HTL Steyr",
+    orgLink: "https://www.htl-steyr.ac.at/",
+    links: [
+      { icon: "github", link: "https://github.com/prathgeb" },
+    ]
+  },
+  {
     avatar: "https://api.dicebear.com/8.x/identicon/svg?seed=SCAN&backgroundColor=ffffff",
     name: "Anja Schneiderbauer",
+    org: "HTL Steyr",
+    orgLink: "https://www.htl-steyr.ac.at/",
     title: "External Client",
   },
   {
     avatar: "https://api.dicebear.com/8.x/identicon/svg?seed=RABS&backgroundColor=ffffff",
     name: "Stefan Raberger",
+    org: "HTL Steyr",
+    orgLink: "https://www.htl-steyr.ac.at/",
     title: "External Client",
   },
 ]

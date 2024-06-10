@@ -94,7 +94,7 @@
   },
   "classes": {
     "title": "Klassenverwaltung",
-    "subtitle": "Verwalten Sie Ihre Schulklassen"
+    "subtitle": "Verwalten Sie Ihre Schulklassen",
   },
   "pagination": {
     "showing": "Zeigt",
@@ -105,7 +105,8 @@
   "actions": {
     "edit": "Bearbeiten",
     "info": "Info",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "duplicate": "Duplizieren"
   },
   "bool": {
     "yes": "Ja",

@@ -87,7 +87,7 @@
   },
   "classes": {
     "title": "Class Management",
-    "subtitle": "Manage your school classes"
+    "subtitle": "Manage your school classes",
   },
   "pagination": {
     "showing": "Shows",
@@ -98,7 +98,8 @@
   "actions": {
     "edit": "Edit",
     "info": "Info",
-    "delete": "Delete"
+    "delete": "Delete",
+    "duplicate": "Duplicate"
   },
   "bool": {
     "yes": "Yes",

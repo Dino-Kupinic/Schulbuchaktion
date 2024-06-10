@@ -3,23 +3,23 @@ import type { APIResponseArray } from "~/types/response"
 
 export default function useSchoolClasses() {
   const schoolClasses = useState<SchoolClass[]>("schoolClasses", () => [])
+  const config = useRuntimeConfig()
 
   async function fetchSchoolClasses() {
     if (schoolClasses.value.length) return
 
-    const config = useRuntimeConfig()
-
     try {
-      const { data, pending } = await useLazyFetch<
-        APIResponseArray<SchoolClass>
-      >("/schoolClasses", {
-        baseURL: config.public.baseURL,
-        pick: ["data"],
-      })
+      const { data: classes } = useFetch<APIResponseArray<SchoolClass>>(
+        "/schoolClasses",
+        {
+          baseURL: config.public.baseURL,
+          pick: ["data"],
+        },
+      )
 
-      if (!pending) {
-        schoolClasses.value = data.value.data
-      }
+      // watch(classes, () => {
+      //   schoolClasses.value = classes.value.data
+      // })
     } catch (error) {
       schoolClasses.value = []
       return error

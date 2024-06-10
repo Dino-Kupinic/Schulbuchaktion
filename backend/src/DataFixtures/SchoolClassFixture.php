@@ -21,8 +21,8 @@ class SchoolClassFixture extends Fixture
       $schoolClass->setYear($this->getReference('year ' . $i));
       $schoolClass->setStudents(20);
       $schoolClass->setRepetents(2);
-      $schoolClass->setBudget(500);
-      $schoolClass->setUsedBudget(250);
+      $schoolClass->setBudget(5000);
+      $schoolClass->setUsedBudget(2500);
       $manager->persist($schoolClass);
       $this->addReference('schoolClass ' . $i, $schoolClass);
     }

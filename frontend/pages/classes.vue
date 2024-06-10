@@ -106,16 +106,16 @@ const selectedDepartment = ref<string>("")
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-col">
+  <div class="h-full">
     <PageHeader
-      class="grow-0"
       :title="$t('classes.title')"
       :subtitle="$t('classes.subtitle')"
     />
     <UCard
-      class="h-auto w-full rounded-lg"
       :ui="{
+        base: 'h-full',
         body: {
+          base: 'h-full',
           padding: '',
         },
         header: {
@@ -123,8 +123,8 @@ const selectedDepartment = ref<string>("")
         },
       }"
     >
-      <div class="flex flex-col sm:flex-row">
-        <div class="w-96 p-4 dark:border-r-neutral-800 sm:border-r">
+      <div class="flex h-full flex-col sm:flex-row">
+        <div class="w-72 p-4 dark:border-r-neutral-800 sm:border-r">
           <p class="font-semibold">Create new</p>
           <div class="mt-2 flex flex-col gap-3">
             <UFormGroup label="Name" required>
@@ -144,52 +144,66 @@ const selectedDepartment = ref<string>("")
             </UFormGroup>
             <UFormGroup label="Department" required>
               <USelect
-                v-if="!departmentsPending"
+                v-if="!departmentsPending && departments && departments.data"
                 v-model="selectedDepartment"
-                :options="departments?.data"
+                :options="
+                  departments?.data.map((d) => ({
+                    label: d.name,
+                    value: d.id,
+                  }))
+                "
+                placeholder="Select a department"
               />
+              <USkeleton v-else class="h-8 w-full" />
             </UFormGroup>
             <div>
               <UButton color="primary" type="submit" label="Create"></UButton>
             </div>
           </div>
         </div>
-        <UTable
-          :rows="filteredRows"
-          :loading="pending"
-          :columns="columns"
-          :loading-state="{
-            icon: 'i-heroicons-arrow-path-20-solid',
-            label: 'Loading...',
-          }"
-          :ui="{
-            wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
-            td: {
-              padding: 'py-2',
-            },
-          }"
-          :progress="{ color: 'primary', animation: 'carousel' }"
-          class="w-full"
-        >
-          <template #year-data="{ row }">
-            <span>{{ row.year.year }}</span>
-          </template>
-          <template #department-data="{ row }">
-            <span> {{ row.department.name }}</span>
-          </template>
-          <template #usedBudget-data="{ row }">
-            <span class="pr-24"> {{ row.usedBudget }}</span>
-          </template>
-          <template #actions-data="{ row }">
-            <UDropdown :items="items(row).value" :ui="{ width: 'w-auto' }">
-              <UButton
-                color="gray"
-                variant="ghost"
-                icon="i-heroicons-ellipsis-horizontal-20-solid"
-              />
-            </UDropdown>
-          </template>
-        </UTable>
+        <div class="flex h-full flex-col overflow-x-scroll">
+          <UTable
+            :rows="filteredRows"
+            :loading="pending"
+            :columns="columns"
+            :loading-state="{
+              icon: 'i-heroicons-arrow-path-20-solid',
+              label: 'Loading...',
+            }"
+            :ui="{
+              wrapper: 'overflow-y-scroll overflow-x-scroll',
+              td: {
+                padding: 'py-1',
+              },
+            }"
+            :progress="{ color: 'primary', animation: 'carousel' }"
+          >
+            <template #name-data="{ row }">
+              <span class="pr-8">{{ row.name }}</span>
+            </template>
+            <template #budget-data="{ row }">
+              <span class="pr-16">{{ row.budget }}</span>
+            </template>
+            <template #year-data="{ row }">
+              <span>{{ row.year.year }}</span>
+            </template>
+            <template #department-data="{ row }">
+              <span> {{ row.department.name }}</span>
+            </template>
+            <template #usedBudget-data="{ row }">
+              <span class="pr-24"> {{ row.usedBudget }}</span>
+            </template>
+            <template #actions-data="{ row }">
+              <UDropdown :items="items(row).value" :ui="{ width: 'w-auto' }">
+                <UButton
+                  color="gray"
+                  variant="ghost"
+                  icon="i-heroicons-ellipsis-horizontal-20-solid"
+                />
+              </UDropdown>
+            </template>
+          </UTable>
+        </div>
       </div>
     </UCard>
   </div>

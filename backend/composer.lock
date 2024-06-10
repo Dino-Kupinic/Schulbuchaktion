@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f105ff685cbb51bb103366b7f2e3c8cb",
+    "content-hash": "c08d4cc44402991929f9e8baa357c364",
     "packages": [
         {
             "name": "composer/semver",
@@ -7616,22 +7616,22 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v7.0.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "c8e05d7545962198df715d705c132de0674dc5b2"
+                "reference": "96e6e12a63db80bcedefc012042d2cb2d1a015f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/c8e05d7545962198df715d705c132de0674dc5b2",
-                "reference": "c8e05d7545962198df715d705c132de0674dc5b2",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/96e6e12a63db80bcedefc012042d2cb2d1a015f8",
+                "reference": "96e6e12a63db80bcedefc012042d2cb2d1a015f8",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "symfony/translation-contracts": "^2.5|^3",
-                "twig/twig": "^3.0.4"
+                "twig/twig": "^3.9"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.2.2",
@@ -7653,6 +7653,7 @@
                 "symfony/asset-mapper": "^6.4|^7.0",
                 "symfony/console": "^6.4|^7.0",
                 "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/emoji": "^7.1",
                 "symfony/expression-language": "^6.4|^7.0",
                 "symfony/finder": "^6.4|^7.0",
                 "symfony/form": "^6.4|^7.0",
@@ -7704,7 +7705,7 @@
             "description": "Provides integration for Twig with various Symfony components",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/twig-bridge/tree/v7.0.8"
+                "source": "https://github.com/symfony/twig-bridge/tree/v7.1.1"
             },
             "funding": [
                 {
@@ -7720,7 +7721,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:55:39+00:00"
+            "time": "2024-05-31T14:57:53+00:00"
         },
         {
             "name": "symfony/twig-bundle",
@@ -10642,7 +10643,7 @@
         },
         {
             "name": "symfony/debug-bundle",
-            "version": "v7.0.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug-bundle.git",
@@ -10696,7 +10697,7 @@
             "description": "Provides a tight integration of the Symfony VarDumper component and the ServerLogCommand from MonologBridge into the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/debug-bundle/tree/v7.0.8"
+                "source": "https://github.com/symfony/debug-bundle/tree/v7.1.1"
             },
             "funding": [
                 {

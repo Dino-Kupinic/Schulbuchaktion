@@ -11,7 +11,7 @@ class DepartmentFixture extends Fixture
 {
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $department = new Department();
       $department->setName('Department ' . $i);
       $department->setBudget(1000);

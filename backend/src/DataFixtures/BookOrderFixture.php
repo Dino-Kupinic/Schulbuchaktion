@@ -11,7 +11,7 @@ class BookOrderFixture extends Fixture implements DependentFixtureInterface
 {
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $bookOrder = new BookOrder();
       $bookOrder->setBook($this->getReference('book ' . $i));
       $bookOrder->setSchoolClass($this->getReference('schoolClass ' . $i));

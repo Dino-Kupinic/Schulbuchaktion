@@ -13,9 +13,9 @@ class SchoolClassFixture extends Fixture
    */
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $schoolClass = new SchoolClass();
-      $schoolClass->setName($i . 'A');
+      $schoolClass->setName($i . 'AHITN');
       $schoolClass->setGrade($i);
       $schoolClass->setDepartment($this->getReference('department ' . $i));
       $schoolClass->setYear($this->getReference('year ' . $i));

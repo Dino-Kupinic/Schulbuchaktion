@@ -88,6 +88,8 @@
   "classes": {
     "title": "Class Management",
     "subtitle": "Manage your school classes",
+    "success": "Success",
+    "successDescription": "The class was successfully created."
   },
   "pagination": {
     "showing": "Shows",

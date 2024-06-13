@@ -24,6 +24,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * @see SchoolClassRepository
  * @see SchoolClassService
  */
+
 /**
  * @Route("/api/schoolClasses")
  */
@@ -63,7 +64,7 @@ class SchoolClassController extends AbstractController
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
-        "error" => "Failed to get schoolClasses: " . $e->getMessage()
+        "error" => "Failed to get schoolClasses: " . $e->getMessage(),
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
@@ -94,7 +95,7 @@ class SchoolClassController extends AbstractController
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
-        "error" => "Failed to get schoolClass: " . $e->getMessage()
+        "error" => "Failed to get schoolClass: " . $e->getMessage(),
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
@@ -119,13 +120,13 @@ class SchoolClassController extends AbstractController
     try {
       $temp = $schoolClassService->parseRequestData($request);
       $schoolClass = $schoolClassService->createSchoolClass($temp);
-      $this->logger->info("Successfully created school class ". $schoolClass->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$schoolClass->getId()]);
+      $this->logger->info("Successfully created school class " . $schoolClass->getId() . "!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId' => $schoolClass->getId()]);
       return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
-      $this->logger->error("Failed to create school class!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME'], ), 'ex'=>$e->getTrace()]);
+      $this->logger->error("Failed to create school class!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME'],), 'ex' => $e->getTrace()]);
       return $this->json([
         "success" => false,
-        "error" => "Failed to create schoolClass: " . $e->getMessage()
+        "error" => "Failed to create schoolClass: " . $e->getMessage(),
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
@@ -145,13 +146,13 @@ class SchoolClassController extends AbstractController
   {
     try {
       $schoolClassService->deleteSchoolClass($id);
-      $this->logger->info("Successfully deleted school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId'=>$id]);
+      $this->logger->info("Successfully deleted school class $id!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId' => $id]);
       return $this->json(["success" => true, "data" => "SchoolClass with id $id deleted"], status: Response::HTTP_OK);
     } catch (Exception $e) {
-      $this->logger->error("Failed to delete school class $id!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex' => $e->getTrace()]);
+      $this->logger->error("Failed to delete school class $id!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), 'ex' => $e->getTrace()]);
       return $this->json([
         "success" => false,
-        "error" => "Failed to delete schoolClass: " . $e->getMessage()
+        "error" => "Failed to delete schoolClass: " . $e->getMessage(),
       ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }

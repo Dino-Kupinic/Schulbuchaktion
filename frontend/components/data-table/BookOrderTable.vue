@@ -175,11 +175,10 @@ async function updateOrder() {
       schoolClassId.value.value,
     )
   }
-
+  console.log(bookId.value)
   if (bookId.value) {
-    changedBookOrder.value.book = getBookById(bookId.value.value)
+    changedBookOrder.value.book = bookId.value
   }
-
   await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
     baseURL: config.public.baseURL,
     method: "PUT",
@@ -376,12 +375,9 @@ function resetFilters() {
         <USelectMenu
           v-model="bookId"
           :placeholder="changedBookOrder.book.title"
-          :options="
-            books?.data?.books.map((book) => ({
-              label: book.title,
-              value: book.id,
-            }))
-          "
+          :options="books?.data?.books"
+          option-attribute="title"
+          value-attribute="id"
           searchable
         />
 

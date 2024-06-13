@@ -12,3 +12,13 @@ export type BookOrder = {
   lastUser: string
   creationUser: string
 }
+
+export type BookOrderDTO = {
+  count: number
+  teacherCopy: boolean
+  schoolClass: SchoolClass
+  bookId: Book
+  year: Year
+  lastUser: string
+  creationUser: string
+}

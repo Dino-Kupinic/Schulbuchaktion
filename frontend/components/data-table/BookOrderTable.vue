@@ -6,7 +6,7 @@ import type {
 } from "~/types/response"
 import type { BookOrder } from "~/types/bookorder"
 import type { Book } from "~/types/book"
-import type { Department } from "~/types/department"
+import type { SchoolClass } from "~/types/schoolclass"
 
 const columns = ref([
   {
@@ -202,7 +202,7 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
 
 console.log(books.value)
 
-const { data: schoolClasses } = await useLazyFetch<APIResponse<Department[]>>(
+const { data: schoolClasses } = await useLazyFetch<APIResponse<SchoolClass[]>>(
   "/schoolClasses",
   {
     baseURL: config.public.baseURL,

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import decodeAuthCookie from "~/utils/decodeAuthCookie"
+
+const username = decodeAuthCookie()?.username
 const config = useRuntimeConfig()
 const items = [
   [
     {
-      label: "Dino Kupinic",
+      label: username,
       link: "#",
       slot: "account",
     },

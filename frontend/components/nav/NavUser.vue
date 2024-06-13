@@ -2,7 +2,7 @@
 import decodeAuthCookie from "~/utils/decodeAuthCookie"
 
 const username = decodeAuthCookie()?.username
-const shorthand = username.substring(0, 2).toUpperCase()
+const shorthand = username?.substring(0, 2).toUpperCase()
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import { JwtAuthPayload } from "~/types/auth"
-import { jwtDecode } from "jwt-decode/build/esm"
+import { jwtDecode } from "jwt-decode"
 
 /**
  * Decode the auth cookie and return the payload or null

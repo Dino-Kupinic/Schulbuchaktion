@@ -1,4 +1,4 @@
-import { JwtAuthPayload } from "~/types/auth"
+import type { JwtAuthPayload } from "~/types/auth"
 import { jwtDecode } from "jwt-decode"
 
 /**

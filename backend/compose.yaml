@@ -1,27 +1,55 @@
-version: '3'
-
 services:
   db:
     image: mysql:latest
+    container_name: 'mysql_db'
     ports:
       - "${BIND_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./docker/db/data:/var/lib/mysql:rw
     environment:
       MYSQL_ROOT_PASSWORD: ${SECRET_PASSWORD}
       MYSQL_DATABASE: schulbuchaktion
       MYSQL_USER: ${USERNAME}
       MYSQL_PASSWORD: ${SECRET_PASSWORD}
 
-  nuxt-nginx:
+  php:
     build:
-      context: ../frontend
+      context: ./
       dockerfile: Dockerfile
-    container_name: nuxt-nginx
-    ports:
-      - "3001:3001"
+    image: ${IMAGES_PREFIX:-}backend_php
+    container_name: backend_php
+    restart: unless-stopped
     environment:
-      - BACKEND_API=http://localhost:8000/api/v1
+      APP_ENV: ${APP_ENV}
+      SERVER_NAME: ${SERVER_NAME}, php:80
+      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+      TRUSTED_HOSTS: ${TRUSTED_HOSTS}
+      # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
+      DATABASE_URL: ${DATABASE_URL}
+      # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
+      MERCURE_URL: ${CADDY_MERCURE_URL}
+      MERCURE_PUBLIC_URL: ${CADDY_MERCURE_PUBLIC_URL}
+      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET}
+      # The two next lines can be removed after initial installation
+      SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+      STABILITY: ${STABILITY:-stable}
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./:/app:rw
+
+    ports:
+      # HTTP
+      - target: 80
+        published: ${HTTP_PORT}
+        protocol: tcp
+      # HTTPS
+      - target: 443
+        published: ${HTTPS_PORT}
+        protocol: tcp
 
   openldap:
     image: osixia/openldap:latest
@@ -31,9 +59,9 @@ services:
       - "389:389"
       - "636:636"
     volumes:
-      - ./data/certificates:/container/service/slapd/assets/certs
-      - ./data/slapd/database:/var/lib/ldap
-      - ./data/slapd/config:/etc/ldap/slapd.d
+      - ./docker/data/certificates:/container/service/slapd/assets/certs
+      - ./docker/data/slapd/database:/var/lib/ldap
+      - ./docker/data/slapd/config:/etc/ldap/slapd.d
     environment:
       - LDAP_ORGANISATION=schulbuchaktion
       - LDAP_DOMAIN=schulbuchaktion.env
@@ -55,7 +83,7 @@ services:
     container_name: phpldapadmin
     hostname: phpldapadmin
     ports:
-      - "80:80"
+      - "8080:80"
     environment:
       - PHPLDAPADMIN_LDAP_HOSTS=openldap
       - PHPLDAPADMIN_HTTPS=false
@@ -66,6 +94,8 @@ services:
 
 volumes:
   mysql_data:
+  caddy_data:
+  caddy_config:
 
 networks:
   openldap:

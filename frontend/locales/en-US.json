@@ -35,9 +35,7 @@
       ]
     },
     "submit": "Submit",
-    "success": "Success",
     "successDescription": "You can now view the imported data in the book list.",
-    "failure": "Failure",
     "failureDescription": "An error occurred while importing the data. Please try again.",
     "alert": "Heads up!",
     "alertDescription": "Re-Importing in the same year will overwrite the current data. Make sure you have a backup.",
@@ -51,13 +49,8 @@
     "searchForOrders": "Search for book orders...",
     "deleteOrder": {
       "title": "Delete Order",
-      "success": "Success",
       "successDescription": "The order was successfully deleted.",
-      "failure": "Failure",
-      "failureDescription": "An error occurred while deleting the order. Please try again.",
-      "delete": "Delete",
-      "cancel": "Cancel",
-      "confirmation": "Do you really want to delete"
+      "failureDescription": "An error occurred while deleting the order. Please try again."
     }
   },
   "bookList":{
@@ -65,9 +58,7 @@
     "subtitle": "Choose books to order",
     "searchForBooks": "Search for books...",
     "updateOrder": {
-      "success": "Success",
       "successDescription": "The order was successfully updated.",
-      "failure": "Failure",
       "failureDescription": "An error occurred while updating the order. Please try again.",
       "submit": "Submit",
       "cancel": "Cancel"
@@ -88,11 +79,14 @@
   "classes": {
     "title": "Class Management",
     "subtitle": "Manage your school classes",
-    "success": "Success",
     "successDescription": "The class was successfully created.",
-    "failure": "Failure",
     "failureDescription": "An error occurred while creating the class. Please try again.",
     "create": "Create new",
+    "deleteClass": {
+      "title": "Delete School Class",
+      "successDescription": "The class was successfully deleted.",
+      "failureDescription": "An error occurred while deleting the class. Please try again."
+    },
     "form": {
       "name": "Name",
       "grade": "Grade",
@@ -100,8 +94,7 @@
       "repetents": "Repetents",
       "budget": "Budget",
       "department": "Department",
-      "departmentPlaceholder": "Select a department",
-      "submit": "Create"
+      "departmentPlaceholder": "Select a department"
     },
     "table": {
       "name": "Name",
@@ -124,7 +117,16 @@
     "edit": "Edit",
     "info": "Info",
     "delete": "Delete",
-    "duplicate": "Duplicate"
+    "duplicate": "Duplicate",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "submit": "Create",
+    "confirmation": "Do you really want to delete"
+  },
+  "notification": {
+    "success": "Success",
+    "failure": "Failure"
   },
   "bool": {
     "yes": "Yes",
@@ -132,7 +134,6 @@
   },
   "login": {
     "signIn": "Sign in",
-    "failure": "Failure",
     "notAuthenticated": "The username or the password are wrong!"
   }
 }

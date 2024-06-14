@@ -15,6 +15,4 @@ export type Year = {
  * @property {number} year - Year
  * @see Year
  */
-export type YearDTO = {
-  year: number
-}
+export type YearDTO = Omit<Year, "id">

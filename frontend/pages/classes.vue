@@ -34,13 +34,23 @@ watch(
   { immediate: true },
 )
 
+const editModalVisible = ref<boolean>(false)
+const deleteModalVisible = ref<boolean>(false)
+const changedSchoolClass = ref<SchoolClass | null>(null)
 const items = (row: SchoolClass) =>
   ref([
     [
       { label: t("actions.info"), icon: "i-heroicons-information-circle" },
       { label: t("actions.edit"), icon: "i-heroicons-pencil-square-20-solid" },
       { label: t("actions.duplicate"), icon: "i-heroicons-document-duplicate" },
-      { label: t("actions.delete"), icon: "i-heroicons-trash" },
+      {
+        label: t("actions.delete"),
+        icon: "i-heroicons-trash",
+        click: () => {
+          changedSchoolClass.value = row
+          deleteModalVisible.value = true
+        },
+      },
     ],
   ])
 
@@ -138,7 +148,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
   const percentage = (usedBudget / budget) * 100
-  if (percentage < 65) return "text-green-500"
+  if (percentage < 65) return "text-neutral-500 dark:text-neutral-400"
   if (percentage < 85) return "text-yellow-500"
   if (percentage <= 100) return "text-red-500"
   return "text-neutral-500"
@@ -217,7 +227,7 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
             <UButton
               color="primary"
               type="submit"
-              :label="$t('classes.form.submit')"
+              :label="$t('actions.submit')"
             />
           </UForm>
         </div>
@@ -268,6 +278,13 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
               </UDropdown>
             </template>
           </UTable>
+
+          <GenericDeleteModal
+            v-model="deleteModalVisible"
+            :title="$t('classes.deleteClass.title')"
+            :item-title="changedSchoolClass?.name ?? null"
+            @delete="console.log('delete')"
+          />
         </div>
       </div>
     </UCard>

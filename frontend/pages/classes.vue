@@ -130,14 +130,16 @@ const state = reactive({
 
 const toast = useToast()
 const { currentYear, fetchCurrentYear } = useCurrentYear()
+await fetchCurrentYear()
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const formData = event.data
-  await fetchCurrentYear()
 
-  formData.department = parseInt(formData.department)
-  formData.usedBudget = 0
-  formData.year = currentYear.value
   try {
+    formData.department = parseInt(formData.department)
+    formData.usedBudget = 0
+    formData.year = currentYear.value?.id
+
     const response = await $fetch<APIResponseObject<SchoolClass>>(
       "/schoolClasses/create",
       {
@@ -160,6 +162,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       statusMessage: error.message,
     })
   }
+}
+
+const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
+  const percentage = (usedBudget / budget) * 100
+  if (percentage < 65) return "text-green-500"
+  if (percentage < 85) return "text-yellow-500"
+  if (percentage <= 100) return "text-red-500"
+  return "text-neutral-500"
 }
 </script>
 
@@ -239,17 +249,22 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <template #name-data="{ row }">
               <span class="pr-8">{{ row.name }}</span>
             </template>
-            <template #budget-data="{ row }">
-              <span class="pr-16">{{ row.budget }}</span>
-            </template>
             <template #year-data="{ row }">
               <span>{{ row.year.year }}</span>
             </template>
             <template #department-data="{ row }">
               <span> {{ row.department.name }}</span>
             </template>
+            <template #budget-data="{ row }">
+              <span class="pr-16">{{ row.budget }}€</span>
+            </template>
             <template #usedBudget-data="{ row }">
-              <span class="pr-24"> {{ row.usedBudget }}</span>
+              <span
+                :class="getUsedBudgetColor(row.usedBudget, row.budget)"
+                class="pr-24"
+              >
+                {{ row.usedBudget }}€
+              </span>
             </template>
             <template #actions-data="{ row }">
               <UDropdown :items="items(row).value" :ui="{ width: 'w-auto' }">

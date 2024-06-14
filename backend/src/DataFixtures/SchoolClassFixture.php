@@ -5,11 +5,13 @@ namespace App\DataFixtures;
 use App\Entity\SchoolClass;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Random\RandomException;
 
 class SchoolClassFixture extends Fixture
 {
   /**
    * Load data fixtures with the passed EntityManager
+   * @throws RandomException
    */
   public function load(ObjectManager $manager): void
   {
@@ -22,7 +24,7 @@ class SchoolClassFixture extends Fixture
       $schoolClass->setStudents(20);
       $schoolClass->setRepetents(2);
       $schoolClass->setBudget(5000);
-      $schoolClass->setUsedBudget(2500);
+      $schoolClass->setUsedBudget(random_int(0, 5000));
       $manager->persist($schoolClass);
       $this->addReference('schoolClass ' . $i, $schoolClass);
     }

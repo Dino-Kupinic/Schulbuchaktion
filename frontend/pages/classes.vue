@@ -5,77 +5,42 @@ import type { Department } from "~/types/department"
 import type { FormSubmitEvent } from "#ui/types"
 import { z } from "zod"
 
-// const { schoolClasses, fetchSchoolClasses } = useSchoolClasses()
-// await fetchSchoolClasses()
-//
-// const classes = ref<SchoolClass[]>(schoolClasses.value)
+const { t, locale } = useI18n()
 
-const columns = ref([
-  {
-    key: "name",
-    label: "Name",
-    sortable: true,
+const columns = ref()
+watch(
+  locale,
+  () => {
+    columns.value = [
+      { label: t("classes.table.name"), key: "name", sortable: true },
+      { label: t("classes.table.grade"), key: "grade", sortable: true },
+      { label: t("classes.table.students"), key: "students", sortable: true },
+      { label: t("classes.table.repetents"), key: "repetents", sortable: true },
+      { label: t("classes.table.budget"), key: "budget", sortable: true },
+      {
+        label: t("classes.table.usedBudget"),
+        key: "usedBudget",
+        sortable: true,
+      },
+      {
+        label: t("classes.table.department"),
+        key: "department",
+        sortable: true,
+      },
+      { label: t("classes.table.year"), key: "year", sortable: true },
+      { key: "actions" },
+    ]
   },
-  {
-    key: "grade",
-    label: "Grade",
-    sortable: true,
-  },
-  {
-    key: "students",
-    label: "Students",
-    sortable: true,
-  },
-  {
-    key: "repetents",
-    label: "Repetents",
-    sortable: true,
-  },
-  {
-    key: "budget",
-    label: "Budget",
-    sortable: true,
-  },
-  {
-    key: "usedBudget",
-    label: "Used Budget",
-    sortable: true,
-  },
-  {
-    key: "department",
-    label: "Department",
-    sortable: true,
-  },
-  {
-    key: "year",
-    label: "Year",
-    sortable: true,
-  },
-  {
-    key: "actions",
-  },
-])
+  { immediate: true },
+)
 
-const { t } = useI18n()
 const items = (row: SchoolClass) =>
   ref([
     [
-      {
-        label: t("actions.info"),
-        icon: "i-heroicons-information-circle",
-      },
-      {
-        label: t("actions.edit"),
-        icon: "i-heroicons-pencil-square-20-solid",
-      },
-      {
-        label: t("actions.duplicate"),
-        icon: "i-heroicons-document-duplicate",
-      },
-      {
-        label: t("actions.delete"),
-        icon: "i-heroicons-trash",
-      },
+      { label: t("actions.info"), icon: "i-heroicons-information-circle" },
+      { label: t("actions.edit"), icon: "i-heroicons-pencil-square-20-solid" },
+      { label: t("actions.duplicate"), icon: "i-heroicons-document-duplicate" },
+      { label: t("actions.delete"), icon: "i-heroicons-trash" },
     ],
   ])
 
@@ -155,6 +120,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         icon: "i-heroicons-check-circle",
       })
       refreshClasses()
+    } else {
+      toast.add({
+        title: t("classes.failure"),
+        description: t("classes.failureDescription"),
+        color: "red",
+        icon: "i-material-symbols-error-circle-rounded-outline-sharp",
+      })
     }
   } catch (err: unknown) {
     const error = err as Error
@@ -193,40 +165,60 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
     >
       <div class="flex h-full flex-col sm:flex-row">
         <div class="w-72 p-4 dark:border-r-neutral-800 sm:border-r">
-          <p class="mb-3 font-semibold">Create new</p>
+          <p class="mb-3 font-semibold">{{ $t("classes.create") }}</p>
           <UForm
             :schema="schema"
             :state="state"
             class="space-y-2"
             @submit="onSubmit"
           >
-            <UFormGroup label="Name" name="name" required>
+            <UFormGroup :label="$t('classes.form.name')" name="name" required>
               <UInput v-model="state.name" placeholder="1AHITN" />
             </UFormGroup>
-            <UFormGroup label="Grade" name="grade" required>
+            <UFormGroup :label="$t('classes.form.grade')" name="grade" required>
               <UInput v-model="state.grade" type="number" placeholder="1" />
             </UFormGroup>
-            <UFormGroup label="Students" name="students" required>
+            <UFormGroup
+              :label="$t('classes.form.students')"
+              name="students"
+              required
+            >
               <UInput v-model="state.students" type="number" placeholder="30" />
             </UFormGroup>
-            <UFormGroup label="Repetents" name="repetents" hint="Optional">
+            <UFormGroup
+              :label="$t('classes.form.repetents')"
+              name="repetents"
+              hint="Optional"
+            >
               <UInput v-model="state.repetents" type="number" placeholder="0" />
             </UFormGroup>
-            <UFormGroup label="Budget" name="budget" required>
+            <UFormGroup
+              :label="$t('classes.form.budget')"
+              name="budget"
+              required
+            >
               <UInput v-model="state.budget" type="number" placeholder="3000" />
             </UFormGroup>
-            <UFormGroup label="Department" name="department" required>
+            <UFormGroup
+              :label="$t('classes.form.department')"
+              name="department"
+              required
+            >
               <USelect
                 v-if="!departmentsPending && departments && departments.data"
                 v-model="state.department"
                 :options="departments.data"
                 option-attribute="name"
                 value-attribute="id"
-                placeholder="Select a department"
+                :placeholder="$t('classes.form.departmentPlaceholder')"
               />
               <USkeleton v-else class="h-8 w-full" />
             </UFormGroup>
-            <UButton color="primary" type="submit" label="Create" />
+            <UButton
+              color="primary"
+              type="submit"
+              :label="$t('classes.form.submit')"
+            />
           </UForm>
         </div>
         <div class="flex h-full flex-col overflow-x-scroll">

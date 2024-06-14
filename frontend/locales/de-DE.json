@@ -46,12 +46,6 @@
     "fileLabel": "Datei",
     "import": "Import"
   },
-  "tableTitles": {
-    "orderTable": "Bestellliste",
-    "bookOverview": "Bücherübersicht"
-  },
-  "tableSearch": {
-  },
   "orderList": {
     "title": "Bestellliste",
     "subtitle": "Zur Kasse gehen",
@@ -95,6 +89,31 @@
   "classes": {
     "title": "Klassenverwaltung",
     "subtitle": "Verwalten Sie Ihre Schulklassen",
+    "success": "Erfolg",
+    "successDescription": "Die Klasse wurde erfolgreich hinzugefügt.",
+    "failure": "Fehler",
+    "failureDescription": "Beim Hinzufügen der Klasse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    "create": "Klasse erstellen",
+    "form": {
+      "name": "Name",
+      "grade": "Schulstufe",
+      "students": "Schüler",
+      "repetents": "Repetenten",
+      "budget": "Budget",
+      "department": "Abteilung",
+      "departmentPlaceholder": "Wählen Sie eine Abteilung",
+      "submit": "Erstellen"
+    },
+    "table": {
+      "name": "Name",
+      "grade": "Schulstufe",
+      "students": "Schüler",
+      "repetents": "Repetenten",
+      "budget": "Budget",
+      "usedBudget": "Verw. Budget",
+      "department": "Abteilung",
+      "year": "Jahr"
+    }
   },
   "pagination": {
     "showing": "Zeigt",

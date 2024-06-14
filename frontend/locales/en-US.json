@@ -89,7 +89,30 @@
     "title": "Class Management",
     "subtitle": "Manage your school classes",
     "success": "Success",
-    "successDescription": "The class was successfully created."
+    "successDescription": "The class was successfully created.",
+    "failure": "Failure",
+    "failureDescription": "An error occurred while creating the class. Please try again.",
+    "create": "Create new",
+    "form": {
+      "name": "Name",
+      "grade": "Grade",
+      "students": "Students",
+      "repetents": "Repetents",
+      "budget": "Budget",
+      "department": "Department",
+      "departmentPlaceholder": "Select a department",
+      "submit": "Create"
+    },
+    "table": {
+      "name": "Name",
+      "grade": "Grade",
+      "students": "Students",
+      "repetents": "Repetents",
+      "budget": "Budget",
+      "usedBudget": "Used Budget",
+      "department": "Department",
+      "year": "Year"
+    }
   },
   "pagination": {
     "showing": "Shows",

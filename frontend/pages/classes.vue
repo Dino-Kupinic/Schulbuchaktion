@@ -231,7 +231,7 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
             />
           </UForm>
         </div>
-        <div class="flex h-full flex-col overflow-x-scroll">
+        <div class="flex h-full w-full flex-col overflow-x-auto">
           <UTable
             :rows="filteredRows"
             :loading="pending"
@@ -241,7 +241,6 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
               label: 'Loading...',
             }"
             :ui="{
-              wrapper: 'overflow-y-scroll overflow-x-scroll',
               td: {
                 padding: 'py-1',
               },

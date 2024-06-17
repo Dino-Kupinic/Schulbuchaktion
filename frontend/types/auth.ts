@@ -15,4 +15,5 @@ export type LoginResponse = APIPrimitiveResponse<"token", string>
  */
 export interface JwtAuthPayload extends JwtPayload {
   authenticated: boolean
+  username: string
 }

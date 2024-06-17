@@ -44,7 +44,7 @@
     "happy-dom": "^14.11.0",
     "nuxt": "^3.11.2",
     "nuxt-icon": "^0.6.10",
-    "nuxt-typed-router": "^3.6.3",
+    "nuxt-typed-router": "^3.6.4",
     "nuxt-viewport": "^2.1.5",
     "postcss": "^8.4.38",
     "prettier": "3.3.1",

@@ -83,6 +83,7 @@
   "classes": {
     "title": "Klassenverwaltung",
     "subtitle": "Verwalten Sie Ihre Schulklassen",
+    "searchForClasses": "Nach Klassen suchen...",
     "successDescription": "Die Klasse wurde erfolgreich hinzugefügt.",
     "failureDescription": "Beim Hinzufügen der Klasse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
     "create": "Klasse erstellen",
@@ -90,6 +91,11 @@
       "title": "Schulklasse löschen",
       "successDescription": "Die Klasse wurde erfolgreich gelöscht.",
       "failureDescription": "Beim löschen der Klasse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "updateClass": {
+      "title": "Schulklasse aktualisieren",
+      "successDescription": "Die Klasse wurde erfolgreich aktualisiert.",
+      "failureDescription": "Beim aktualisieren der Klasse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
     },
     "form": {
       "name": "Name",

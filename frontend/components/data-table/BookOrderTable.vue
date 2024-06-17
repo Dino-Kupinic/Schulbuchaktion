@@ -170,12 +170,10 @@ watch(
 )
 
 async function updateOrder() {
+  changedBookOrder.value.year = changedBookOrder.value.year.id
   if (schoolClassId.value) {
-    changedBookOrder.value.schoolClass = getSchoolClassById(
-      schoolClassId.value.value,
-    )
+    changedBookOrder.value.schoolClass = schoolClassId.value.value
   }
-  console.log(bookId.value)
   if (bookId.value) {
     changedBookOrder.value.book = bookId.value
   }

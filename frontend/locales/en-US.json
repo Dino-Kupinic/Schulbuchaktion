@@ -91,6 +91,11 @@
       "successDescription": "The class was successfully deleted.",
       "failureDescription": "An error occurred while deleting the class. Please try again."
     },
+    "updateClass": {
+      "title": "Update School Class",
+      "successDescription": "The class was successfully updated.",
+      "failureDescription": "An error occurred while updating the class. Please try again."
+    },
     "form": {
       "name": "Name",
       "grade": "Grade",
@@ -126,6 +131,7 @@
     "cancel": "Cancel",
     "save": "Save",
     "submit": "Create",
+    "update": "Update",
     "confirmation": "Do you really want to delete"
   },
   "notification": {

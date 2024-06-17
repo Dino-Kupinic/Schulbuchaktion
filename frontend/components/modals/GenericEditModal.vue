@@ -5,7 +5,7 @@ const props = defineProps<{
 }>()
 
 const model = defineModel<boolean>()
-defineEmits(["delete"])
+defineEmits(["update"])
 
 const modalTitle = computed(() => {
   return props.itemTitle ? props.itemTitle : null
@@ -16,19 +16,21 @@ const modalTitle = computed(() => {
   <UModal v-model="model" class="bg-opacity-0">
     <UCard>
       <template #header>
-        <ModalHeader color="red" :title="title" icon="i-heroicons-trash" />
+        <ModalHeader
+          color="yellow"
+          :title="title"
+          icon="i-heroicons-pencil-square-20-solid"
+        />
       </template>
-      <p class="text-base leading-6">
-        {{ $t("actions.confirmation") }} {{ modalTitle }}?
-      </p>
+      <slot />
       <template #footer>
         <div class="flex w-full justify-end space-x-2">
           <UButton
-            color="red"
-            icon="i-heroicons-trash"
-            @click="$emit('delete')"
+            color="yellow"
+            icon="i-heroicons-pencil-square-20-solid"
+            @click="$emit('update')"
           >
-            {{ $t("actions.delete") }}
+            {{ $t("actions.update") }}
           </UButton>
           <UButton
             color="gray"

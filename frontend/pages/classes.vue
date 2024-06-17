@@ -41,7 +41,14 @@ const items = (row: SchoolClass) =>
   ref([
     [
       { label: t("actions.info"), icon: "i-heroicons-information-circle" },
-      { label: t("actions.edit"), icon: "i-heroicons-pencil-square-20-solid" },
+      {
+        label: t("actions.edit"),
+        icon: "i-heroicons-pencil-square-20-solid",
+        click: () => {
+          changedSchoolClass.value = row
+          editModalVisible.value = true
+        },
+      },
       { label: t("actions.duplicate"), icon: "i-heroicons-document-duplicate" },
       {
         label: t("actions.delete"),
@@ -62,6 +69,7 @@ const {
 } = await useLazyFetch<APIResponseArray<SchoolClass>>("/schoolClasses", {
   baseURL: config.public.baseURL,
   pick: ["data"],
+  watch: [deleteModalVisible, editModalVisible],
 })
 
 const { data: departments, pending: departmentsPending } = await useLazyFetch<
@@ -146,6 +154,24 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 }
 
+// TODO: dont delete but set valid date, only show valid classes in view
+async function deleteClass() {
+  await $fetch(`/schoolClasses/delete/${changedSchoolClass.value?.id}`, {
+    method: "DELETE",
+    baseURL: config.public.baseURL,
+  })
+
+  toast.add({
+    title: t("classes.deleteClass.success"),
+    description: t("classes.deleteClass.successDescription"),
+    icon: "i-heroicons-check-circle",
+  })
+
+  deleteModalVisible.value = false
+}
+
+async function updateClass() {}
+
 const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
   const percentage = (usedBudget / budget) * 100
   if (percentage < 65) return "text-neutral-500 dark:text-neutral-400"
@@ -153,6 +179,8 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
   if (percentage <= 100) return "text-red-500"
   return "text-neutral-500"
 }
+
+// TODO: search
 </script>
 
 <template>
@@ -278,11 +306,22 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
             </template>
           </UTable>
 
+          <GenericEditModal
+            v-model="editModalVisible"
+            :title="$t('classes.updateClass.title')"
+            :item-title="changedSchoolClass?.name ?? null"
+            @update="updateClass"
+          >
+            <UForm>
+              <UFormGroup> </UFormGroup>
+            </UForm>
+          </GenericEditModal>
+
           <GenericDeleteModal
             v-model="deleteModalVisible"
             :title="$t('classes.deleteClass.title')"
             :item-title="changedSchoolClass?.name ?? null"
-            @delete="console.log('delete')"
+            @delete="deleteClass"
           />
         </div>
       </div>

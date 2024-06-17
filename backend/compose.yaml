@@ -12,6 +12,8 @@ services:
       MYSQL_DATABASE: schulbuchaktion
       MYSQL_USER: ${USERNAME}
       MYSQL_PASSWORD: ${SECRET_PASSWORD}
+    networks:
+      - container_network
 
   php:
     build:
@@ -22,6 +24,7 @@ services:
     restart: unless-stopped
     environment:
       APP_ENV: ${APP_ENV}
+      SHELL_VERBOSITY: ${SHELL_VERBOSITY}
       SERVER_NAME: ${SERVER_NAME}, php:80
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
@@ -50,6 +53,8 @@ services:
       - target: 443
         published: ${HTTPS_PORT}
         protocol: tcp
+    networks:
+      - container_network
 
   openldap:
     image: osixia/openldap:latest
@@ -76,7 +81,7 @@ services:
       - LDAP_READONLY_USER_USERNAME=testuser
       - LDAP_READONLY_USER_PASSWORD=aaaAAA123
     networks:
-      - openldap
+      - container_network
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
@@ -90,7 +95,7 @@ services:
     depends_on:
       - openldap
     networks:
-      - openldap
+      - container_network
 
 volumes:
   mysql_data:
@@ -98,5 +103,5 @@ volumes:
   caddy_config:
 
 networks:
-  openldap:
+  container_network:
     driver: bridge

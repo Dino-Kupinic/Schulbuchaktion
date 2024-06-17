@@ -7,9 +7,8 @@ const props = defineProps<{
 const model = defineModel<boolean>()
 defineEmits(["delete"])
 
-const { t } = useI18n()
 const modalTitle = computed(() => {
-  return props.title ? props.title : t("actions.delete")
+  return props.itemTitle ? props.itemTitle : null
 })
 </script>
 
@@ -20,7 +19,7 @@ const modalTitle = computed(() => {
         <ModalHeader :title="title" icon="i-heroicons-trash" />
       </template>
       <p class="text-base leading-6">
-        {{ $t("actions.confirmation") }} "{{ modalTitle }}"?
+        {{ $t("actions.confirmation") }} {{ modalTitle }}?
       </p>
       <template #footer>
         <div class="flex w-full justify-end space-x-2">

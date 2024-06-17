@@ -47,6 +47,11 @@
     "title": "Order Table",
     "subtitle": "Proceed to checkout",
     "searchForOrders": "Search for book orders...",
+    "updateOrder": {
+      "title": "Update Order",
+      "successDescription": "The order was successfully updated.",
+      "failureDescription": "An error occurred while updating the order. Please try again."
+    },
     "deleteOrder": {
       "title": "Delete Order",
       "successDescription": "The order was successfully deleted.",
@@ -58,10 +63,9 @@
     "subtitle": "Choose books to order",
     "searchForBooks": "Search for books...",
     "updateOrder": {
-      "successDescription": "The order was successfully updated.",
-      "failureDescription": "An error occurred while updating the order. Please try again.",
-      "submit": "Submit",
-      "cancel": "Cancel"
+      "title": "Update Book",
+      "successDescription": "The book was successfully updated.",
+      "failureDescription": "An error occurred while updating the book. Please try again."
     }
   },
   "book": {

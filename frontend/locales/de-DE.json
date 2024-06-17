@@ -35,44 +35,38 @@
       ]
     },
     "submit": "Senden",
-    "success": "Erfolgreich",
     "successDescription": "Sie können nun die importierten Daten in der Buchliste sehen.",
-    "failure": "Fehlschlag",
     "failureDescription": "Beim Importieren der Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
     "alert": "Achtung",
     "alertDescription": "Bei einem erneuten Import im selben Jahr werden die aktuellen Daten überschrieben. Stellen Sie sicher, dass Sie ein Backup haben.",
     "yearLabel": "Jahr",
     "yearSelect": "Wählen ein Jahr",
-    "fileLabel": "Datei",
-    "import": "Import"
+    "fileLabel": "Datei"
   },
   "orderList": {
     "title": "Bestellliste",
     "subtitle": "Zur Kasse gehen",
     "searchForOrders": "Nach Bestellungen suchen...",
     "updateOrder": {
-      "success": "Erfolgreich",
+      "title": "Bestellung bearbeiten",
       "successDescription": "Die Bestellung wurde erfolgreich aktualisiert.",
-      "failure": "Fehlschlag",
       "failureDescription": "Beim Aktualisieren der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
-      "submit": "Senden",
-      "cancel": "Abbrechen"
     },
     "deleteOrder": {
       "title": "Bestellung löschen",
-      "success": "Erfolgreich",
       "successDescription": "Die Bestellung wurde erfolgreich gelöscht.",
-      "failure": "Fehlschlag",
       "failureDescription": "Beim Löschen der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
-      "delete": "Löschen",
-      "cancel": "Abbrechen",
-      "confirmation": "Möchten Sie wirklich die Bestellung folgenden Buches löschen: "
     }
   },
   "bookList":{
     "title": "Bücherübersicht",
     "subtitle": "Wählen Sie Bücher zum Bestellen aus",
-    "searchForBooks": "Nach Büchern suchen..."
+    "searchForBooks": "Nach Büchern suchen...",
+    "updateOrder": {
+      "title": "Buch bearbeiten",
+      "successDescription": "Das Buch wurde erfolgreich bearbeitet.",
+      "failureDescription": "Beim Aktualisieren des Buches ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    }
   },
   "book": {
     "orderNumber": "BNR",
@@ -89,11 +83,14 @@
   "classes": {
     "title": "Klassenverwaltung",
     "subtitle": "Verwalten Sie Ihre Schulklassen",
-    "success": "Erfolg",
     "successDescription": "Die Klasse wurde erfolgreich hinzugefügt.",
-    "failure": "Fehler",
     "failureDescription": "Beim Hinzufügen der Klasse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
     "create": "Klasse erstellen",
+    "deleteClass": {
+      "title": "Schulklasse löschen",
+      "successDescription": "Die Klasse wurde erfolgreich gelöscht.",
+      "failureDescription": "Beim löschen der Klasse ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    },
     "form": {
       "name": "Name",
       "grade": "Schulstufe",
@@ -101,8 +98,7 @@
       "repetents": "Repetenten",
       "budget": "Budget",
       "department": "Abteilung",
-      "departmentPlaceholder": "Wählen Sie eine Abteilung",
-      "submit": "Erstellen"
+      "departmentPlaceholder": "Wählen Sie eine Abteilung"
     },
     "table": {
       "name": "Name",
@@ -125,7 +121,16 @@
     "edit": "Bearbeiten",
     "info": "Info",
     "delete": "Löschen",
-    "duplicate": "Duplizieren"
+    "duplicate": "Duplizieren",
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "submit": "Erstellen",
+    "confirmation": "Möchten Sie wirklich folgendes löschen:"
+  },
+  "notification": {
+    "success": "Success",
+    "failure": "Failure"
   },
   "bool": {
     "yes": "Ja",
@@ -133,7 +138,6 @@
   },
   "login": {
     "signIn": "Einloggen",
-    "failure": "Fehlgeschlagen",
     "notAuthenticated": "Der Benutzername oder das Passwort ist falsch!"
   }
 }

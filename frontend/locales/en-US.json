@@ -83,6 +83,7 @@
   "classes": {
     "title": "Class Management",
     "subtitle": "Manage your school classes",
+    "searchForClasses": "Search for classes...",
     "successDescription": "The class was successfully created.",
     "failureDescription": "An error occurred while creating the class. Please try again.",
     "create": "Create new",

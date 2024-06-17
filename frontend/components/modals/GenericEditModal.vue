@@ -1,15 +1,11 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   title: string
   itemTitle: string | null
 }>()
 
 const model = defineModel<boolean>()
 defineEmits(["update"])
-
-const modalTitle = computed(() => {
-  return props.itemTitle ? props.itemTitle : null
-})
 </script>
 
 <template>

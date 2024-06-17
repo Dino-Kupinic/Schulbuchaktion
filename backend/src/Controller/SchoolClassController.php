@@ -141,6 +141,37 @@ class SchoolClassController extends AbstractController
    *     )
    * )
    */
+  #[Route(path: "/update/{id}", name: "update", methods: ["PUT"])]
+  public function updateSchoolClass(SchoolClassService $schoolClassService, Request $request, int $id): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("schoolClass:read")
+      ->toArray();
+
+    try {
+      $temp = $schoolClassService->parseRequestData($request);
+      $schoolClass = $schoolClassService->updateSchoolClass($id, $temp);
+      $this->logger->info("School class $id successfully updated!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), 'schoolClassId' => $id]);
+      return $this->json(["success" => true, "data" => $schoolClass], status: Response::HTTP_OK, context: $context);
+    } catch (Exception $e) {
+      $this->logger->error("Failed to update school class $id!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), 'ex' => $e->getTrace()]);
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to update schoolClass: " . $e->getMessage(),
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * @OA\Put(
+   *     path="/api/schoolClasses/update/{id}",
+   *     @OA\Response(
+   *         response=200,
+   *         description="Updates the schoolClass with the given id",
+   *         @OA\JsonContent(ref=@Model(type=SchoolClass::class, groups={"read"}))
+   *     )
+   * )
+   */
   #[Route(path: "/delete/{id}", name: "delete", methods: ["DELETE"])]
   public function deleteSchoolClass(SchoolClassService $schoolClassService, int $id, Request $request): Response
   {

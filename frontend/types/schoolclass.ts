@@ -19,7 +19,7 @@ export type SchoolClass = {
   name: string
   grade: number
   students: number
-  repetents?: number
+  repetents: number
   budget: number
   usedBudget: number
   department: Department

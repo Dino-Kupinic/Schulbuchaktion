@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Book } from "~/types/book"
 import type { APIResponsePaginated } from "~/types/response"
+import TableSearch from "~/components/table/TableSearch.vue"
 
 const columns = ref([
   {
@@ -95,7 +96,7 @@ const columnsTable = computed(() =>
 
 const sort = ref({ column: "id", direction: "asc" as const })
 const selectedRows = ref<Book[]>([])
-const query = ref("")
+const query = ref<string>("")
 
 const filteredRows = computed(() => {
   if (!books.value) {
@@ -207,15 +208,10 @@ watch(
       <div
         class="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row"
       >
-        <div class="flex w-full sm:w-[300px]">
-          <UInput
-            v-model="query"
-            size="md"
-            class="w-full"
-            icon="i-heroicons-magnifying-glass-20-solid"
-            :placeholder="$t('bookList.searchForBooks')"
-          />
-        </div>
+        <TableSearch
+          v-model="query"
+          :placeholder="$t('bookList.searchForBooks')"
+        />
 
         <div class="flex items-center gap-2">
           <USelect

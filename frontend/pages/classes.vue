@@ -4,6 +4,7 @@ import type { APIResponseArray, APIResponseObject } from "~/types/response"
 import type { Department } from "~/types/department"
 import type { FormSubmitEvent } from "#ui/types"
 import { z } from "zod"
+import TableSearch from "~/components/table/TableSearch.vue"
 
 const { t, locale } = useI18n()
 
@@ -34,6 +35,39 @@ watch(
   { immediate: true },
 )
 
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, "Must be atleast 1 characters")
+    .max(255, "Must be at most 255 characters"),
+  grade: z.number().int().min(1, "Must be at least 1"),
+  students: z.number().int().min(1, "Must be at least 1"),
+  repetents: z.number().int().min(0, "Must be at least 0").default(0),
+  budget: z.number().int().min(1, "Must be at least 1"),
+  usedBudget: z.number().optional(),
+  year: z.number().optional(),
+  department: z.any(),
+})
+
+type Schema = z.output<typeof schema>
+const state = reactive({
+  name: undefined,
+  grade: undefined,
+  students: undefined,
+  repetents: undefined,
+  budget: undefined,
+  department: undefined,
+})
+
+const editState = reactive({
+  name: "",
+  grade: 1,
+  students: 1,
+  repetents: 0,
+  budget: 1,
+  department: {},
+})
+
 const editModalVisible = ref<boolean>(false)
 const deleteModalVisible = ref<boolean>(false)
 const changedSchoolClass = ref<SchoolClass | null>(null)
@@ -46,6 +80,14 @@ const items = (row: SchoolClass) =>
         icon: "i-heroicons-pencil-square-20-solid",
         click: () => {
           changedSchoolClass.value = row
+
+          editState.name = changedSchoolClass.value.name
+          editState.grade = changedSchoolClass.value.grade
+          editState.students = changedSchoolClass.value.students
+          editState.repetents = changedSchoolClass.value.repetents
+          editState.budget = changedSchoolClass.value.budget
+          editState.department = changedSchoolClass.value.department.id
+
           editModalVisible.value = true
         },
       },
@@ -79,43 +121,11 @@ const { data: departments, pending: departmentsPending } = await useLazyFetch<
   pick: ["data"],
 })
 
-const filteredRows = computed(() => {
-  if (!classes.value) {
-    return []
-  }
-
-  return classes.value.data
-})
-
-const schema = z.object({
-  name: z
-    .string()
-    .min(1, "Must be atleast 1 characters")
-    .max(255, "Must be at most 255 characters"),
-  grade: z.number().int().min(1, "Must be at least 1"),
-  students: z.number().int().min(1, "Must be at least 1"),
-  repetents: z.number().int().min(0, "Must be at least 0").default(0),
-  budget: z.number().int().min(1, "Must be at least 1"),
-  usedBudget: z.number().optional(),
-  year: z.number().optional(),
-  department: z.any(),
-})
-
-type Schema = z.output<typeof schema>
-const state = reactive({
-  name: undefined,
-  grade: undefined,
-  students: undefined,
-  repetents: undefined,
-  budget: undefined,
-  department: undefined,
-})
-
 const toast = useToast()
 const { currentYear, fetchCurrentYear } = useCurrentYear()
 await fetchCurrentYear()
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
+async function onCreateSubmit(event: FormSubmitEvent<Schema>) {
   const formData = event.data
 
   try {
@@ -133,14 +143,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     )
     if (response.success) {
       toast.add({
-        title: t("classes.success"),
+        title: t("notification.success"),
         description: t("classes.successDescription"),
         icon: "i-heroicons-check-circle",
       })
       refreshClasses()
     } else {
       toast.add({
-        title: t("classes.failure"),
+        title: t("notification.failure"),
         description: t("classes.failureDescription"),
         color: "red",
         icon: "i-material-symbols-error-circle-rounded-outline-sharp",
@@ -170,7 +180,52 @@ async function deleteClass() {
   deleteModalVisible.value = false
 }
 
-async function updateClass() {}
+async function updateClass() {
+  const result = schema.safeParse(editState)
+
+  if (!result.success) {
+    toast.add({
+      title: t("notification.failure"),
+      description: t("classes.updateClass.failureDescription"),
+      color: "red",
+      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
+    })
+    console.error(result.error.errors)
+    return
+  }
+
+  const formData = result.data
+  formData.usedBudget = 0
+  formData.year = currentYear.value?.id
+  formData.department = parseInt(formData.department)
+
+  const response = await $fetch<APIResponseObject<SchoolClass>>(
+    `/schoolClasses/update/${changedSchoolClass.value?.id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(formData),
+      baseURL: config.public.baseURL,
+    },
+  )
+
+  if (response.success) {
+    toast.add({
+      title: t("notification.success"),
+      description: t("classes.updateClass.successDescription"),
+      icon: "i-heroicons-check-circle",
+    })
+    refreshClasses()
+  } else {
+    toast.add({
+      title: t("notification.failure"),
+      description: t("classes.updateClass.failureDescription"),
+      color: "red",
+      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
+    })
+  }
+
+  editModalVisible.value = false
+}
 
 const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
   const percentage = (usedBudget / budget) * 100
@@ -180,7 +235,28 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
   return "text-neutral-500"
 }
 
-// TODO: search
+const query = ref<string>("")
+const filteredRows = computed(() => {
+  if (!classes.value || !classes.value.data) {
+    return []
+  }
+
+  if (!query.value) {
+    return classes.value.data
+  }
+
+  return classes.value.data.filter((schoolClass: SchoolClass) => {
+    return Object.values(schoolClass).some((value) => {
+      return (
+        value.toString().toLowerCase().includes(query.value.toLowerCase()) ||
+        schoolClass.year.year.toString().includes(query.value) ||
+        schoolClass.department.name
+          .toLowerCase()
+          .includes(query.value.toLowerCase())
+      )
+    })
+  })
+})
 </script>
 
 <template>
@@ -208,7 +284,7 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
             :schema="schema"
             :state="state"
             class="space-y-2"
-            @submit="onSubmit"
+            @submit="onCreateSubmit"
           >
             <UFormGroup :label="$t('classes.form.name')" name="name" required>
               <UInput v-model="state.name" placeholder="1AHITN" />
@@ -260,6 +336,14 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
           </UForm>
         </div>
         <div class="flex h-full w-full flex-col overflow-x-auto">
+          <div
+            class="w-full border-b border-neutral-300 p-4 dark:border-neutral-700"
+          >
+            <TableSearch
+              v-model="query"
+              :placeholder="$t('classes.searchForClasses')"
+            />
+          </div>
           <UTable
             :rows="filteredRows"
             :loading="pending"
@@ -312,8 +396,53 @@ const getUsedBudgetColor = (usedBudget: number, budget: number): string => {
             :item-title="changedSchoolClass?.name ?? null"
             @update="updateClass"
           >
-            <UForm>
-              <UFormGroup> </UFormGroup>
+            <UForm :schema="schema" :state="editState" class="space-y-3">
+              <UFormGroup :label="$t('classes.form.name')" name="name" required>
+                <UInput v-model="editState.name" />
+              </UFormGroup>
+              <UFormGroup
+                :label="$t('classes.form.grade')"
+                name="grade"
+                required
+              >
+                <UInput v-model="editState.grade" type="number" />
+              </UFormGroup>
+              <UFormGroup
+                :label="$t('classes.form.students')"
+                name="students"
+                required
+              >
+                <UInput v-model="editState.students" type="number" />
+              </UFormGroup>
+              <UFormGroup
+                :label="$t('classes.form.repetents')"
+                name="repetents"
+                hint="Optional"
+              >
+                <UInput v-model="editState.repetents" type="number" />
+              </UFormGroup>
+              <UFormGroup
+                :label="$t('classes.form.budget')"
+                name="budget"
+                required
+              >
+                <UInput v-model="editState.budget" type="number" />
+              </UFormGroup>
+              <UFormGroup
+                :label="$t('classes.form.department')"
+                name="department"
+                required
+              >
+                <USelect
+                  v-if="!departmentsPending && departments && departments.data"
+                  v-model="editState.department"
+                  :options="departments.data"
+                  option-attribute="name"
+                  value-attribute="id"
+                  :placeholder="$t('classes.form.departmentPlaceholder')"
+                />
+                <USkeleton v-else class="h-8 w-full" />
+              </UFormGroup>
             </UForm>
           </GenericEditModal>
 

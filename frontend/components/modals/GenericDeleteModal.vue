@@ -7,7 +7,7 @@ const props = defineProps<{
 const model = defineModel<boolean>()
 defineEmits(["delete"])
 
-const modalTitle = computed(() => {
+const item = computed(() => {
   return props.itemTitle ? props.itemTitle : null
 })
 </script>
@@ -19,7 +19,7 @@ const modalTitle = computed(() => {
         <ModalHeader color="red" :title="title" icon="i-heroicons-trash" />
       </template>
       <p class="text-base leading-6">
-        {{ $t("actions.confirmation") }} {{ modalTitle }}?
+        {{ $t("actions.confirmation") }} {{ item }}?
       </p>
       <template #footer>
         <div class="flex w-full justify-end space-x-2">

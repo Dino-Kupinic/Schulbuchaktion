@@ -13,12 +13,9 @@ FROM frankenphp_upstream AS frankenphp_base
 
 WORKDIR /app
 
-VOLUME /app/var
-
 # persistent / runtime deps
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	acl \
 	file \
 	gettext \
 	git \
@@ -88,7 +85,6 @@ COPY --link . ./
 RUN rm -Rf frankenphp/
 
 RUN set -eux; \
-	mkdir -p var/cache var/log; \
 	composer dump-autoload --classmap-authoritative; \
 	composer dump-env prod; \
 	chmod +x bin/console; sync;

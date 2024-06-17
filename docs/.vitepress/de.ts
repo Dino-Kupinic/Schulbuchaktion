@@ -15,6 +15,13 @@ export const de = defineConfig({
         items: sidebarDevelopers(),
       },
     },
+    editLink: {
+      pattern: 'https://github.com/Dino-Kupinic/Schulbuchaktion/edit/main/docs/:path',
+      text: 'Seite auf GitHub bearbeiten'
+    },
+    lastUpdated: {
+      text: 'Aktualisiert am',
+    },
     footer: {
       message: "Veröffentlicht unter der MIT Lizenz.",
       copyright: "Copyright © 2024-jetzt Nixx Labs",
@@ -133,6 +140,10 @@ function sidebarDevelopers(): DefaultTheme.SidebarItem[] {
         {
           text: "Dokumentation ändern",
           link: "documentation",
+        },
+        {
+          text: "Protokolle",
+          link: "logging",
         },
       ],
     },

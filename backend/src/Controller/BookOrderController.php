@@ -6,6 +6,9 @@ use App\Entity\BookOrder;
 use App\Repository\BookOrderRepository;
 use App\Service\BookOrderService;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
+use OpenApi\Annotations as OA;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +27,13 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/bookOrders")
  */
-#[Route("api/v1/bookOrders", name: "bookOrder.")]
+#[Route("api/v1/bookOrders", name: "bookOrder."), WithMonologChannel('action')]
 class BookOrderController extends AbstractController
 {
+  public function __construct(private LoggerInterface $logger)
+  {
+  }
+
 
   /**
    * @OA\Get(
@@ -131,8 +138,10 @@ class BookOrderController extends AbstractController
     try {
       $temp = $bookOrderService->parseRequestData($request);
       $bookOrder = $bookOrderService->createBookOrder($temp);
+      $this->logger->info("Book order " . $bookOrder->getId() . " successfully created!", ["token" => $request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID' => $bookOrder->getId()]);
       return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
+      $this->logger->error("Failed to create book order!", $e->getTrace());
       return $this->json([
         "success" => false,
         "error" => "Failed to create book order: {$e->getMessage()}",
@@ -161,12 +170,15 @@ class BookOrderController extends AbstractController
    * )
    */
   #[Route(path: "/delete/{id}", name: "delete", methods: ["DELETE"])]
-  public function deleteBook(BookOrderService $bookOrderService, int $id): Response
+  public function deleteBook(BookOrderService $bookOrderService, int $id, Request $request): Response
   {
     try {
+      $bookOrder = $bookOrderService->findBookOrderById($id);
       $bookOrderService->deleteBookOrder($id);
+      $this->logger->info("Book order successfully deleted!", ["token" => $request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID' => $bookOrder->getId()]);
       return $this->json(["success" => true, "message" => "Book Order was successfully deleted"], status: Response::HTTP_OK);
     } catch (Exception $e) {
+      $this->logger->error("Failed to delete book order $id!", $e->getTrace());
       return $this->json([
         "success" => false,
         "error" => "Failed to delete book order with id $id: {$e->getMessage()}",
@@ -208,8 +220,10 @@ class BookOrderController extends AbstractController
     try {
       $temp = $bookOrderService->parseRequestData($request);
       $bookOrder = $bookOrderService->updateBookOrder($id, $temp);
+      $this->logger->info("Book order $id successfully updated!", ["token" => $request->cookies->get($_ENV['TOKEN_NAME']), 'bookOrderID' => $bookOrder->getId()]);
       return $this->json(["success" => true, "data" => $bookOrder], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
+      $this->logger->error("Failed to update book order $id!", $e->getTrace());
       return $this->json([
         "success" => false,
         "error" => "Failed to update book order with id $id: {$e->getMessage()}",

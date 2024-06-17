@@ -29,9 +29,9 @@ class SchoolClass
   #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $students = null;
 
-  #[ORM\Column(nullable: true)]
+  #[ORM\Column]
   #[Groups(["schoolClass:read", "bookOrder:read"])]
-  private ?int $repetents = null;
+  private ?int $repetents = 0;
 
   #[ORM\Column]
   #[Groups(["schoolClass:read", "bookOrder:read"])]
@@ -190,5 +190,17 @@ class SchoolClass
     $this->year = $year;
 
     return $this;
+  }
+
+  public function updateFrom(SchoolClass $schoolClass): void
+  {
+    $this->setName($schoolClass->getName());
+    $this->setGrade($schoolClass->getGrade());
+    $this->setStudents($schoolClass->getStudents());
+    $this->setRepetents($schoolClass->getRepetents());
+    $this->setBudget($schoolClass->getBudget());
+    $this->setUsedBudget($schoolClass->getUsedBudget());
+    $this->setDepartment($schoolClass->getDepartment());
+    $this->setYear($schoolClass->getYear());
   }
 }

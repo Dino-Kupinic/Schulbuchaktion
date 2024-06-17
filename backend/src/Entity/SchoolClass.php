@@ -29,9 +29,9 @@ class SchoolClass
   #[Groups(["schoolClass:read", "bookOrder:read"])]
   private ?int $students = null;
 
-  #[ORM\Column(nullable: true)]
+  #[ORM\Column]
   #[Groups(["schoolClass:read", "bookOrder:read"])]
-  private ?int $repetents = null;
+  private ?int $repetents = 0;
 
   #[ORM\Column]
   #[Groups(["schoolClass:read", "bookOrder:read"])]

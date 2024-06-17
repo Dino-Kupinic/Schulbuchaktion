@@ -15,16 +15,13 @@
 
 {$SERVER_NAME:localhost} {
 	log {
-		# Redact the authorization query parameter that can be set by Mercure
-		format filter {
-			wrap console
-			fields {
-				uri query {
-					replace authorization REDACTED
-				}
-			}
-		}
-	}
+          output file /var/log/caddy/access.log {
+              roll_size 10MB
+              roll_keep 10
+              roll_keep_for 336h
+          }
+          level ERROR
+      }
 
 	root * /app/public
 	encode zstd br gzip

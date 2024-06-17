@@ -23,6 +23,7 @@ class SchoolClassFixture extends Fixture
       $schoolClass->setStudents(20);
       $schoolClass->setBudget(500);
       $schoolClass->setUsedBudget(250);
+      $schoolClass->setRepetents(2);
       $manager->persist($schoolClass);
       $this->addReference('schoolClass ' . $i, $schoolClass);
     }

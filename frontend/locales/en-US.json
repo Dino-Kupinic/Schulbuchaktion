@@ -50,7 +50,7 @@
     "subtitle": "Proceed to checkout",
     "searchForOrders": "Search for book orders..."
   },
-  "bookList":{
+  "bookList": {
     "title": "Book Overview",
     "subtitle": "Choose books to order",
     "searchForBooks": "Search for books...",
@@ -59,6 +59,14 @@
       "successDescription": "The order was successfully updated.",
       "failure": "Failure",
       "failureDescription": "An error occurred while updating the order. Please try again.",
+      "submit": "Submit",
+      "cancel": "Cancel"
+    },
+    "order": {
+      "success": "Success",
+      "successDescription": "The order was successfully added.",
+      "failure": "Failure",
+      "failureDescription": "An error occurred while adding the order. Please try again.",
       "submit": "Submit",
       "cancel": "Cancel"
     }

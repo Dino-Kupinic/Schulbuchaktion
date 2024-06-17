@@ -16,9 +16,9 @@ export type BookOrder = {
 export type BookOrderDTO = {
   count: number
   teacherCopy: boolean
-  schoolClass: SchoolClass
-  bookId: Book
-  year: Year
+  schoolClass: number
+  book: number
+  year: number
   lastUser: string
   creationUser: string
 }

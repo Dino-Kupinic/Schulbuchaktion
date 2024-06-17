@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { Book } from "~/types/book"
-import type {
-  APIResponse,
-  APIResponseArray,
-  APIResponsePaginated,
-} from "~/types/response"
+import type { APIResponseArray, APIResponsePaginated } from "~/types/response"
 import type { SchoolClass } from "~/types/schoolclass"
 import type { BookOrderDTO } from "~/types/bookorder"
+import { z } from "zod"
+import type { FormSubmitEvent } from "#ui/types"
+import type { Year } from "~/types/year"
 
 const { t, locale } = useI18n()
 
@@ -202,74 +201,87 @@ const { data: schoolClasses, pending: schoolClassesPending } =
     pick: ["data"],
   })
 
-const pickedSchoolClass = ref<SchoolClass>()
-const repetents = ref<{ label: string; value: number }>()
 const isVisible = ref(false)
-
-function getClassById(id: number) {
-  return schoolClasses.value?.data?.find((schoolClass) => schoolClass.id === id)
-}
 
 const teacherCopy = ref<boolean>(false)
 
-async function addBookOrder(rows: Book[]) {
-  const bookOrders: BookOrderDTO[] = []
+const schema = z.object({
+  schoolClass: z.object({
+    id: z.number(),
+    name: z.string(),
+    grade: z.number(),
+    students: z.number(),
+    repetents: z.number(),
+    budget: z.number(),
+    usedBudget: z.number(),
+  }),
+  repetents: z.string(),
+  teacherCopy: z.boolean(),
+})
 
-  console.log(pickedSchoolClass.value)
+type Schema = z.output<typeof schema>
 
-  if (!pickedSchoolClass.value) {
+const state = reactive({
+  schoolClass: undefined,
+  repetents: undefined,
+  teacherCopy: undefined,
+})
+
+const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
+  baseURL: config.public.baseURL,
+})
+
+async function addBookOrder(event: FormSubmitEvent<Schema>) {
+  if (years.value == null || years.value.data == undefined) {
     return
   }
 
-  rows.forEach((row) => {
+  const bookOrders: BookOrderDTO[] = []
+
+  selectedRows.value.forEach((row) => {
     let count = 0
 
-    switch (repetents.value?.label) {
+    switch (event.data.repetents) {
       case "With":
         count =
-          pickedSchoolClass.value.students + pickedSchoolClass.value.repetents
+          event.data.schoolClass.students + event.data.schoolClass.repetents
         break
       case "Without":
-        count = pickedSchoolClass.value.students
+        count = event.data.schoolClass.students
         break
       case "Only":
-        count = pickedSchoolClass.value.repetents
+        count = event.data.schoolClass.repetents
         break
     }
 
-    if (repetents.value.value === 0 && pickedSchoolClass.value != null) {
-      // With
-      count = schoolClass.students + pickedSchoolClass.value.repetents
-    } else if (repetents.value.value === 1) {
-      // Without
-      count = schoolClass.students
-    } else if (repetents.value.value === 2 && schoolClass.repetents != null) {
-      // Only
-      count = schoolClass.repetents
-    }
+    if (event.data.teacherCopy) count++
 
     bookOrders.push({
       count: count,
-      teacherCopy: teacherCopy.value,
-      schoolClass: schoolClass,
-      bookId: row,
-      year: {
-        id: 1,
-        year: new Date().getFullYear(),
-      },
-      lastUser: "",
-      creationUser: "",
+      teacherCopy: event.data.teacherCopy,
+      schoolClass: event.data.schoolClass.id,
+      book: row.id,
+      year: row.year.id,
+      lastUser: "User 0",
+      creationUser: "User 0",
     })
   })
 
-  bookOrders.forEach(async (bookOrder) => {
-    await $fetch("/bookOrders/create", {
+  for (const bookOrder of bookOrders) {
+    await $fetch("bookOrders/create", {
       method: "POST",
-      params: {
-        data: bookOrder,
-      },
+      body: bookOrder,
       baseURL: config.public.baseURL,
     })
+  }
+  isVisible.value = false
+
+  const toast = useToast()
+
+  toast.add({
+    title: t("bookList.order.success"),
+    description: t("bookList.order.successDescription"),
+    icon: "i-heroicons-check-circle",
   })
 }
 
@@ -514,41 +526,46 @@ const repententOptions = [
         }"
       />
 
-      <USelectMenu
-        v-if="!schoolClassesPending"
-        v-model="pickedSchoolClass"
-        placeholder="Select a class"
-        :options="schoolClasses?.data"
-        option-attribute="name"
-        value-attribute="id"
-        searchable
-      />
-      <USkeleton v-else class="h-8 w-full" />
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="addBookOrder"
+      >
+        <UFormGroup label="Class" name="schoolClass">
+          <USelectMenu
+            v-if="!schoolClassesPending"
+            v-model="state.schoolClass"
+            placeholder="Select a class"
+            :options="schoolClasses?.data"
+            option-attribute="name"
+            searchable
+          />
+        </UFormGroup>
 
-      <USelectMenu
-        v-model="repetents"
-        class="mt-4"
-        placeholder="Order for repetents"
-        :options="repententOptions"
-        option-attribute="label"
-        value-attribute="value"
-      />
+        <UFormGroup label="Repetents" name="repetents">
+          <USelectMenu
+            v-model="state.repetents"
+            class="mt-4"
+            placeholder="Order for repetents"
+            :options="repententOptions"
+            option-attribute="label"
+            value-attribute="label"
+          />
+        </UFormGroup>
 
-      <UCheckbox
-        v-model="teacherCopy"
-        class="mt-4"
-        color="blue"
-        label="Teacher copy"
-        help="Get an extra copy for the teacher"
-      />
+        <UFormGroup label="Teacher copy" name="teacherCopy">
+          <UCheckbox
+            v-model="state.teacherCopy"
+            class="mt-4"
+            color="blue"
+            label="Teacher copy"
+            help="Get an extra copy for the teacher"
+          />
+        </UFormGroup>
 
-      <UButton
-        label="Submit"
-        class="mt-4"
-        size="md"
-        :disabled="!pickedSchoolClass"
-        @click="addBookOrder(selectedRows)"
-      />
+        <UButton type="submit"> Submit</UButton>
+      </UForm>
     </UCard>
   </UModal>
 </template>

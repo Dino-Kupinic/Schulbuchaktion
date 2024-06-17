@@ -64,7 +64,6 @@ const items = (row: BookOrder) => [
       click: () => {
         changedBookOrder.value = row
         isVisible.value = true
-        console.log(changedBookOrder.value)
       },
     },
   ],
@@ -199,8 +198,6 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
     baseURL: config.public.baseURL,
   },
 )
-
-console.log(books.value)
 
 const { data: schoolClasses } = await useLazyFetch<APIResponse<SchoolClass[]>>(
   "/schoolClasses",

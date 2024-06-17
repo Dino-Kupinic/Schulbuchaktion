@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { Book } from "~/types/book"
-import type { APIResponsePaginated } from "~/types/response"
+import type { APIResponseArray, APIResponsePaginated } from "~/types/response"
+import type { SchoolClass } from "~/types/schoolclass"
+import type { BookOrderDTO } from "~/types/bookorder"
+import { z } from "zod"
+import type { FormSubmitEvent } from "#ui/types"
+import type { Year } from "~/types/year"
+
+const { t, locale } = useI18n()
 
 const columns = ref([
   {
@@ -42,6 +49,58 @@ const columns = ref([
     key: "actions",
   },
 ])
+
+watch(
+  locale,
+  () => {
+    columns.value = [
+      {
+        key: "orderNumber",
+        label: t("book.orderNumber"),
+        sortable: true,
+      },
+      {
+        key: "title",
+        label: t("book.title"),
+        sortable: true,
+      },
+      {
+        key: "publisher",
+        label: t("book.publisher"),
+        sortable: true,
+      },
+      {
+        key: "subject",
+        label: t("book.subject"),
+        sortable: true,
+      },
+      {
+        key: "grade",
+        label: t("book.grade"),
+        sortable: true,
+      },
+      {
+        key: "ebook",
+        label: t("book.ebook"),
+        sortable: true,
+      },
+      {
+        key: "ebookPlus",
+        label: t("book.ebookPlus"),
+        sortable: true,
+      },
+      {
+        key: "bookPrice",
+        label: t("book.price"),
+        sortable: true,
+      },
+      {
+        key: "actions",
+      },
+    ]
+  },
+  { immediate: true },
+)
 const columnsBackup = ref(columns.value)
 const config = useRuntimeConfig()
 
@@ -136,59 +195,101 @@ function resetFilters() {
   selectedColumns.value = columnsBackup.value
 }
 
-const { t, locale } = useI18n()
+const { data: schoolClasses, pending: schoolClassesPending } =
+  await useLazyFetch<APIResponseArray<SchoolClass>>("/schoolClasses", {
+    baseURL: config.public.baseURL,
+    pick: ["data"],
+  })
 
-watch(
-  locale,
-  () => {
-    columns.value = [
-      {
-        key: "orderNumber",
-        label: t("book.orderNumber"),
-        sortable: true,
-      },
-      {
-        key: "title",
-        label: t("book.title"),
-        sortable: true,
-      },
-      {
-        key: "publisher",
-        label: t("book.publisher"),
-        sortable: true,
-      },
-      {
-        key: "subject",
-        label: t("book.subject"),
-        sortable: true,
-      },
-      {
-        key: "grade",
-        label: t("book.grade"),
-        sortable: true,
-      },
-      {
-        key: "ebook",
-        label: t("book.ebook"),
-        sortable: true,
-      },
-      {
-        key: "ebookPlus",
-        label: t("book.ebookPlus"),
-        sortable: true,
-      },
-      {
-        key: "bookPrice",
-        label: t("book.price"),
-        sortable: true,
-      },
-      {
-        key: "actions",
-      },
-    ]
-  },
-  { immediate: true },
-)
+const isVisible = ref(false)
+
+const teacherCopy = ref<boolean>(false)
+
+const schema = z.object({
+  schoolClass: z.object({
+    id: z.number(),
+    name: z.string(),
+    grade: z.number(),
+    students: z.number(),
+    repetents: z.number(),
+    budget: z.number(),
+    usedBudget: z.number(),
+  }),
+  repetents: z.string(),
+  teacherCopy: z.boolean(),
+})
+
+type Schema = z.output<typeof schema>
+
+const state = reactive({
+  schoolClass: undefined,
+  repetents: undefined,
+  teacherCopy: undefined,
+})
+
+const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
+  baseURL: config.public.baseURL,
+})
+
+async function addBookOrder(event: FormSubmitEvent<Schema>) {
+  if (years.value == null || years.value.data == undefined) {
+    return
+  }
+
+  const bookOrders: BookOrderDTO[] = []
+
+  selectedRows.value.forEach((row) => {
+    let count = 0
+
+    switch (event.data.repetents) {
+      case "With":
+        count =
+          event.data.schoolClass.students + event.data.schoolClass.repetents
+        break
+      case "Without":
+        count = event.data.schoolClass.students
+        break
+      case "Only":
+        count = event.data.schoolClass.repetents
+        break
+    }
+
+    if (event.data.teacherCopy) count++
+
+    bookOrders.push({
+      count: count,
+      teacherCopy: event.data.teacherCopy,
+      schoolClass: event.data.schoolClass.id,
+      book: row.id,
+      year: row.year.id,
+      lastUser: "User 0",
+      creationUser: "User 0",
+    })
+  })
+
+  for (const bookOrder of bookOrders) {
+    await $fetch("bookOrders/create", {
+      method: "POST",
+      body: bookOrder,
+      baseURL: config.public.baseURL,
+    })
+  }
+  isVisible.value = false
+
+  const toast = useToast()
+
+  toast.add({
+    title: t("bookList.order.success"),
+    description: t("bookList.order.successDescription"),
+    icon: "i-heroicons-check-circle",
+  })
+}
+
+const repententOptions = [
+  { label: "With", value: 1 },
+  { label: "Without", value: 2 },
+  { label: "Only", value: 3 },
+]
 </script>
 
 <template>
@@ -214,6 +315,13 @@ watch(
             class="w-full"
             icon="i-heroicons-magnifying-glass-20-solid"
             :placeholder="$t('bookList.searchForBooks')"
+          />
+          <UButton
+            label="Order"
+            class="ml-2"
+            size="md"
+            :disabled="selectedRows.length === 0"
+            @click="isVisible = true"
           />
         </div>
 
@@ -260,7 +368,7 @@ watch(
       :progress="{ color: 'primary', animation: 'carousel' }"
       :columns="columnsTable"
       :ui="{
-        wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
+        wrapper: 'relative overflow-x-auto h-[450px] overflow-y-auto',
         td: {
           padding: 'py-1',
         },
@@ -374,4 +482,90 @@ watch(
       </div>
     </template>
   </UCard>
+  <UModal v-model="isVisible" class="bg-opacity-0">
+    <UCard>
+      <template #header>
+        <div class="flex items-center">
+          <span
+            class="text-base font-semibold leading-6 text-red-600 dark:text-white"
+          >
+            Ordering
+          </span>
+          <UButton
+            color="gray"
+            variant="ghost"
+            icon="i-heroicons-x-mark-20-solid"
+            class="ml-auto"
+            @click="isVisible = false"
+          />
+        </div>
+      </template>
+      <h1>Books</h1>
+      <UTable
+        class="mb-4 rounded-lg border-2"
+        :rows="selectedRows"
+        :loading-state="{
+          icon: 'i-heroicons-arrow-path-20-solid',
+          label: 'Loading...',
+        }"
+        :loading="pending"
+        :progress="{ color: 'primary', animation: 'carousel' }"
+        :columns="[
+          {
+            key: 'title',
+          },
+        ]"
+        :ui="{
+          wrapper: 'relative overflow-x-auto h-[150px] overflow-y-auto',
+          td: {
+            padding: 'py-1',
+          },
+          th: {
+            base: 'hidden',
+          },
+        }"
+      />
+
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="addBookOrder"
+      >
+        <UFormGroup label="Class" name="schoolClass">
+          <USelectMenu
+            v-if="!schoolClassesPending"
+            v-model="state.schoolClass"
+            placeholder="Select a class"
+            :options="schoolClasses?.data"
+            option-attribute="name"
+            searchable
+          />
+        </UFormGroup>
+
+        <UFormGroup label="Repetents" name="repetents">
+          <USelectMenu
+            v-model="state.repetents"
+            class="mt-4"
+            placeholder="Order for repetents"
+            :options="repententOptions"
+            option-attribute="label"
+            value-attribute="label"
+          />
+        </UFormGroup>
+
+        <UFormGroup label="Teacher copy" name="teacherCopy">
+          <UCheckbox
+            v-model="state.teacherCopy"
+            class="mt-4"
+            color="blue"
+            label="Teacher copy"
+            help="Get an extra copy for the teacher"
+          />
+        </UFormGroup>
+
+        <UButton type="submit"> Submit</UButton>
+      </UForm>
+    </UCard>
+  </UModal>
 </template>

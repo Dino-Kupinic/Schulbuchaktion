@@ -78,7 +78,15 @@
   "bookList":{
     "title": "Bücherübersicht",
     "subtitle": "Wählen Sie Bücher zum Bestellen aus",
-    "searchForBooks": "Nach Büchern suchen..."
+    "searchForBooks": "Nach Büchern suchen...",
+    "order": {
+      "success": "Erfolgreich",
+      "successDescription": "Die Bestellung wurde erfolgreich hinzugefügt.",
+      "failure": "Fehlschlag",
+      "failureDescription": "Beim Hinzufügen der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "submit": "Senden",
+      "cancel": "Abbrechen"
+    }
   },
   "book": {
     "orderNumber": "BNR",

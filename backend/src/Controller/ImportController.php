@@ -23,8 +23,6 @@ class ImportController extends AbstractController
   #[Route("/importXLSX", name: 'xlsx', methods: "POST")]
   public function index(ImportService $importService, YearService $yearService, Request $request): Response
   {
-
-
     $uploadedFile = $request->files->get("file");
     $yearId = $request->request->get("year");
 

@@ -154,7 +154,7 @@ const columnsTable = computed(() =>
 
 const sort = ref({ column: "id", direction: "asc" as const })
 const selectedRows = ref<Book[]>([])
-const query = ref("")
+const query = ref<string>("")
 
 const filteredRows = computed(() => {
   if (!books.value) {
@@ -308,14 +308,10 @@ const repententOptions = [
       <div
         class="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row"
       >
-        <div class="flex w-full sm:w-[300px]">
-          <UInput
-            v-model="query"
-            size="md"
-            class="w-full"
-            icon="i-heroicons-magnifying-glass-20-solid"
-            :placeholder="$t('bookList.searchForBooks')"
-          />
+        <TableSearch
+          v-model="query"
+          :placeholder="$t('bookList.searchForBooks')"
+        >
           <UButton
             label="Order"
             class="ml-2"
@@ -323,7 +319,7 @@ const repententOptions = [
             :disabled="selectedRows.length === 0"
             @click="isVisible = true"
           />
-        </div>
+        </TableSearch>
 
         <div class="flex items-center gap-2">
           <USelect
@@ -368,7 +364,7 @@ const repententOptions = [
       :progress="{ color: 'primary', animation: 'carousel' }"
       :columns="columnsTable"
       :ui="{
-        wrapper: 'relative overflow-x-auto h-[450px] overflow-y-auto',
+        wrapper: 'relative overflow-x-auto h-[500px] overflow-y-auto',
         td: {
           padding: 'py-1',
         },

@@ -16,7 +16,7 @@ class BookFixture extends Fixture implements DependentFixtureInterface
    */
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $book = new Book();
       $book->setTitle('The Lord of the Rings: Part ' . $i);
       $book->setShortTitle('LOTR: Part ' . $i);

@@ -17,9 +17,8 @@ services:
 
   php:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    image: ${IMAGES_PREFIX:-}backend_php
     container_name: backend_php
     restart: unless-stopped
     environment:

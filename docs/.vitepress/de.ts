@@ -116,6 +116,20 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
         }
       ]
     },
+    {
+      text: "Klassenverwaltung",
+      collapsed: false,
+      items: [
+        {
+          text: "Klassen erstellen",
+          link: "create-class"
+        },
+        {
+          text: "Klassen editieren und löschen",
+          link: "edit-class"
+        },
+      ]
+    }
   ]
 }
 

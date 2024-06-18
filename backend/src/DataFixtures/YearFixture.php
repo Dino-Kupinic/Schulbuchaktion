@@ -10,7 +10,7 @@ class YearFixture extends Fixture
 {
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $year = new Year();
       $year->setYear(2019 + $i);
       $manager->persist($year);

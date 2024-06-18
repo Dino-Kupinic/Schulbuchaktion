@@ -15,5 +15,6 @@ const query = defineModel<string>()
       icon="i-heroicons-magnifying-glass-20-solid"
       :placeholder
     />
+    <slot />
   </div>
 </template>

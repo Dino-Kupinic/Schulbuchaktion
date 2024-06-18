@@ -9,6 +9,8 @@ import TableSearch from "~/components/table/TableSearch.vue"
 const { t, locale } = useI18n()
 
 const columns = ref()
+
+// prettier-ignore
 watch(
   locale,
   () => {
@@ -18,16 +20,8 @@ watch(
       { label: t("classes.table.students"), key: "students", sortable: true },
       { label: t("classes.table.repetents"), key: "repetents", sortable: true },
       { label: t("classes.table.budget"), key: "budget", sortable: true },
-      {
-        label: t("classes.table.usedBudget"),
-        key: "usedBudget",
-        sortable: true,
-      },
-      {
-        label: t("classes.table.department"),
-        key: "department",
-        sortable: true,
-      },
+      { label: t("classes.table.usedBudget"), key: "usedBudget", sortable: true },
+      { label: t("classes.table.department"), key: "department", sortable: true },
       { label: t("classes.table.year"), key: "year", sortable: true },
       { key: "actions" },
     ]
@@ -121,7 +115,6 @@ const { data: departments, pending: departmentsPending } = await useLazyFetch<
   pick: ["data"],
 })
 
-const toast = useToast()
 const { currentYear, fetchCurrentYear } = useCurrentYear()
 await fetchCurrentYear()
 
@@ -142,19 +135,16 @@ async function onCreateSubmit(event: FormSubmitEvent<Schema>) {
       },
     )
     if (response.success) {
-      toast.add({
-        title: t("notification.success"),
-        description: t("classes.successDescription"),
-        icon: "i-heroicons-check-circle",
-      })
+      displaySuccessNotification(
+        t("notification.success"),
+        t("classes.successDescription"),
+      )
       refreshClasses()
     } else {
-      toast.add({
-        title: t("notification.failure"),
-        description: t("classes.failureDescription"),
-        color: "red",
-        icon: "i-material-symbols-error-circle-rounded-outline-sharp",
-      })
+      displayFailureNotification(
+        t("notification.failure"),
+        t("classes.failureDescription"),
+      )
     }
   } catch (err: unknown) {
     const error = err as Error
@@ -171,11 +161,10 @@ async function deleteClass() {
     baseURL: config.public.baseURL,
   })
 
-  toast.add({
-    title: t("classes.deleteClass.success"),
-    description: t("classes.deleteClass.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
+  displaySuccessNotification(
+    t("notification.success"),
+    t("classes.deleteClass.successDescription"),
+  )
 
   deleteModalVisible.value = false
 }
@@ -184,12 +173,10 @@ async function updateClass() {
   const result = schema.safeParse(editState)
 
   if (!result.success) {
-    toast.add({
-      title: t("notification.failure"),
-      description: t("classes.updateClass.failureDescription"),
-      color: "red",
-      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
-    })
+    displayFailureNotification(
+      t("notification.failure"),
+      t("classes.updateClass.failureDescription"),
+    )
     console.error(result.error.errors)
     return
   }
@@ -209,19 +196,16 @@ async function updateClass() {
   )
 
   if (response.success) {
-    toast.add({
-      title: t("notification.success"),
-      description: t("classes.updateClass.successDescription"),
-      icon: "i-heroicons-check-circle",
-    })
+    displaySuccessNotification(
+      t("notification.success"),
+      t("classes.updateClass.successDescription"),
+    )
     refreshClasses()
   } else {
-    toast.add({
-      title: t("notification.failure"),
-      description: t("classes.updateClass.failureDescription"),
-      color: "red",
-      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
-    })
+    displayFailureNotification(
+      t("notification.failure"),
+      t("classes.updateClass.failureDescription"),
+    )
   }
 
   editModalVisible.value = false

@@ -7,7 +7,7 @@
       :title="$t('bookList.title')"
       :subtitle="$t('bookList.subtitle')"
     />
-    <BookOverviewTable class="grow" />
+    <BookOverviewTable />
   </div>
 </template>
 

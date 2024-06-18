@@ -7,6 +7,7 @@ import type {
 import type { BookOrder } from "~/types/bookorder"
 import type { Book } from "~/types/book"
 import type { Department } from "~/types/department"
+import type { SchoolClass } from "~/types/schoolclass"
 
 const columns = ref([
   {
@@ -71,7 +72,7 @@ const items = (row: BookOrder) => [
   ],
   [
     {
-      label: t("orderList.deleteOrder.delete"),
+      label: t("actions.delete"),
       slot: "delete",
       icon: "i-heroicons-trash-20-solid",
       click: () => {
@@ -220,7 +221,7 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
   },
 )
 
-const { data: schoolClasses } = await useLazyFetch<APIResponse<Department[]>>(
+const { data: schoolClasses } = await useLazyFetch<APIResponse<SchoolClass[]>>(
   "/schoolClasses",
   {
     baseURL: config.public.baseURL,

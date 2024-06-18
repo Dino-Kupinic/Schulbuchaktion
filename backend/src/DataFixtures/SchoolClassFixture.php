@@ -25,6 +25,7 @@ class SchoolClassFixture extends Fixture
       $schoolClass->setRepetents(2);
       $schoolClass->setBudget(5000);
       $schoolClass->setUsedBudget(random_int(0, 5000));
+      $schoolClass->setRepetents(random_int(0, 3));
       $manager->persist($schoolClass);
       $this->addReference('schoolClass ' . $i, $schoolClass);
     }

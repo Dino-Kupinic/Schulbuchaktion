@@ -4,7 +4,7 @@ defineProps<{
 }>()
 
 const model = defineModel<boolean>()
-defineEmits(["update"])
+defineEmits(["create"])
 </script>
 
 <template>
@@ -12,20 +12,20 @@ defineEmits(["update"])
     <UCard>
       <template #header>
         <ModalHeader
-          color="yellow"
+          color="green"
           :title="title"
-          icon="i-heroicons-pencil-square-20-solid"
+          icon="i-heroicons-plus-circle"
         />
       </template>
       <slot />
       <template #footer>
         <div class="flex w-full justify-end space-x-2">
           <UButton
-            color="yellow"
-            icon="i-heroicons-pencil-square-20-solid"
-            @click="$emit('update')"
+            color="green"
+            icon="heroicons:plus-20-solid"
+            @click="$emit('create')"
           >
-            {{ $t("actions.update") }}
+            {{ $t("actions.create") }}
           </UButton>
           <UButton
             color="gray"

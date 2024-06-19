@@ -163,7 +163,7 @@ class YearController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/year/{year}", name: "index", methods: ["GET"])]
+  #[Route(path: "/year/{year}", name: "byYear", methods: ["GET"])]
   public function getYearByYear(YearService $yearsService, int $year): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

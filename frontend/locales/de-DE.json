@@ -62,6 +62,25 @@
     "title": "Bücherübersicht",
     "subtitle": "Wählen Sie Bücher zum Bestellen aus",
     "searchForBooks": "Nach Büchern suchen...",
+    "createOrder": {
+      "title": "Buch bestellen",
+      "class": {
+        "title": "Klasse",
+        "placeholder": "Wählen Sie eine Klasse"
+      },
+      "repetents": {
+        "title": "Repetenten",
+        "placeholder": "Wählen Sie eine Option",
+        "with": "Mit",
+        "without": "Ohne",
+        "only": "Nur"
+      },
+      "teacherCopy": "Lehrerkopie",
+      "includeTeacherCopy": "Inkludieren",
+      "includeDescription": "Bestellen Sie zusätzliche Kopien für den Lehrer",
+      "successDescription": "Das Buch wurde erfolgreich bestellt.",
+      "failureDescription": "Beim Bestellen des Buches ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    },
     "updateOrder": {
       "title": "Buch bearbeiten",
       "successDescription": "Das Buch wurde erfolgreich bearbeitet.",
@@ -124,6 +143,7 @@
     "results": "Ergebnissen"
   },
   "actions": {
+    "create": "Erstellen",
     "edit": "Bearbeiten",
     "info": "Info",
     "delete": "Löschen",

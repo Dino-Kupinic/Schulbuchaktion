@@ -21,4 +21,5 @@ export type BookOrderDTO = {
   year: number
   lastUser: string
   creationUser: string
+  repetents: string
 }

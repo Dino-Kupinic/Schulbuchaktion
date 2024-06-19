@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/years")
  */
-#[Route("api/v1/years", name: "year."), WithMonologChannel('action')]
+#[Route("api/v1/years", name: "year.")]
 class YearController extends AbstractController
 {
   public function __construct(private LoggerInterface $logger)
@@ -163,7 +163,7 @@ class YearController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/year/{year}", name: "index", methods: ["GET"])]
+  #[Route(path: "/year/{year}", name: "byYear", methods: ["GET"])]
   public function getYearByYear(YearService $yearsService, int $year): Response
   {
     $context = (new ObjectNormalizerContextBuilder())

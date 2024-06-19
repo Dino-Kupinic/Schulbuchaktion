@@ -203,8 +203,6 @@ const { data: schoolClasses, pending: schoolClassesPending } =
 
 const isVisible = ref(false)
 
-const teacherCopy = ref<boolean>(false)
-
 const schema = z.object({
   schoolClass: z.object({
     id: z.number(),
@@ -219,8 +217,6 @@ const schema = z.object({
   teacherCopy: z.boolean(),
 })
 
-type Schema = z.output<typeof schema>
-
 const state = reactive({
   schoolClass: undefined,
   repetents: undefined,
@@ -231,7 +227,20 @@ const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
   baseURL: config.public.baseURL,
 })
 
-async function addBookOrder(event: FormSubmitEvent<Schema>) {
+async function addBookOrder() {
+  const result = schema.safeParse(state)
+
+  if (!result.success) {
+    displayFailureNotification(
+      t("notification.failure"),
+      t("classes.updateClass.failureDescription"),
+    )
+    console.error(result.error.errors)
+    return
+  }
+
+  const formData = result.data
+
   if (years.value == null || years.value.data == undefined) {
     return
   }
@@ -241,55 +250,73 @@ async function addBookOrder(event: FormSubmitEvent<Schema>) {
   selectedRows.value.forEach((row) => {
     let count = 0
 
-    switch (event.data.repetents) {
+    switch (formData.repetents) {
       case "With":
-        count =
-          event.data.schoolClass.students + event.data.schoolClass.repetents
+        count = formData.schoolClass.students + formData.schoolClass.repetents
         break
       case "Without":
-        count = event.data.schoolClass.students
+        count = formData.schoolClass.students
         break
       case "Only":
-        count = event.data.schoolClass.repetents
+        count = formData.schoolClass.repetents
         break
     }
 
-    if (event.data.teacherCopy) count++
+    if (formData.teacherCopy) count++
 
     bookOrders.push({
       count: count,
-      teacherCopy: event.data.teacherCopy,
-      schoolClass: event.data.schoolClass.id,
+      teacherCopy: formData.teacherCopy,
+      schoolClass: formData.schoolClass.id,
       book: row.id,
       year: row.year.id,
-      lastUser: "User 0",
-      creationUser: "User 0",
+      lastUser: "testuser",
+      creationUser: "testuser",
+      repetents: formData.repetents,
     })
   })
 
-  for (const bookOrder of bookOrders) {
-    await $fetch("bookOrders/create", {
-      method: "POST",
-      body: bookOrder,
-      baseURL: config.public.baseURL,
+  try {
+    for (const bookOrder of bookOrders) {
+      await $fetch("bookOrders/create", {
+        method: "POST",
+        body: bookOrder,
+        baseURL: config.public.baseURL,
+      })
+    }
+
+    displaySuccessNotification(
+      t("bookList.createOrder.title"),
+      t("bookList.createOrder.successDescription"),
+    )
+
+    isVisible.value = false
+  } catch (err: unknown) {
+    const error = err as Error
+
+    displayFailureNotification(
+      t("bookList.createOrder.title"),
+      t("bookList.createOrder.failureDescription"),
+    )
+    throw createError({
+      statusMessage: error.message,
     })
   }
-  isVisible.value = false
-
-  const toast = useToast()
-
-  toast.add({
-    title: t("bookList.order.success"),
-    description: t("bookList.order.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
 }
 
-const repententOptions = [
-  { label: "With", value: 1 },
-  { label: "Without", value: 2 },
-  { label: "Only", value: 3 },
-]
+let repententOptions: { label: string; value: number }[] = []
+
+watch(
+  locale,
+  () => {
+    repententOptions = [
+      { label: t("bookList.createOrder.repetents.with"), value: 1 },
+      { label: t("bookList.createOrder.repetents.without"), value: 2 },
+      { label: t("bookList.createOrder.repetents.only"), value: 3 },
+    ]
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -486,91 +513,82 @@ const repententOptions = [
         </div>
       </template>
     </UCard>
-    <UModal v-model="isVisible" class="bg-opacity-0">
-      <UCard>
-        <template #header>
-          <div class="flex items-center">
-            <span
-              class="text-base font-semibold leading-6 text-red-600 dark:text-white"
-            >
-              Ordering
-            </span>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="ml-auto"
-              @click="isVisible = false"
-            />
-          </div>
-        </template>
-        <h1>Books</h1>
-        <UTable
-          class="mb-4 rounded-lg border-2"
-          :rows="selectedRows"
-          :loading-state="{
-            icon: 'i-heroicons-arrow-path-20-solid',
-            label: 'Loading...',
-          }"
-          :loading="pending"
-          :progress="{ color: 'primary', animation: 'carousel' }"
-          :columns="[
-            {
-              key: 'title',
-            },
-          ]"
-          :ui="{
-            wrapper: 'relative overflow-x-auto h-[150px] overflow-y-auto',
-            td: {
-              padding: 'py-1',
-            },
-            th: {
-              base: 'hidden',
-            },
-          }"
-        />
+    <GenericCreateModal
+      v-model="isVisible"
+      :title="$t('bookList.createOrder.title')"
+      @create="addBookOrder"
+    >
+      <UTable
+        class="mb-4 rounded-lg border-2"
+        :rows="selectedRows"
+        :loading-state="{
+          icon: 'i-heroicons-arrow-path-20-solid',
+          label: 'Loading...',
+        }"
+        :loading="pending"
+        :progress="{ color: 'primary', animation: 'carousel' }"
+        :columns="[
+          {
+            key: 'title',
+          },
+        ]"
+        :ui="{
+          wrapper: 'relative overflow-x-auto h-[150px] overflow-y-auto',
+          td: {
+            padding: 'py-1',
+          },
+          th: {
+            base: 'hidden',
+          },
+        }"
+      />
 
-        <UForm
-          :schema="schema"
-          :state="state"
-          class="space-y-4"
-          @submit="addBookOrder"
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="addBookOrder"
+      >
+        <UFormGroup
+          :label="$t('bookList.createOrder.class.title')"
+          name="schoolClass"
         >
-          <UFormGroup label="Class" name="schoolClass">
-            <USelectMenu
-              v-if="!schoolClassesPending"
-              v-model="state.schoolClass"
-              placeholder="Select a class"
-              :options="schoolClasses?.data"
-              option-attribute="name"
-              searchable
-            />
-          </UFormGroup>
+          <USelectMenu
+            v-if="!schoolClassesPending"
+            v-model="state.schoolClass"
+            :placeholder="$t('bookList.createOrder.class.placeholder')"
+            :options="schoolClasses?.data"
+            option-attribute="name"
+            searchable
+          />
+        </UFormGroup>
 
-          <UFormGroup label="Repetents" name="repetents">
-            <USelectMenu
-              v-model="state.repetents"
-              class="mt-4"
-              placeholder="Order for repetents"
-              :options="repententOptions"
-              option-attribute="label"
-              value-attribute="label"
-            />
-          </UFormGroup>
+        <UFormGroup
+          :label="$t('bookList.createOrder.repetents.title')"
+          name="repetents"
+        >
+          <USelectMenu
+            v-model="state.repetents"
+            :placeholder="$t('bookList.createOrder.repetents.placeholder')"
+            :options="repententOptions"
+            option-attribute="label"
+            value-attribute="label"
+          />
+        </UFormGroup>
 
-          <UFormGroup label="Teacher copy" name="teacherCopy">
-            <UCheckbox
-              v-model="state.teacherCopy"
-              class="mt-4"
-              color="blue"
-              label="Teacher copy"
-              help="Get an extra copy for the teacher"
-            />
-          </UFormGroup>
-
-          <UButton type="submit"> Submit</UButton>
-        </UForm>
-      </UCard>
-    </UModal>
+        <UFormGroup
+          :label="$t('bookList.createOrder.teacherCopy')"
+          name="teacherCopy"
+        >
+          <UCheckbox
+            v-model="state.teacherCopy"
+            class="mt-2"
+            color="blue"
+            :label="$t('bookList.createOrder.includeTeacherCopy')"
+            :help="$t('bookList.createOrder.includeDescription')"
+          />
+        </UFormGroup>
+      </UForm>
+    </GenericCreateModal>
   </div>
 </template>

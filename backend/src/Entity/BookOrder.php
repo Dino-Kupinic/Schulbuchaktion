@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\RepetentsStatus;
 use App\Repository\BookOrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -44,6 +45,10 @@ class BookOrder
   #[ORM\JoinColumn(nullable: false)]
   #[Groups(["bookOrder:read"])]
   private ?Year $year = null;
+
+  #[ORM\Column]
+  #[Groups(["bookOrder:read"])]
+  private ?string $repetents = RepetentsStatus::WITH;
 
   public function getId(): ?int
   {
@@ -148,5 +153,17 @@ class BookOrder
     $this->schoolClass = $bookOrder->getSchoolClass();
     $this->book = $bookOrder->getBook();
     $this->year = $bookOrder->getYear();
+  }
+
+  public function getRepetents(): ?string
+  {
+      return $this->repetents;
+  }
+
+  public function setRepetents(int $repetents): static
+  {
+      $this->repetents = $repetents;
+
+      return $this;
   }
 }

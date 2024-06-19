@@ -11,7 +11,7 @@ class PublisherFixture extends Fixture
 {
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $publisher = new Publisher();
       $publisher->setName('Publisher ' . $i);
       $publisher->setPublisherNumber('1234567890');

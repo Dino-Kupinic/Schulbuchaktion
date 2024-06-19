@@ -35,9 +35,7 @@
       ]
     },
     "submit": "Submit",
-    "success": "Success",
     "successDescription": "You can now view the imported data in the book list.",
-    "failure": "Failure",
     "failureDescription": "An error occurred while importing the data. Please try again.",
     "alert": "Heads up!",
     "alertDescription": "Re-Importing in the same year will overwrite the current data. Make sure you have a backup.",
@@ -49,28 +47,44 @@
     "title": "Order Table",
     "subtitle": "Proceed to checkout",
     "searchForOrders": "Search for book orders...",
+    "updateOrder": {
+      "title": "Update Order",
+      "successDescription": "The order was successfully updated.",
+      "failureDescription": "An error occurred while updating the order. Please try again."
+    },
     "deleteOrder": {
       "title": "Delete Order",
-      "success": "Success",
       "successDescription": "The order was successfully deleted.",
-      "failure": "Failure",
-      "failureDescription": "An error occurred while deleting the order. Please try again.",
-      "delete": "Delete",
-      "cancel": "Cancel",
-      "confirmation": "Do you really want to delete"
+      "failureDescription": "An error occurred while deleting the order. Please try again."
     }
   },
   "bookList":{
     "title": "Book Overview",
     "subtitle": "Choose books to order",
     "searchForBooks": "Search for books...",
+    "createOrder": {
+      "title": "Ordering a book",
+      "class": {
+        "title": "Class",
+        "placeholder": "Select a class"
+      },
+      "repetents": {
+        "title": "Repetents",
+        "placeholder": "Select repetent option",
+        "with": "With",
+        "without": "Without",
+        "only": "Only"
+      },
+      "teacherCopy": "Teacher Copy",
+      "includeTeacherCopy": "Include",
+      "includeDescription": "Get an extra copy for the teacher",
+      "successDescription": "The order was successfully created.",
+      "failureDescription": "An error occurred while creating the order. Please try again."
+    },
     "updateOrder": {
-      "success": "Success",
-      "successDescription": "The order was successfully updated.",
-      "failure": "Failure",
-      "failureDescription": "An error occurred while updating the order. Please try again.",
-      "submit": "Submit",
-      "cancel": "Cancel"
+      "title": "Update Book",
+      "successDescription": "The book was successfully updated.",
+      "failureDescription": "An error occurred while updating the book. Please try again."
     }
   },
   "book": {
@@ -85,6 +99,43 @@
     "ebook": "E-book",
     "price": "Price"
   },
+  "classes": {
+    "title": "Class Management",
+    "subtitle": "Manage your school classes",
+    "searchForClasses": "Search for classes...",
+    "successDescription": "The class was successfully created.",
+    "failureDescription": "An error occurred while creating the class. Please try again.",
+    "create": "Create new",
+    "deleteClass": {
+      "title": "Delete School Class",
+      "successDescription": "The class was successfully deleted.",
+      "failureDescription": "An error occurred while deleting the class. Please try again."
+    },
+    "updateClass": {
+      "title": "Update School Class",
+      "successDescription": "The class was successfully updated.",
+      "failureDescription": "An error occurred while updating the class. Please try again."
+    },
+    "form": {
+      "name": "Name",
+      "grade": "Grade",
+      "students": "Students",
+      "repetents": "Repetents",
+      "budget": "Budget",
+      "department": "Department",
+      "departmentPlaceholder": "Select a department"
+    },
+    "table": {
+      "name": "Name",
+      "grade": "Grade",
+      "students": "Students",
+      "repetents": "Repetents",
+      "budget": "Budget",
+      "usedBudget": "Used Budget",
+      "department": "Department",
+      "year": "Year"
+    }
+  },
   "pagination": {
     "showing": "Shows",
     "to": "to",
@@ -92,9 +143,21 @@
     "results": "Results"
   },
   "actions": {
+    "create": "Create",
     "edit": "Edit",
     "info": "Info",
-    "delete": "Delete"
+    "delete": "Delete",
+    "duplicate": "Duplicate",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "submit": "Create",
+    "update": "Update",
+    "confirmation": "Do you really want to delete"
+  },
+  "notification": {
+    "success": "Success",
+    "failure": "Failure"
   },
   "bool": {
     "yes": "Yes",
@@ -102,7 +165,6 @@
   },
   "login": {
     "signIn": "Sign in",
-    "failure": "Failure",
     "notAuthenticated": "The username or the password are wrong!"
   }
 }

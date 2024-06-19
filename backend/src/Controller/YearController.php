@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * @Route("/api/years")
  */
-#[Route("api/v1/years", name: "year.")]
+#[Route("api/v1/years", name: "year."), WithMonologChannel('action')]
 class YearController extends AbstractController
 {
   public function __construct(private LoggerInterface $logger)

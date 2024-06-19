@@ -52,6 +52,7 @@ const { data: bookOrders, pending } = await useLazyFetch<
 >("/bookOrders", {
   baseURL: config.public.baseURL,
   pick: ["data"],
+  credentials: "include",
   watch: [editModalVisible, deleteModalVisible],
 })
 
@@ -184,15 +185,13 @@ async function updateOrder() {
     baseURL: config.public.baseURL,
     method: "PUT",
     body: changedBookOrder.value,
+    credentials: "include",
   })
 
-  const toast = useToast()
-
-  toast.add({
-    title: t("bookList.updateOrder.success"),
-    description: t("bookList.updateOrder.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
+  displaySuccessNotification(
+    t("orderList.updateOrder.success"),
+    t("orderList.updateOrder.successDescription"),
+  )
 
   editModalVisible.value = false
 }
@@ -201,14 +200,13 @@ async function deleteOrder() {
   await $fetch("/bookOrders/delete/" + changedBookOrder.value.id, {
     baseURL: config.public.baseURL,
     method: "DELETE",
+    credentials: "include",
   })
-  const toast = useToast()
 
-  toast.add({
-    title: t("orderList.deleteOrder.success"),
-    description: t("orderList.deleteOrder.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
+  displaySuccessNotification(
+    t("orderList.deleteOrder.success"),
+    t("orderList.deleteOrder.successDescription"),
+  )
 
   deleteModalVisible.value = false
 }
@@ -217,6 +215,7 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
     baseURL: config.public.baseURL,
+    credentials: "include",
   },
 )
 
@@ -224,6 +223,7 @@ const { data: schoolClasses } = await useLazyFetch<APIResponse<SchoolClass[]>>(
   "/schoolClasses",
   {
     baseURL: config.public.baseURL,
+    credentials: "include",
     watch: [page, pageCount],
   },
 )

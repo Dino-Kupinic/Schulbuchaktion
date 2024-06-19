@@ -16,6 +16,7 @@ async function onSubmit() {
       data: changedBookOrder,
     },
     baseURL: config.public.baseURL,
+    credentials: "include",
   })
 }
 

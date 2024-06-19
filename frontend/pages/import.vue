@@ -2,7 +2,6 @@
 import type { APIResponseArray } from "~/types/response"
 import type { Year } from "~/types/year"
 
-const toast = useToast()
 const config = useRuntimeConfig()
 const { t } = useI18n()
 
@@ -10,6 +9,7 @@ const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
   "/years/import",
   {
     baseURL: config.public.baseURL,
+    credentials: "include",
     pick: ["data"],
   },
 )
@@ -28,6 +28,7 @@ watch(pending, async () => {
           method: "POST",
           body: { year: new Date().getFullYear() },
           baseURL: config.public.baseURL,
+          credentials: "include",
         })
       }
 
@@ -36,6 +37,7 @@ watch(pending, async () => {
           method: "POST",
           body: { year: new Date().getFullYear() + 1 },
           baseURL: config.public.baseURL,
+          credentials: "include",
         })
       }
     }
@@ -62,21 +64,19 @@ async function submitFile() {
     await $fetch("/importXLSX", {
       method: "POST",
       body: formData,
+      credentials: "include",
       baseURL: config.public.baseURL,
     })
-    toast.add({
-      title: t("import.success"),
-      description: t("import.successDescription"),
-      icon: "i-heroicons-check-circle",
-    })
+    displaySuccessNotification(
+      t("import.success"),
+      t("import.successDescription"),
+    )
   } catch (err: unknown) {
     const error = err as Error
-    toast.add({
-      title: t("import.failure"),
-      description: t("import.failureDescription"),
-      color: "red",
-      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
-    })
+    displayFailureNotification(
+      t("import.failure"),
+      t("import.failureDescription"),
+    )
     throw createError({
       statusMessage: error.message,
     })

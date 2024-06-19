@@ -24,6 +24,7 @@ async function submitData() {
         pwd: password.value,
       },
       baseURL: config.public.baseURL,
+      credentials: "include",
     })
 
     createCookie(response.token)

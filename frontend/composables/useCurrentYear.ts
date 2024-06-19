@@ -14,6 +14,7 @@ export default function useCurrentYear() {
           `/years/year/${new Date().getFullYear()}`,
           {
             baseURL: config.public.baseURL,
+            credentials: "include",
           },
         ),
       )

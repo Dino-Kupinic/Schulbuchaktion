@@ -105,6 +105,7 @@ const {
 } = await useLazyFetch<APIResponseArray<SchoolClass>>("/schoolClasses", {
   baseURL: config.public.baseURL,
   pick: ["data"],
+  credentials: "include",
   watch: [deleteModalVisible, editModalVisible],
 })
 
@@ -112,6 +113,7 @@ const { data: departments, pending: departmentsPending } = await useLazyFetch<
   APIResponseArray<Department>
 >("/departments", {
   baseURL: config.public.baseURL,
+  credentials: "include",
   pick: ["data"],
 })
 
@@ -159,6 +161,7 @@ async function deleteClass() {
   await $fetch(`/schoolClasses/delete/${changedSchoolClass.value?.id}`, {
     method: "DELETE",
     baseURL: config.public.baseURL,
+    credentials: "include",
   })
 
   displaySuccessNotification(
@@ -192,6 +195,7 @@ async function updateClass() {
       method: "PUT",
       body: JSON.stringify(formData),
       baseURL: config.public.baseURL,
+      credentials: "include",
     },
   )
 
@@ -377,7 +381,6 @@ const filteredRows = computed(() => {
           <GenericEditModal
             v-model="editModalVisible"
             :title="$t('classes.updateClass.title')"
-            :item-title="changedSchoolClass?.name ?? null"
             @update="updateClass"
           >
             <UForm :schema="schema" :state="editState" class="space-y-3">

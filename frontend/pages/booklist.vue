@@ -120,7 +120,6 @@ const { data: books, pending } = await useLazyFetch<APIResponsePaginated<Book>>(
       page: page,
     },
     baseURL: config.public.baseURL,
-    credentials: "include",
     watch: [page, pageCount],
   },
 )
@@ -200,7 +199,6 @@ const { data: schoolClasses, pending: schoolClassesPending } =
   await useLazyFetch<APIResponseArray<SchoolClass>>("/schoolClasses", {
     baseURL: config.public.baseURL,
     pick: ["data"],
-    credentials: "include",
   })
 
 const isVisible = ref(false)
@@ -231,7 +229,6 @@ const state = reactive({
 
 const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
   baseURL: config.public.baseURL,
-  credentials: "include",
 })
 
 async function addBookOrder(event: FormSubmitEvent<Schema>) {
@@ -275,7 +272,6 @@ async function addBookOrder(event: FormSubmitEvent<Schema>) {
       method: "POST",
       body: bookOrder,
       baseURL: config.public.baseURL,
-      credentials: "include",
     })
   }
   isVisible.value = false

@@ -13,7 +13,6 @@ export default function useSchoolClasses() {
         "/schoolClasses",
         {
           baseURL: config.public.baseURL,
-          credentials: "include",
           pick: ["data"],
         },
       )

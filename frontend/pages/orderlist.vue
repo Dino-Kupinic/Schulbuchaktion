@@ -52,7 +52,6 @@ const { data: bookOrders, pending } = await useLazyFetch<
 >("/bookOrders", {
   baseURL: config.public.baseURL,
   pick: ["data"],
-  credentials: "include",
   watch: [editModalVisible, deleteModalVisible],
 })
 
@@ -185,7 +184,6 @@ async function updateOrder() {
     baseURL: config.public.baseURL,
     method: "PUT",
     body: changedBookOrder.value,
-    credentials: "include",
   })
 
   displaySuccessNotification(
@@ -200,7 +198,6 @@ async function deleteOrder() {
   await $fetch("/bookOrders/delete/" + changedBookOrder.value.id, {
     baseURL: config.public.baseURL,
     method: "DELETE",
-    credentials: "include",
   })
 
   displaySuccessNotification(
@@ -215,7 +212,6 @@ const { data: books } = await useLazyFetch<APIResponsePaginated<Book>>(
   "/books",
   {
     baseURL: config.public.baseURL,
-    credentials: "include",
   },
 )
 
@@ -223,7 +219,6 @@ const { data: schoolClasses } = await useLazyFetch<APIResponse<SchoolClass[]>>(
   "/schoolClasses",
   {
     baseURL: config.public.baseURL,
-    credentials: "include",
     watch: [page, pageCount],
   },
 )

@@ -9,7 +9,6 @@ const { data: years, pending } = await useLazyFetch<APIResponseArray<Year>>(
   "/years/import",
   {
     baseURL: config.public.baseURL,
-    credentials: "include",
     pick: ["data"],
   },
 )
@@ -28,7 +27,6 @@ watch(pending, async () => {
           method: "POST",
           body: { year: new Date().getFullYear() },
           baseURL: config.public.baseURL,
-          credentials: "include",
         })
       }
 
@@ -37,7 +35,6 @@ watch(pending, async () => {
           method: "POST",
           body: { year: new Date().getFullYear() + 1 },
           baseURL: config.public.baseURL,
-          credentials: "include",
         })
       }
     }
@@ -68,13 +65,13 @@ async function submitFile() {
       baseURL: config.public.baseURL,
     })
     displaySuccessNotification(
-      t("import.success"),
+      t("notification.success"),
       t("import.successDescription"),
     )
   } catch (err: unknown) {
     const error = err as Error
     displayFailureNotification(
-      t("import.failure"),
+      t("notification.failure"),
       t("import.failureDescription"),
     )
     throw createError({

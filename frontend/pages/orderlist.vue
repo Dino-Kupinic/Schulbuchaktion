@@ -186,13 +186,10 @@ async function updateOrder() {
     body: changedBookOrder.value,
   })
 
-  const toast = useToast()
-
-  toast.add({
-    title: t("bookList.updateOrder.success"),
-    description: t("bookList.updateOrder.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
+  displaySuccessNotification(
+    t("orderList.updateOrder.success"),
+    t("orderList.updateOrder.successDescription"),
+  )
 
   editModalVisible.value = false
 }
@@ -202,13 +199,11 @@ async function deleteOrder() {
     baseURL: config.public.baseURL,
     method: "DELETE",
   })
-  const toast = useToast()
 
-  toast.add({
-    title: t("orderList.deleteOrder.success"),
-    description: t("orderList.deleteOrder.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
+  displaySuccessNotification(
+    t("orderList.deleteOrder.success"),
+    t("orderList.deleteOrder.successDescription"),
+  )
 
   deleteModalVisible.value = false
 }

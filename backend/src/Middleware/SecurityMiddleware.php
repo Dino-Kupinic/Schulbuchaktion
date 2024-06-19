@@ -46,7 +46,7 @@ class SecurityMiddleware implements EventSubscriberInterface
           $this->logger->warning('Permission denied!', ["token"=>$bearer, "ip"=>$request->getClientIp(), "route"=>$request->getRequestUri()]);
           $response = new Response('Not permitted for this Action', Response::HTTP_UNAUTHORIZED);
           $event->setResponse($response);
-        } else if (str_ends_with($request->getRequestUri(), "/")) {
+        } else if (!str_ends_with($request->getRequestUri(), "/")) {
           $this->logger->alert("Accessing Route: " . $request->getRequestUri(), ["token"=>$bearer, "route"=>"$requestUri"]);
         }
       }

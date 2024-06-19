@@ -112,6 +112,20 @@ function sidebarUsers(): DefaultTheme.SidebarItem[] {
           link: "navigation"
         }
       ]
+    },
+    {
+      text: "Class Management",
+      collapsed: false,
+      items: [
+        {
+          text: "Creating a Class",
+          link: "create-class"
+        },
+        {
+          text: "Editing or Removing a Class",
+          link: "edit-class"
+        },
+      ]
     }
   ]
 }

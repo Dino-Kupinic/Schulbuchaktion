@@ -2,7 +2,6 @@
 import type { APIResponseArray } from "~/types/response"
 import type { Year } from "~/types/year"
 
-const toast = useToast()
 const config = useRuntimeConfig()
 const { t } = useI18n()
 
@@ -62,21 +61,19 @@ async function submitFile() {
     await $fetch("/importXLSX", {
       method: "POST",
       body: formData,
+      credentials: "include",
       baseURL: config.public.baseURL,
     })
-    toast.add({
-      title: t("import.success"),
-      description: t("import.successDescription"),
-      icon: "i-heroicons-check-circle",
-    })
+    displaySuccessNotification(
+      t("notification.success"),
+      t("import.successDescription"),
+    )
   } catch (err: unknown) {
     const error = err as Error
-    toast.add({
-      title: t("import.failure"),
-      description: t("import.failureDescription"),
-      color: "red",
-      icon: "i-material-symbols-error-circle-rounded-outline-sharp",
-    })
+    displayFailureNotification(
+      t("notification.failure"),
+      t("import.failureDescription"),
+    )
     throw createError({
       statusMessage: error.message,
     })

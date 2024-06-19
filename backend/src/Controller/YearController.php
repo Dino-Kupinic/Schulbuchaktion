@@ -121,7 +121,7 @@ class YearController extends AbstractController
    *     )
    * )
    */
-  #[Route(path: "/{id}", name: "index", methods: ["GET"])]
+  #[Route(path: "/{id}", name: "select", methods: ["GET"])]
   public function getYear(YearService $yearsService, int $id): Response
   {
     $context = (new ObjectNormalizerContextBuilder())
@@ -134,6 +134,48 @@ class YearController extends AbstractController
         return $this->json(["success" => false, "data" => "Year with id $id not found"], status: Response::HTTP_NOT_FOUND);
       }
       return $this->json(["success" => true, "data" => $year], status: Response::HTTP_OK, context: $context);
+    } catch (Exception $e) {
+      return $this->json([
+        "success" => false,
+        "error" => "Failed to get year: " . $e->getMessage(),
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * @OA\Get(
+   *     path="/api/years/year/{year}",
+   *     @OA\Parameter(
+   *         name="year",
+   *         in="path",
+   *         required=true,
+   *         description="Year of the year",
+   *         @OA\Schema(type="integer")
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="Returns the year with the given year",
+   *         @OA\JsonContent(ref=@Model(type=Year::class, groups={"read"}))
+   *     ),
+   *     @OA\Response(
+   *         response=404,
+   *         description="Year with the given year not found"
+   *     )
+   * )
+   */
+  #[Route(path: "/year/{year}", name: "byYear", methods: ["GET"])]
+  public function getYearByYear(YearService $yearsService, int $year): Response
+  {
+    $context = (new ObjectNormalizerContextBuilder())
+      ->withGroups("year:read")
+      ->toArray();
+
+    try {
+      $temp = $yearsService->findYearByYear($year);
+      if ($temp == null) {
+        return $this->json(["success" => false, "data" => "Year with year $year not found"], status: Response::HTTP_NOT_FOUND);
+      }
+      return $this->json(["success" => true, "data" => $temp], status: Response::HTTP_OK, context: $context);
     } catch (Exception $e) {
       return $this->json([
         "success" => false,
@@ -169,10 +211,10 @@ class YearController extends AbstractController
     try {
       $temp = $yearsService->parseRequestData($request);
       $year = $yearsService->createYear($temp);
-      $this->logger->info("Successfully created year ". $year->getId() . "!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), "yearId"=>$year->getId()]);
+      $this->logger->info("Successfully created year " . $year->getId() . "!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), "yearId" => $year->getId()]);
       return $this->json(["success" => true, "data" => $year], status: Response::HTTP_CREATED, context: $context);
     } catch (Exception $e) {
-      $this->logger->info("Failed to create year!", ['token'=>$request->cookies->get($_ENV['TOKEN_NAME']), 'ex'=> $e->getTrace()]);
+      $this->logger->info("Failed to create year!", ['token' => $request->cookies->get($_ENV['TOKEN_NAME']), 'ex' => $e->getTrace()]);
       return $this->json([
         "success" => false,
         "error" => "Failed to create year: " . $e->getMessage(),

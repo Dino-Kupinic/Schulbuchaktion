@@ -147,7 +147,7 @@ class YearService
    * @param int|null $getYear The year to find
    * @return Year|null The year object or null if not found
    */
-  private function findYearByYear(?int $getYear): Year|null
+  public function findYearByYear(?int $getYear): Year|null
   {
     return $this->yearsRepository->findOneBy(['year' => $getYear]);
   }

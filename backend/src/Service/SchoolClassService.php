@@ -54,13 +54,14 @@ class SchoolClassService
   /**
    * Update a schoolClass.
    *
+   * @param int $id The id of the schoolClass to update
    * @param SchoolClass $schoolClass The schoolClass object to update
    * @return SchoolClass The updated schoolClass object
    * @throws Exception If an error occurs during transaction
    */
-  public function updateSchoolClass(SchoolClass $schoolClass): SchoolClass
+  public function updateSchoolClass(int $id, SchoolClass $schoolClass): SchoolClass
   {
-    $oldSchoolClass = $this->findSchoolClassById($schoolClass->getId());
+    $oldSchoolClass = $this->findSchoolClassById($id);
 
     if ($oldSchoolClass) {
       $oldSchoolClass->updateFrom($schoolClass);

@@ -23,13 +23,11 @@ class ImportController extends AbstractController
   #[Route("/importXLSX", name: 'xlsx', methods: "POST")]
   public function index(ImportService $importService, YearService $yearService, Request $request): Response
   {
-
-
     $uploadedFile = $request->files->get("file");
     $yearId = $request->request->get("year");
 
     $token = new AuthToken();
-    $token->setJwtString($request->get($_ENV['token_name']));
+    $token->setJwtString($request->cookies->get($_ENV['TOKEN_NAME']));
     $user = $token->getUsername();
 
     if (!$uploadedFile) {
@@ -64,7 +62,7 @@ class ImportController extends AbstractController
       return $this->json(["success" => false, "error" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
     }
 
-    $this->logger->info("File successfully imported which was provided by $user", ['token'=>$token]);
+    $this->logger->info("File successfully imported which was provided by $user", ['token' => $token]);
     return $this->json(["success" => true, "data" => []], Response::HTTP_OK);
   }
 }

@@ -119,6 +119,7 @@ class ImportService
    */
   public function persist(array $data, Year $year): void
   {
+    set_time_limit(360);
     try {
       $books = $year->getBooks();
       if ($books->count() > 0) {
@@ -131,7 +132,7 @@ class ImportService
         $year->clearBooks();
       }
 
-      $chunkSize = 50;
+      $chunkSize = 200;
       $chunks = array_chunk($data, $chunkSize);
 
       foreach ($chunks as $chunk) {

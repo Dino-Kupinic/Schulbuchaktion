@@ -1,13 +1,4 @@
-import { jwtDecode } from "jwt-decode"
-import type { JwtAuthPayload } from "~/types/auth"
-
-/**
- * Decode the auth cookie and return the payload or null
- */
-function decodeAuthCookie(): JwtAuthPayload | null {
-  const token = useCookie("BearerToken")
-  return token.value ? jwtDecode<JwtAuthPayload>(token.value) : null
-}
+import decodeAuthCookie from "~/utils/decodeAuthCookie"
 
 /**
  * Middleware to check if the user is authenticated

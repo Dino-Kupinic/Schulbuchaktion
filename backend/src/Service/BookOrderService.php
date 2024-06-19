@@ -118,10 +118,10 @@ class BookOrderService
    */
   private function validateRequestData(array $data): void
   {
-    $requiredFields = ["count", "teacherCopy", "lastUser", "creationUser", "book", "year", "schoolClass"];
+    $requiredFields = ["count", "teacherCopy", "lastUser", "creationUser", "book", "year", "schoolClass", "repetents"];
     $intFields = ["count", "book", "year", "schoolClass"];
     $boolFields = ["teacherCopy"];
-    $stringFields = ["lastUser", "creationUser"];
+    $stringFields = ["lastUser", "creationUser", "repetents"];
 
     foreach ($requiredFields as $field) {
       if (!isset($data[$field])) {

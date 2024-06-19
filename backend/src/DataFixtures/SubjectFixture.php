@@ -10,7 +10,7 @@ class SubjectFixture extends Fixture
 {
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $subject = new Subject();
       $subject->setName('Subject ' . $i);
       $manager->persist($subject);

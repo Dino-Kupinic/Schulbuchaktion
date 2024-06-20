@@ -82,7 +82,9 @@
       "failureDescription": "An error occurred while creating the order. Please try again."
     },
     "updateOrder": {
-      "title": "Update Book",
+      "title": "Editing book order for",
+      "book": "Book",
+      "class": "Class",
       "successDescription": "The book was successfully updated.",
       "failureDescription": "An error occurred while updating the book. Please try again."
     }

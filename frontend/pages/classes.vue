@@ -377,7 +377,6 @@ const filteredRows = computed(() => {
           <GenericEditModal
             v-model="editModalVisible"
             :title="$t('classes.updateClass.title')"
-            :item-title="changedSchoolClass?.name ?? null"
             @update="updateClass"
           >
             <UForm :schema="schema" :state="editState" class="space-y-3">

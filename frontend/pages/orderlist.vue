@@ -4,7 +4,7 @@ import type {
   APIResponseArray,
   APIResponsePaginated,
 } from "~/types/response"
-import type { BookOrder, BookOrderDTO } from "~/types/bookorder"
+import type { BookOrder } from "~/types/bookorder"
 import type { Book } from "~/types/book"
 import type { SchoolClass } from "~/types/schoolclass"
 
@@ -170,51 +170,28 @@ watch(
 )
 
 async function updateOrder() {
-  try {
-    if (schoolClassId.value) {
-      changedBookOrder.value.schoolClass = getSchoolClassById(
-        schoolClassId.value.value,
-      )
-    }
-
-    if (bookId.value) {
-      changedBookOrder.value.book = getBookById(bookId.value.value)
-    }
-
-    const bookOrder: BookOrderDTO = {
-      count: changedBookOrder.value.count,
-      teacherCopy: changedBookOrder.value.teacherCopy,
-      schoolClass: changedBookOrder.value.schoolClass.id,
-      book: changedBookOrder.value.book.id,
-      year: changedBookOrder.value.year.id,
-      lastUser: "testuser",
-      creationUser: "testuser",
-      repetents: changedBookOrder.value.repetents,
-    }
-
-    await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
-      baseURL: config.public.baseURL,
-      method: "PUT",
-      body: bookOrder,
-    })
-
-    displaySuccessNotification(
-      t("notification.success"),
-      t("bookList.updateOrder.successDescription"),
+  if (schoolClassId.value) {
+    changedBookOrder.value.schoolClass = getSchoolClassById(
+      schoolClassId.value.value,
     )
-
-    editModalVisible.value = false
-  } catch (err: unknown) {
-    const error = err as Error
-
-    displayFailureNotification(
-      t("notification.error"),
-      t("bookList.updateOrder.failureDescription"),
-    )
-    throw createError({
-      statusMessage: error.message,
-    })
   }
+
+  if (bookId.value) {
+    changedBookOrder.value.book = getBookById(bookId.value.value)
+  }
+
+  await $fetch("/bookOrders/update/" + changedBookOrder.value.id, {
+    baseURL: config.public.baseURL,
+    method: "PUT",
+    body: changedBookOrder.value,
+  })
+
+  displaySuccessNotification(
+    t("orderList.updateOrder.success"),
+    t("orderList.updateOrder.successDescription"),
+  )
+
+  editModalVisible.value = false
 }
 
 async function deleteOrder() {
@@ -222,13 +199,11 @@ async function deleteOrder() {
     baseURL: config.public.baseURL,
     method: "DELETE",
   })
-  const toast = useToast()
 
-  toast.add({
-    title: t("orderList.deleteOrder.success"),
-    description: t("orderList.deleteOrder.successDescription"),
-    icon: "i-heroicons-check-circle",
-  })
+  displaySuccessNotification(
+    t("orderList.deleteOrder.success"),
+    t("orderList.deleteOrder.successDescription"),
+  )
 
   deleteModalVisible.value = false
 }
@@ -385,9 +360,7 @@ function resetFilters() {
               <p
                 class="text-base font-semibold leading-6 text-red-600 dark:text-white"
               >
-                {{ t("bookList.updateOrder.title") }} "{{
-                  changedBookOrder.book.title
-                }}"
+                Editing book order for "{{ changedBookOrder.book.title }}"
               </p>
               <UButton
                 color="gray"
@@ -398,7 +371,7 @@ function resetFilters() {
               />
             </div>
           </template>
-          <p>{{ t("bookList.updateOrder.book") }}</p>
+          <p>Book</p>
           <USelectMenu
             v-model="bookId"
             :placeholder="changedBookOrder.book.title"
@@ -411,7 +384,7 @@ function resetFilters() {
             searchable
           />
 
-          <p class="mt-4">{{ t("bookList.updateOrder.class") }}</p>
+          <p class="mt-4">Class</p>
           <USelectMenu
             v-model="schoolClassId"
             :placeholder="changedBookOrder.schoolClass.name"
@@ -424,9 +397,7 @@ function resetFilters() {
             searchable
           />
 
-          <UButton class="mt-4" @click="updateOrder">{{
-            t("actions.save")
-          }}</UButton>
+          <UButton class="mt-4" @click="updateOrder">Submit</UButton>
         </UCard>
       </UModal>
 
@@ -440,7 +411,7 @@ function resetFilters() {
             />
           </template>
           <p class="text-base leading-6">
-            {{ $t("actions.confirmation") }} "{{
+            {{ $t("orderList.deleteOrder.confirmation") }} "{{
               changedBookOrder.book.title
             }}"?
           </p>
@@ -451,7 +422,7 @@ function resetFilters() {
                 icon="i-heroicons-trash"
                 @click="deleteOrder"
               >
-                {{ $t("actions.delete") }}
+                {{ $t("orderList.deleteOrder.delete") }}
               </UButton>
               <UButton
                 label="Cancel"
@@ -459,7 +430,7 @@ function resetFilters() {
                 icon="i-heroicons-x-mark-20-solid"
                 @click="deleteModalVisible = false"
               >
-                {{ $t("actions.cancel") }}
+                {{ $t("orderList.deleteOrder.cancel") }}
               </UButton>
             </div>
           </template>

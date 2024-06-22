@@ -7,7 +7,7 @@ export type BookOrder = {
   count: number
   teacherCopy: boolean
   schoolClass: SchoolClass
-  bookId: Book
+  book: Book
   year: Year
   lastUser: string
   creationUser: string

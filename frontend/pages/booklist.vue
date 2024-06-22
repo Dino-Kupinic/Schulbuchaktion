@@ -519,7 +519,7 @@ watch(
       @create="addBookOrder"
     >
       <UTable
-        class="mb-4 rounded-lg border-2"
+        class="mb-4 rounded-lg border"
         :rows="selectedRows"
         :loading-state="{
           icon: 'i-heroicons-arrow-path-20-solid',

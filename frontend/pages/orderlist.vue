@@ -401,41 +401,12 @@ function resetFilters() {
         </UCard>
       </UModal>
 
-      <UModal v-model="deleteModalVisible" class="bg-opacity-0">
-        <UCard>
-          <template #header>
-            <ModalHeader
-              :title="$t('orderList.deleteOrder.title')"
-              color="red"
-              icon="i-heroicons-trash"
-            />
-          </template>
-          <p class="text-base leading-6">
-            {{ $t("orderList.deleteOrder.confirmation") }} "{{
-              changedBookOrder.book.title
-            }}"?
-          </p>
-          <template #footer>
-            <div class="flex w-full justify-end space-x-2">
-              <UButton
-                color="red"
-                icon="i-heroicons-trash"
-                @click="deleteOrder"
-              >
-                {{ $t("orderList.deleteOrder.delete") }}
-              </UButton>
-              <UButton
-                label="Cancel"
-                color="gray"
-                icon="i-heroicons-x-mark-20-solid"
-                @click="deleteModalVisible = false"
-              >
-                {{ $t("orderList.deleteOrder.cancel") }}
-              </UButton>
-            </div>
-          </template>
-        </UCard>
-      </UModal>
+      <GenericDeleteModal
+        v-model="deleteModalVisible"
+        :title="$t('orderList.deleteOrder.title')"
+        :item-title="changedBookOrder?.book.title ?? null"
+        @delete="deleteOrder"
+      />
 
       <template #footer>
         <div class="flex flex-wrap items-center justify-between">

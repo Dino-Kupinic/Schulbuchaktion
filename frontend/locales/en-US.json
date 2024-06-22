@@ -101,6 +101,12 @@
     "ebook": "E-book",
     "price": "Price"
   },
+  "bookOrder": {
+    "count": "Count",
+    "totalPrice": "Total Price",
+    "repetents": "Repetents",
+    "lastUser": "Last User"
+  },
   "classes": {
     "title": "Class Management",
     "subtitle": "Manage your school classes",

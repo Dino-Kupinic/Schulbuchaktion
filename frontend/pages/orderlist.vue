@@ -7,6 +7,7 @@ import type {
 import type { BookOrder } from "~/types/bookorder"
 import type { Book } from "~/types/book"
 import type { SchoolClass } from "~/types/schoolclass"
+import { z } from "zod"
 
 const columns = ref([
   {
@@ -68,8 +69,6 @@ const items = (row: BookOrder) => [
         editModalVisible.value = true
       },
     },
-  ],
-  [
     {
       label: t("actions.delete"),
       slot: "delete",
@@ -137,8 +136,18 @@ watch(
         sortable: true,
       },
       {
-        key: "bookSubject",
-        label: t("book.subject"),
+        key: "count",
+        label: t("bookOrder.count"),
+        sortable: true,
+      },
+      {
+        key: "repetents",
+        label: t("bookOrder.repetents"),
+        sortable: true,
+      },
+      {
+        key: "lastUser",
+        label: t("bookOrder.lastUser"),
         sortable: true,
       },
       {
@@ -152,13 +161,13 @@ watch(
         sortable: true,
       },
       {
-        key: "grade",
-        label: t("book.grade"),
+        key: "bookPrice",
+        label: t("book.price"),
         sortable: true,
       },
       {
-        key: "bookPrice",
-        label: t("book.price"),
+        key: "totalBookPrice",
+        label: t("bookOrder.totalPrice"),
         sortable: true,
       },
       {
@@ -168,6 +177,29 @@ watch(
   },
   { immediate: true },
 )
+
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, "Must be atleast 1 characters")
+    .max(255, "Must be at most 255 characters"),
+  grade: z.number().int().min(1, "Must be at least 1"),
+  students: z.number().int().min(1, "Must be at least 1"),
+  repetents: z.number().int().min(0, "Must be at least 0").default(0),
+  budget: z.number().int().min(1, "Must be at least 1"),
+  usedBudget: z.number().optional(),
+  year: z.number().optional(),
+  department: z.any(),
+})
+
+const state = reactive({
+  name: undefined,
+  grade: undefined,
+  students: undefined,
+  repetents: undefined,
+  budget: undefined,
+  department: undefined,
+})
 
 async function updateOrder() {
   if (schoolClassId.value) {
@@ -242,6 +274,10 @@ function resetFilters() {
   pageCount.value = DEFAULT_PAGE_COUNT
   query.value = ""
   selectedColumns.value = columnsBackup.value
+}
+
+const calculatedPrice = (row: BookOrder) => {
+  return (row.count * row.book.bookPrice) / 100
 }
 </script>
 
@@ -330,17 +366,20 @@ function resetFilters() {
         <template #department-data="{ row }">
           <span> {{ row.schoolClass.department.name }}</span>
         </template>
+        <template #count-data="{ row }">
+          <span> {{ row.schoolClass.students }}</span>
+        </template>
         <template #bookSubject-data="{ row }">
           <span> {{ row.book.subject.name }}</span>
         </template>
         <template #year-data="{ row }">
-          <span> {{ row.year.year }}</span>
-        </template>
-        <template #grade-data="{ row }">
-          <span> {{ row.schoolClass.grade }}</span>
+          <span class="pr-24"> {{ row.year.year }}</span>
         </template>
         <template #bookPrice-data="{ row }">
           <span> {{ row.book.bookPrice / 100 }} €</span>
+        </template>
+        <template #totalBookPrice-data="{ row }">
+          <span> {{ calculatedPrice(row) }} €</span>
         </template>
         <template #actions-data="{ row }">
           <UDropdown :items="items(row)" :ui="{ width: 'w-auto' }">
@@ -353,53 +392,14 @@ function resetFilters() {
         </template>
       </UTable>
 
-      <UModal v-model="editModalVisible" class="bg-opacity-0">
-        <UCard>
-          <template #header>
-            <div class="flex items-center justify-between">
-              <p
-                class="text-base font-semibold leading-6 text-red-600 dark:text-white"
-              >
-                Editing book order for "{{ changedBookOrder.book.title }}"
-              </p>
-              <UButton
-                color="gray"
-                variant="ghost"
-                icon="i-heroicons-x-mark-20-solid"
-                class="-my-1"
-                @click="editModalVisible = false"
-              />
-            </div>
-          </template>
-          <p>Book</p>
-          <USelectMenu
-            v-model="bookId"
-            :placeholder="changedBookOrder.book.title"
-            :options="
-              books?.data?.books.map((book) => ({
-                label: book.title,
-                value: book.id,
-              }))
-            "
-            searchable
-          />
-
-          <p class="mt-4">Class</p>
-          <USelectMenu
-            v-model="schoolClassId"
-            :placeholder="changedBookOrder.schoolClass.name"
-            :options="
-              schoolClasses?.data?.map((schoolClass) => ({
-                label: schoolClass.name,
-                value: schoolClass.id,
-              }))
-            "
-            searchable
-          />
-
-          <UButton class="mt-4" @click="updateOrder">Submit</UButton>
-        </UCard>
-      </UModal>
+      <GenericEditModal
+        v-model="editModalVisible"
+        :title="$t('orderList.updateOrder.title')"
+        :item-title="changedBookOrder?.book.title ?? null"
+        @update="updateOrder"
+      >
+        <UForm :schema="schema" :state="state" class="space-y-3"> </UForm>
+      </GenericEditModal>
 
       <GenericDeleteModal
         v-model="deleteModalVisible"

@@ -104,10 +104,10 @@ watch(
 const columnsBackup = ref(columns.value)
 const config = useRuntimeConfig()
 
-const options = [5, 10, 15, 20, 30, 40]
+const options = [5, 10, 15, 30, 50, 100]
 
 const DEFAULT_PAGE = 1
-const DEFAULT_PAGE_COUNT = options[2]
+const DEFAULT_PAGE_COUNT = options[4]
 
 const page = ref<number>(DEFAULT_PAGE)
 const pageCount = ref<number>(DEFAULT_PAGE_COUNT)

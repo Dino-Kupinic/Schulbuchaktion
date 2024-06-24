@@ -392,54 +392,54 @@ const calculatedPrice = (row: BookOrder) => {
         </template>
       </UTable>
 
-      <GenericEditModal
-        v-model="editModalVisible"
-        :title="$t('orderList.updateOrder.title')"
-        :item-title="changedBookOrder?.book.title ?? null"
-        @update="updateOrder"
-      >
-        <UForm :schema="schema" :state="state" class="space-y-4">
-          <UFormGroup
-            :label="$t('bookList.updateOrder.class')"
-            name="schoolClass"
-          >
-            <USelectMenu
-              v-if="!schoolClassesPending"
-              v-model="state.schoolClass"
-              :placeholder="$t('bookList.createOrder.class.placeholder')"
-              :options="schoolClasses?.data"
-              option-attribute="name"
-              searchable
-            />
-          </UFormGroup>
+      <!--      <GenericEditModal-->
+      <!--        v-model="editModalVisible"-->
+      <!--        :title="$t('orderList.updateOrder.title')"-->
+      <!--        :item-title="changedBookOrder?.book.title ?? null"-->
+      <!--        @update="updateOrder"-->
+      <!--      >-->
+      <!--        <UForm :schema="schema" :state="state" class="space-y-4">-->
+      <!--          <UFormGroup-->
+      <!--            :label="$t('bookList.updateOrder.class')"-->
+      <!--            name="schoolClass"-->
+      <!--          >-->
+      <!--            <USelectMenu-->
+      <!--              v-if="!schoolClassesPending"-->
+      <!--              v-model="state.schoolClass"-->
+      <!--              :placeholder="$t('bookList.createOrder.class.placeholder')"-->
+      <!--              :options="schoolClasses?.data"-->
+      <!--              option-attribute="name"-->
+      <!--              searchable-->
+      <!--            />-->
+      <!--          </UFormGroup>-->
 
-          <UFormGroup
-            :label="$t('bookList.createOrder.repetents.title')"
-            name="repetents"
-          >
-            <USelectMenu
-              v-model="state.repetents"
-              :placeholder="$t('bookList.createOrder.repetents.placeholder')"
-              :options="repententOptions"
-              option-attribute="label"
-              value-attribute="label"
-            />
-          </UFormGroup>
+      <!--          <UFormGroup-->
+      <!--            :label="$t('bookList.createOrder.repetents.title')"-->
+      <!--            name="repetents"-->
+      <!--          >-->
+      <!--            <USelectMenu-->
+      <!--              v-model="state.repetents"-->
+      <!--              :placeholder="$t('bookList.createOrder.repetents.placeholder')"-->
+      <!--              :options="repententOptions"-->
+      <!--              option-attribute="label"-->
+      <!--              value-attribute="label"-->
+      <!--            />-->
+      <!--          </UFormGroup>-->
 
-          <UFormGroup
-            :label="$t('bookList.createOrder.teacherCopy')"
-            name="teacherCopy"
-          >
-            <UCheckbox
-              v-model="state.teacherCopy"
-              class="mt-2"
-              color="blue"
-              :label="$t('bookList.createOrder.includeTeacherCopy')"
-              :help="$t('bookList.createOrder.includeDescription')"
-            />
-          </UFormGroup>
-        </UForm>
-      </GenericEditModal>
+      <!--          <UFormGroup-->
+      <!--            :label="$t('bookList.createOrder.teacherCopy')"-->
+      <!--            name="teacherCopy"-->
+      <!--          >-->
+      <!--            <UCheckbox-->
+      <!--              v-model="state.teacherCopy"-->
+      <!--              class="mt-2"-->
+      <!--              color="blue"-->
+      <!--              :label="$t('bookList.createOrder.includeTeacherCopy')"-->
+      <!--              :help="$t('bookList.createOrder.includeDescription')"-->
+      <!--            />-->
+      <!--          </UFormGroup>-->
+      <!--        </UForm>-->
+      <!--      </GenericEditModal>-->
 
       <GenericDeleteModal
         v-model="deleteModalVisible"

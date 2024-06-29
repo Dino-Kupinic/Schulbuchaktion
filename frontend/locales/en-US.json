@@ -1,7 +1,11 @@
 {
   "error": {
     "title": "An Error occurred",
-    "home": "Go home"
+    "home": "Go home",
+    "generic": {
+      "title": "An error occurred",
+      "description": "Something went wrong. Please try again."
+    }
   },
   "info": {
     "couldNotFetch": "Couldn't fetch",
@@ -82,7 +86,9 @@
       "failureDescription": "An error occurred while creating the order. Please try again."
     },
     "updateOrder": {
-      "title": "Update Book",
+      "title": "Editing book order for",
+      "book": "Book",
+      "class": "Class",
       "successDescription": "The book was successfully updated.",
       "failureDescription": "An error occurred while updating the book. Please try again."
     }
@@ -98,6 +104,12 @@
     "ebookPlus": "E-book+",
     "ebook": "E-book",
     "price": "Price"
+  },
+  "bookOrder": {
+    "count": "Count",
+    "totalPrice": "Total Price",
+    "repetents": "Repetents",
+    "lastUser": "Last User"
   },
   "classes": {
     "title": "Class Management",

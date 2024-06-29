@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d58026cb143d578bdfbcb89329ef5434",
+    "content-hash": "4ad1b6e9c88bbc8626395f672289c452",
     "packages": [
         {
             "name": "composer/semver",
@@ -6620,7 +6620,7 @@
         },
         {
             "name": "symfony/runtime",
-            "version": "v7.0.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/runtime.git",
@@ -6679,7 +6679,7 @@
                 "runtime"
             ],
             "support": {
-                "source": "https://github.com/symfony/runtime/tree/v7.0.8"
+                "source": "https://github.com/symfony/runtime/tree/v7.1.1"
             },
             "funding": [
                 {

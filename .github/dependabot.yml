@@ -10,6 +10,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     target-branch: "develop"
+    ignore:
+      - dependency-name: "vue-tsc"
     schedule:
       interval: "weekly"
     assignees:

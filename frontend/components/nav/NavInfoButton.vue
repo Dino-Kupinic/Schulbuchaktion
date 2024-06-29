@@ -12,6 +12,8 @@ const gitSha = runtime.public.gitHeadSha
 const gitShaFormatted = computed(() => (gitSha ? gitSha.slice(0, 10) : ""))
 const vueVersion = versionVue
 const nuxtVersion = versionNuxt
+
+const link = "https://github.com/Dino-Kupinic/Schulbuchaktion/issues"
 </script>
 
 <template>
@@ -55,9 +57,10 @@ const nuxtVersion = versionNuxt
       <div class="w-full p-2 text-center">
         <NuxtLink
           class="text-primary hover:text-primary-800"
-          to="https://github.com/Dino-Kupinic/Schulbuchaktion/issues"
+          :to="link"
           target="_blank"
           title="Head to Issues"
+          external
         >
           {{ $t("info.infoBugReport") }}
         </NuxtLink>

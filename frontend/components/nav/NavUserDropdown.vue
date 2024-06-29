@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import decodeAuthCookie from "~/utils/decodeAuthCookie"
 
-const username = decodeAuthCookie()?.username
+const username = decodeAuthCookie()?.username as string
 const config = useRuntimeConfig()
 const items = [
   [
@@ -65,7 +65,7 @@ async function logoutUser() {
       <ULink v-if="item.label != 'logout'" class="truncate" :to="item.link">
         {{ $t("avatar." + item.label) }}
       </ULink>
-      <UButton v-else variant="outline" @click="logoutUser" color="red">
+      <UButton v-else variant="outline" color="red" @click="logoutUser">
         {{ $t("avatar." + item.label) }}
       </UButton>
     </template>

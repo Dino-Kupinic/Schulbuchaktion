@@ -1,7 +1,11 @@
 {
   "error": {
     "title": "An Error occurred",
-    "home": "Go home"
+    "home": "Go home",
+    "generic": {
+      "title": "An error occurred",
+      "description": "Something went wrong. Please try again."
+    }
   },
   "info": {
     "couldNotFetch": "Couldn't fetch",

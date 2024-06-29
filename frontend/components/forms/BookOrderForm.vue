@@ -21,7 +21,43 @@ const state = reactive({
   teacherCopy: undefined,
 })
 
-defineEmits(["submit"])
+const { schoolClasses, fetchSchoolClasses } = useSchoolClasses()
+await fetchSchoolClasses()
+
+let repententOptions: { label: string; value: number }[] = []
+
+const { locale, t } = useI18n()
+watch(
+  locale,
+  () => {
+    repententOptions = [
+      { label: t("bookList.createOrder.repetents.with"), value: 1 },
+      { label: t("bookList.createOrder.repetents.without"), value: 2 },
+      { label: t("bookList.createOrder.repetents.only"), value: 3 },
+    ]
+  },
+  { immediate: true },
+)
+
+function validateAndEmit() {
+  const result = schema.safeParse(state)
+
+  if (!result.success) {
+    displayFailureNotification(
+      t("notification.failure"),
+      t("classes.updateClass.failureDescription"),
+    )
+    console.error(result.error.errors)
+    return
+  }
+
+  emit("submit", result.data)
+}
+
+type Schema = z.output<typeof schema>
+const emit = defineEmits<{
+  submit: [result: Schema]
+}>()
 </script>
 
 <template>
@@ -30,17 +66,16 @@ defineEmits(["submit"])
     :schema="schema"
     :state="state"
     class="space-y-4"
-    @submit="$emit('submit', state)"
+    @submit="validateAndEmit"
   >
     <UFormGroup
       :label="$t('bookList.createOrder.class.title')"
       name="schoolClass"
     >
       <USelectMenu
-        v-if="!schoolClassesPending"
         v-model="state.schoolClass"
         :placeholder="$t('bookList.createOrder.class.placeholder')"
-        :options="schoolClasses?.data"
+        :options="schoolClasses"
         option-attribute="name"
         searchable
       />

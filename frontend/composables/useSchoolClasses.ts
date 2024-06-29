@@ -9,7 +9,7 @@ export default function useSchoolClasses() {
     if (schoolClasses.value.length) return
 
     try {
-      const { data: classes } = useFetch<APIResponseArray<SchoolClass>>(
+      const { data: classes } = await useFetch<APIResponseArray<SchoolClass>>(
         "/schoolClasses",
         {
           baseURL: config.public.baseURL,
@@ -17,9 +17,7 @@ export default function useSchoolClasses() {
         },
       )
 
-      // watch(classes, () => {
-      //   schoolClasses.value = classes.value.data
-      // })
+      schoolClasses.value = classes.value?.data ?? []
     } catch (error) {
       schoolClasses.value = []
       return error

@@ -195,12 +195,6 @@ function resetFilters() {
   selectedColumns.value = columnsBackup.value
 }
 
-const { data: schoolClasses, pending: schoolClassesPending } =
-  await useLazyFetch<APIResponseArray<SchoolClass>>("/schoolClasses", {
-    baseURL: config.public.baseURL,
-    pick: ["data"],
-  })
-
 const isVisible = ref(false)
 
 const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
@@ -208,17 +202,6 @@ const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
 })
 
 async function addBookOrder() {
-  const result = schema.safeParse(state)
-
-  if (!result.success) {
-    displayFailureNotification(
-      t("notification.failure"),
-      t("classes.updateClass.failureDescription"),
-    )
-    console.error(result.error.errors)
-    return
-  }
-
   const formData = result.data
 
   if (years.value == null || years.value.data == undefined) {
@@ -272,31 +255,13 @@ async function addBookOrder() {
 
     isVisible.value = false
   } catch (err: unknown) {
-    const error = err as Error
-
-    displayFailureNotification(
+    handleGenericError(
+      err,
       t("bookList.createOrder.title"),
       t("bookList.createOrder.failureDescription"),
     )
-    throw createError({
-      statusMessage: error.message,
-    })
   }
 }
-
-let repententOptions: { label: string; value: number }[] = []
-
-watch(
-  locale,
-  () => {
-    repententOptions = [
-      { label: t("bookList.createOrder.repetents.with"), value: 1 },
-      { label: t("bookList.createOrder.repetents.without"), value: 2 },
-      { label: t("bookList.createOrder.repetents.only"), value: 3 },
-    ]
-  },
-  { immediate: true },
-)
 </script>
 
 <template>
@@ -523,13 +488,7 @@ watch(
           },
         }"
       />
-      <BookOrderForm
-        :schema="schema"
-        :state="state"
-        :school-classes="schoolClasses?.data"
-        :repentent-options="repententOptions"
-      >
-      </BookOrderForm>
+      <BookOrderForm @submit="" />
     </GenericCreateModal>
   </div>
 </template>

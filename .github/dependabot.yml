@@ -4,7 +4,7 @@ updates:
     directory: "/"
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     assignees:
       - "Dino-Kupinic"
   - package-ecosystem: "npm"
@@ -13,20 +13,20 @@ updates:
     ignore:
       - dependency-name: "vue-tsc"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     assignees:
       - "Dino-Kupinic"
   - package-ecosystem: "npm"
     directory: "/docs"
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     assignees:
       - "Dino-Kupinic"
   - package-ecosystem: "composer"
     directory: "/backend"
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     assignees:
       - "Dino-Kupinic"

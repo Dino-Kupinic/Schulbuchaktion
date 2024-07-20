@@ -262,6 +262,12 @@ async function addBookOrder() {
     )
   }
 }
+
+const state = reactive({
+  schoolClass: undefined,
+  repetents: undefined,
+  teacherCopy: undefined,
+})
 </script>
 
 <template>
@@ -488,7 +494,7 @@ async function addBookOrder() {
           },
         }"
       />
-      <BookOrderForm @submit="" />
+      <BookOrderForm v-model="state" />
     </GenericCreateModal>
   </div>
 </template>

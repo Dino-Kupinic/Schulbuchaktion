@@ -15,12 +15,6 @@ const schema = z.object({
   teacherCopy: z.boolean(),
 })
 
-const state = reactive({
-  schoolClass: undefined,
-  repetents: undefined,
-  teacherCopy: undefined,
-})
-
 const { schoolClasses, fetchSchoolClasses } = useSchoolClasses()
 await fetchSchoolClasses()
 
@@ -39,35 +33,39 @@ watch(
   { immediate: true },
 )
 
-function validateAndEmit() {
-  const result = schema.safeParse(state)
-
-  if (!result.success) {
-    displayFailureNotification(
-      t("notification.failure"),
-      t("classes.updateClass.failureDescription"),
-    )
-    console.error(result.error.errors)
-    return
-  }
-
-  emit("submit", result.data)
-}
-
-type Schema = z.output<typeof schema>
 const emit = defineEmits<{
-  submit: [result: Schema]
+  "update:modelValue": [newState: typeof state]
 }>()
+
+type BookFormState = {
+  schoolClass: undefined
+  repetents: undefined
+  teacherCopy: undefined
+}
+const state = defineModel<BookFormState>()
+
+watch(
+  state,
+  (newState) => {
+    const result = schema.safeParse(state)
+
+    if (!result.success) {
+      displayFailureNotification(
+        t("notification.failure"),
+        t("classes.updateClass.failureDescription"),
+      )
+      console.error(result.error.errors)
+      return
+    }
+    emit("update:modelValue", newState)
+  },
+  { deep: true },
+)
 </script>
 
 <template>
   <slot name="header" />
-  <UForm
-    :schema="schema"
-    :state="state"
-    class="space-y-4"
-    @submit="validateAndEmit"
-  >
+  <UForm :schema="schema" :state="state" class="space-y-4">
     <UFormGroup
       :label="$t('bookList.createOrder.class.title')"
       name="schoolClass"

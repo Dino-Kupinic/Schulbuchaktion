@@ -30,7 +30,7 @@ const isVisible = props.isVisible
           <p
             class="text-base font-semibold leading-6 text-red-600 dark:text-white"
           >
-            Editing "{{ bookOrder.bookId }}"
+            Editing "{{ bookOrder.book }}"
           </p>
           <UButton
             color="gray"

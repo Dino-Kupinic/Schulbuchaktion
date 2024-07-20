@@ -3,6 +3,7 @@ frontend/.env
 /docs/.vitepress/cache/
 /docs/.vitepress/dist/
 /docs/node_modules
+/backend/docker
 
 # User-specific stuff
 .idea

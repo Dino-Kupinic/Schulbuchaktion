@@ -82,7 +82,9 @@
       "failureDescription": "Beim Bestellen des Buches ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
     },
     "updateOrder": {
-      "title": "Buch bearbeiten",
+      "title": "Bearbeiten des Buches",
+      "book": "Buch",
+      "class": "Klasse",
       "successDescription": "Das Buch wurde erfolgreich bearbeitet.",
       "failureDescription": "Beim Aktualisieren des Buches ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
     }

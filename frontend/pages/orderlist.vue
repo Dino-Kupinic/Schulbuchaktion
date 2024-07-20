@@ -7,6 +7,7 @@ import type {
 import type { BookOrder } from "~/types/bookorder"
 import type { Book } from "~/types/book"
 import type { SchoolClass } from "~/types/schoolclass"
+import { z } from "zod"
 
 const columns = ref([
   {
@@ -68,8 +69,6 @@ const items = (row: BookOrder) => [
         editModalVisible.value = true
       },
     },
-  ],
-  [
     {
       label: t("actions.delete"),
       slot: "delete",
@@ -137,8 +136,18 @@ watch(
         sortable: true,
       },
       {
-        key: "bookSubject",
-        label: t("book.subject"),
+        key: "count",
+        label: t("bookOrder.count"),
+        sortable: true,
+      },
+      {
+        key: "repetents",
+        label: t("bookOrder.repetents"),
+        sortable: true,
+      },
+      {
+        key: "lastUser",
+        label: t("bookOrder.lastUser"),
         sortable: true,
       },
       {
@@ -152,13 +161,13 @@ watch(
         sortable: true,
       },
       {
-        key: "grade",
-        label: t("book.grade"),
+        key: "bookPrice",
+        label: t("book.price"),
         sortable: true,
       },
       {
-        key: "bookPrice",
-        label: t("book.price"),
+        key: "totalBookPrice",
+        label: t("bookOrder.totalPrice"),
         sortable: true,
       },
       {
@@ -168,6 +177,29 @@ watch(
   },
   { immediate: true },
 )
+
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, "Must be atleast 1 characters")
+    .max(255, "Must be at most 255 characters"),
+  grade: z.number().int().min(1, "Must be at least 1"),
+  students: z.number().int().min(1, "Must be at least 1"),
+  repetents: z.number().int().min(0, "Must be at least 0").default(0),
+  budget: z.number().int().min(1, "Must be at least 1"),
+  usedBudget: z.number().optional(),
+  year: z.number().optional(),
+  department: z.any(),
+})
+
+const state = reactive({
+  name: undefined,
+  grade: undefined,
+  students: undefined,
+  repetents: undefined,
+  budget: undefined,
+  department: undefined,
+})
 
 async function updateOrder() {
   if (schoolClassId.value) {
@@ -242,6 +274,10 @@ function resetFilters() {
   pageCount.value = DEFAULT_PAGE_COUNT
   query.value = ""
   selectedColumns.value = columnsBackup.value
+}
+
+const calculatedPrice = (row: BookOrder) => {
+  return (row.count * row.book.bookPrice) / 100
 }
 </script>
 
@@ -330,17 +366,20 @@ function resetFilters() {
         <template #department-data="{ row }">
           <span> {{ row.schoolClass.department.name }}</span>
         </template>
+        <template #count-data="{ row }">
+          <span> {{ row.schoolClass.students }}</span>
+        </template>
         <template #bookSubject-data="{ row }">
           <span> {{ row.book.subject.name }}</span>
         </template>
         <template #year-data="{ row }">
-          <span> {{ row.year.year }}</span>
-        </template>
-        <template #grade-data="{ row }">
-          <span> {{ row.schoolClass.grade }}</span>
+          <span class="pr-24"> {{ row.year.year }}</span>
         </template>
         <template #bookPrice-data="{ row }">
           <span> {{ row.book.bookPrice / 100 }} €</span>
+        </template>
+        <template #totalBookPrice-data="{ row }">
+          <span> {{ calculatedPrice(row) }} €</span>
         </template>
         <template #actions-data="{ row }">
           <UDropdown :items="items(row)" :ui="{ width: 'w-auto' }">
@@ -353,89 +392,61 @@ function resetFilters() {
         </template>
       </UTable>
 
-      <UModal v-model="editModalVisible" class="bg-opacity-0">
-        <UCard>
-          <template #header>
-            <div class="flex items-center justify-between">
-              <p
-                class="text-base font-semibold leading-6 text-red-600 dark:text-white"
-              >
-                Editing book order for "{{ changedBookOrder.book.title }}"
-              </p>
-              <UButton
-                color="gray"
-                variant="ghost"
-                icon="i-heroicons-x-mark-20-solid"
-                class="-my-1"
-                @click="editModalVisible = false"
-              />
-            </div>
-          </template>
-          <p>Book</p>
-          <USelectMenu
-            v-model="bookId"
-            :placeholder="changedBookOrder.book.title"
-            :options="
-              books?.data?.books.map((book) => ({
-                label: book.title,
-                value: book.id,
-              }))
-            "
-            searchable
-          />
+      <!--      <GenericEditModal-->
+      <!--        v-model="editModalVisible"-->
+      <!--        :title="$t('orderList.updateOrder.title')"-->
+      <!--        :item-title="changedBookOrder?.book.title ?? null"-->
+      <!--        @update="updateOrder"-->
+      <!--      >-->
+      <!--        <UForm :schema="schema" :state="state" class="space-y-4">-->
+      <!--          <UFormGroup-->
+      <!--            :label="$t('bookList.updateOrder.class')"-->
+      <!--            name="schoolClass"-->
+      <!--          >-->
+      <!--            <USelectMenu-->
+      <!--              v-if="!schoolClassesPending"-->
+      <!--              v-model="state.schoolClass"-->
+      <!--              :placeholder="$t('bookList.createOrder.class.placeholder')"-->
+      <!--              :options="schoolClasses?.data"-->
+      <!--              option-attribute="name"-->
+      <!--              searchable-->
+      <!--            />-->
+      <!--          </UFormGroup>-->
 
-          <p class="mt-4">Class</p>
-          <USelectMenu
-            v-model="schoolClassId"
-            :placeholder="changedBookOrder.schoolClass.name"
-            :options="
-              schoolClasses?.data?.map((schoolClass) => ({
-                label: schoolClass.name,
-                value: schoolClass.id,
-              }))
-            "
-            searchable
-          />
+      <!--          <UFormGroup-->
+      <!--            :label="$t('bookList.createOrder.repetents.title')"-->
+      <!--            name="repetents"-->
+      <!--          >-->
+      <!--            <USelectMenu-->
+      <!--              v-model="state.repetents"-->
+      <!--              :placeholder="$t('bookList.createOrder.repetents.placeholder')"-->
+      <!--              :options="repententOptions"-->
+      <!--              option-attribute="label"-->
+      <!--              value-attribute="label"-->
+      <!--            />-->
+      <!--          </UFormGroup>-->
 
-          <UButton class="mt-4" @click="updateOrder">Submit</UButton>
-        </UCard>
-      </UModal>
+      <!--          <UFormGroup-->
+      <!--            :label="$t('bookList.createOrder.teacherCopy')"-->
+      <!--            name="teacherCopy"-->
+      <!--          >-->
+      <!--            <UCheckbox-->
+      <!--              v-model="state.teacherCopy"-->
+      <!--              class="mt-2"-->
+      <!--              color="blue"-->
+      <!--              :label="$t('bookList.createOrder.includeTeacherCopy')"-->
+      <!--              :help="$t('bookList.createOrder.includeDescription')"-->
+      <!--            />-->
+      <!--          </UFormGroup>-->
+      <!--        </UForm>-->
+      <!--      </GenericEditModal>-->
 
-      <UModal v-model="deleteModalVisible" class="bg-opacity-0">
-        <UCard>
-          <template #header>
-            <ModalHeader
-              :title="$t('orderList.deleteOrder.title')"
-              color="red"
-              icon="i-heroicons-trash"
-            />
-          </template>
-          <p class="text-base leading-6">
-            {{ $t("orderList.deleteOrder.confirmation") }} "{{
-              changedBookOrder.book.title
-            }}"?
-          </p>
-          <template #footer>
-            <div class="flex w-full justify-end space-x-2">
-              <UButton
-                color="red"
-                icon="i-heroicons-trash"
-                @click="deleteOrder"
-              >
-                {{ $t("orderList.deleteOrder.delete") }}
-              </UButton>
-              <UButton
-                label="Cancel"
-                color="gray"
-                icon="i-heroicons-x-mark-20-solid"
-                @click="deleteModalVisible = false"
-              >
-                {{ $t("orderList.deleteOrder.cancel") }}
-              </UButton>
-            </div>
-          </template>
-        </UCard>
-      </UModal>
+      <GenericDeleteModal
+        v-model="deleteModalVisible"
+        :title="$t('orderList.deleteOrder.title')"
+        :item-title="changedBookOrder?.book.title ?? null"
+        @delete="deleteOrder"
+      />
 
       <template #footer>
         <div class="flex flex-wrap items-center justify-between">

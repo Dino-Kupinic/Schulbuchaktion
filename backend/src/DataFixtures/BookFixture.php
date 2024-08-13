@@ -16,26 +16,26 @@ class BookFixture extends Fixture implements DependentFixtureInterface
    */
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 50; $i++) {
-      $book = new Book();
-      $book->setTitle('The Lord of the Rings: Part ' . $i);
-      $book->setShortTitle('LOTR: Part ' . $i);
-      $book->setPublisher($this->getReference("publisher " . $i));
-      $book->setDescription('The sun shines and birds are chirping outside... ' . $i);
-      $book->setOrderNumber(random_int(1000, 9999999));
-      $book->setYear($this->getReference('year ' . $i));
-      $book->setSubject($this->getReference('subject ' . $i));
-      $book->setEbook(true);
-      $book->setEbookPlus(false);
-      $book->setSchoolForm(9999);
-      $book->setBookPrice(50);
-      $book->setGrade($i);
-      $manager->persist($book);
-
-      $this->addReference('book ' . $i, $book);
-    }
-
-    $manager->flush();
+//    for ($i = 0; $i < 50; $i++) {
+//      $book = new Book();
+//      $book->setTitle('The Lord of the Rings: Part ' . $i);
+//      $book->setShortTitle('LOTR: Part ' . $i);
+//      $book->setPublisher($this->getReference("publisher " . $i));
+//      $book->setDescription('The sun shines and birds are chirping outside... ' . $i);
+//      $book->setOrderNumber(random_int(1000, 9999999));
+//      $book->setYear($this->getReference('year ' . $i));
+//      $book->setSubject($this->getReference('subject ' . $i));
+//      $book->setEbook(true);
+//      $book->setEbookPlus(false);
+//      $book->setSchoolForm(9999);
+//      $book->setBookPrice(50);
+//      $book->setGrade($i);
+//      $manager->persist($book);
+//
+//      $this->addReference('book ' . $i, $book);
+//    }
+//
+//    $manager->flush();
   }
 
 

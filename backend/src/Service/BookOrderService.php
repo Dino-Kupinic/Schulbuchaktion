@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Book;
 use App\Entity\BookOrder;
 use App\Repository\BookOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;

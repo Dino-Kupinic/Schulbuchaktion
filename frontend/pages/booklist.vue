@@ -104,10 +104,10 @@ watch(
 const columnsBackup = ref(columns.value)
 const config = useRuntimeConfig()
 
-const options = [5, 10, 15, 20, 30, 40]
+const options = [5, 10, 15, 30, 50, 100]
 
 const DEFAULT_PAGE = 1
-const DEFAULT_PAGE_COUNT = options[2]
+const DEFAULT_PAGE_COUNT = options[4]
 
 const page = ref<number>(DEFAULT_PAGE)
 const pageCount = ref<number>(DEFAULT_PAGE_COUNT)
@@ -195,50 +195,13 @@ function resetFilters() {
   selectedColumns.value = columnsBackup.value
 }
 
-const { data: schoolClasses, pending: schoolClassesPending } =
-  await useLazyFetch<APIResponseArray<SchoolClass>>("/schoolClasses", {
-    baseURL: config.public.baseURL,
-    pick: ["data"],
-  })
-
 const isVisible = ref(false)
-
-const schema = z.object({
-  schoolClass: z.object({
-    id: z.number(),
-    name: z.string(),
-    grade: z.number(),
-    students: z.number(),
-    repetents: z.number(),
-    budget: z.number(),
-    usedBudget: z.number(),
-  }),
-  repetents: z.string(),
-  teacherCopy: z.boolean(),
-})
-
-const state = reactive({
-  schoolClass: undefined,
-  repetents: undefined,
-  teacherCopy: undefined,
-})
 
 const { data: years } = await useLazyFetch<APIResponseArray<Year>>("/years", {
   baseURL: config.public.baseURL,
 })
 
 async function addBookOrder() {
-  const result = schema.safeParse(state)
-
-  if (!result.success) {
-    displayFailureNotification(
-      t("notification.failure"),
-      t("classes.updateClass.failureDescription"),
-    )
-    console.error(result.error.errors)
-    return
-  }
-
   const formData = result.data
 
   if (years.value == null || years.value.data == undefined) {
@@ -292,31 +255,19 @@ async function addBookOrder() {
 
     isVisible.value = false
   } catch (err: unknown) {
-    const error = err as Error
-
-    displayFailureNotification(
+    handleGenericError(
+      err,
       t("bookList.createOrder.title"),
       t("bookList.createOrder.failureDescription"),
     )
-    throw createError({
-      statusMessage: error.message,
-    })
   }
 }
 
-let repententOptions: { label: string; value: number }[] = []
-
-watch(
-  locale,
-  () => {
-    repententOptions = [
-      { label: t("bookList.createOrder.repetents.with"), value: 1 },
-      { label: t("bookList.createOrder.repetents.without"), value: 2 },
-      { label: t("bookList.createOrder.repetents.only"), value: 3 },
-    ]
-  },
-  { immediate: true },
-)
+const state = reactive({
+  schoolClass: undefined,
+  repetents: undefined,
+  teacherCopy: undefined,
+})
 </script>
 
 <template>
@@ -513,13 +464,14 @@ watch(
         </div>
       </template>
     </UCard>
+
     <GenericCreateModal
       v-model="isVisible"
       :title="$t('bookList.createOrder.title')"
       @create="addBookOrder"
     >
       <UTable
-        class="mb-4 rounded-lg border-2"
+        class="mb-4 rounded-lg border"
         :rows="selectedRows"
         :loading-state="{
           icon: 'i-heroicons-arrow-path-20-solid',
@@ -542,53 +494,7 @@ watch(
           },
         }"
       />
-
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-4"
-        @submit="addBookOrder"
-      >
-        <UFormGroup
-          :label="$t('bookList.createOrder.class.title')"
-          name="schoolClass"
-        >
-          <USelectMenu
-            v-if="!schoolClassesPending"
-            v-model="state.schoolClass"
-            :placeholder="$t('bookList.createOrder.class.placeholder')"
-            :options="schoolClasses?.data"
-            option-attribute="name"
-            searchable
-          />
-        </UFormGroup>
-
-        <UFormGroup
-          :label="$t('bookList.createOrder.repetents.title')"
-          name="repetents"
-        >
-          <USelectMenu
-            v-model="state.repetents"
-            :placeholder="$t('bookList.createOrder.repetents.placeholder')"
-            :options="repententOptions"
-            option-attribute="label"
-            value-attribute="label"
-          />
-        </UFormGroup>
-
-        <UFormGroup
-          :label="$t('bookList.createOrder.teacherCopy')"
-          name="teacherCopy"
-        >
-          <UCheckbox
-            v-model="state.teacherCopy"
-            class="mt-2"
-            color="blue"
-            :label="$t('bookList.createOrder.includeTeacherCopy')"
-            :help="$t('bookList.createOrder.includeDescription')"
-          />
-        </UFormGroup>
-      </UForm>
+      <BookOrderForm v-model="state" />
     </GenericCreateModal>
   </div>
 </template>

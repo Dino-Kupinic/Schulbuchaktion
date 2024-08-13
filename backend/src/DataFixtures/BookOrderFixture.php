@@ -11,20 +11,20 @@ class BookOrderFixture extends Fixture implements DependentFixtureInterface
 {
   public function load(ObjectManager $manager): void
   {
-    for ($i = 0; $i < 50; $i++) {
-      $bookOrder = new BookOrder();
-      $bookOrder->setBook($this->getReference('book ' . $i));
-      $bookOrder->setSchoolClass($this->getReference('schoolClass ' . $i));
-      $bookOrder->setYear($this->getReference('year ' . $i));
-      $bookOrder->setCount(10);
-      $bookOrder->setCreationUser('User ' . $i);
-      $bookOrder->setLastUser('User ' . $i);
-      $bookOrder->setTeacherCopy(true);
-      $manager->persist($bookOrder);
-      $this->addReference('bookOrder ' . $i, $bookOrder);
-    }
-
-    $manager->flush();
+//    for ($i = 0; $i < 50; $i++) {
+//      $bookOrder = new BookOrder();
+//      $bookOrder->setBook($this->getReference('book ' . $i));
+//      $bookOrder->setSchoolClass($this->getReference('schoolClass ' . $i));
+//      $bookOrder->setYear($this->getReference('year ' . $i));
+//      $bookOrder->setCount(10);
+//      $bookOrder->setCreationUser('User ' . $i);
+//      $bookOrder->setLastUser('User ' . $i);
+//      $bookOrder->setTeacherCopy(true);
+//      $manager->persist($bookOrder);
+//      $this->addReference('bookOrder ' . $i, $bookOrder);
+//    }
+//
+//    $manager->flush();
   }
 
   public function getDependencies()

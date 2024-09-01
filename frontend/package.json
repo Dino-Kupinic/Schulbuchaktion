@@ -43,7 +43,7 @@
     "eslint-config-prettier": "^9.1.0",
     "execa": "^9.2.0",
     "happy-dom": "^14.11.0",
-    "nuxt": "3.12.4",
+    "nuxt": "3.13.0",
     "nuxt-icon": "^0.6.10",
     "nuxt-typed-router": "^3.6.5",
     "nuxt-viewport": "^2.1.5",
